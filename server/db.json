@@ -1,0 +1,464 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "admin@neurozen.com",
+      "password": "123456",
+      "name": "Administrador",
+      "role": "admin",
+      "createdAt": "2025-01-01T00:00:00Z",
+      "stressData": {
+        "currentLevel": 45,
+        "average": 48,
+        "peakHours": "9 AM - 11 AM",
+        "weeklyChange": -15,
+        "weeklyData": [
+          { "day": "monday", "value": 40 },
+          { "day": "tuesday", "value": 35 },
+          { "day": "wednesday", "value": 50 },
+          { "day": "thursday", "value": 45 },
+          { "day": "friday", "value": 55 },
+          { "day": "saturday", "value": 30 },
+          { "day": "sunday", "value": 25 }
+        ]
+      }
+    },
+    {
+      "id": "2",
+      "email": "user@example.com",
+      "password": "password",
+      "name": "Usuario Demo",
+      "role": "user",
+      "createdAt": "2025-01-01T00:00:00Z",
+      "stressData": {
+        "currentLevel": 65,
+        "average": 58,
+        "peakHours": "2 PM - 4 PM",
+        "weeklyChange": -8,
+        "weeklyData": [
+          { "day": "monday", "value": 70 },
+          { "day": "tuesday", "value": 55 },
+          { "day": "wednesday", "value": 60 },
+          { "day": "thursday", "value": 75 },
+          { "day": "friday", "value": 50 },
+          { "day": "saturday", "value": 45 },
+          { "day": "sunday", "value": 65 }
+        ]
+      }
+    },
+    {
+      "id": "3",
+      "email": "maria@test.com",
+      "password": "123456",
+      "name": "María García",
+      "role": "user",
+      "createdAt": "2025-01-02T00:00:00Z",
+      "stressData": {
+        "currentLevel": 72,
+        "average": 68,
+        "peakHours": "6 PM - 8 PM",
+        "weeklyChange": 5,
+        "weeklyData": [
+          { "day": "monday", "value": 80 },
+          { "day": "tuesday", "value": 65 },
+          { "day": "wednesday", "value": 70 },
+          { "day": "thursday", "value": 75 },
+          { "day": "friday", "value": 60 },
+          { "day": "saturday", "value": 55 },
+          { "day": "sunday", "value": 78 }
+        ]
+      }
+    },
+    {
+      "id": "4",
+      "email": "carlos@test.com",
+      "password": "123456",
+      "name": "Carlos López",
+      "role": "user",
+      "createdAt": "2025-01-03T00:00:00Z",
+      "stressData": {
+        "currentLevel": 38,
+        "average": 42,
+        "peakHours": "12 PM - 2 PM",
+        "weeklyChange": -20,
+        "weeklyData": [
+          { "day": "monday", "value": 45 },
+          { "day": "tuesday", "value": 30 },
+          { "day": "wednesday", "value": 35 },
+          { "day": "thursday", "value": 50 },
+          { "day": "friday", "value": 40 },
+          { "day": "saturday", "value": 25 },
+          { "day": "sunday", "value": 42 }
+        ]
+      }
+    }
+  ],
+  "onboarding": [
+    {
+      "id": "1",
+      "title": "Monitor your stress",
+      "description": "NeuroZen helps you understand your stress patterns to improve your well-being.",
+      "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuCcdi_WADTuKvWw1Zvy7s01LibpoOj81lqcL_0JfZkgKMcRyeyNmxdFaniWtLoV1oSMByAUY4b8MxSU4EL7KeLIW-75hc0LgVLoEok9tXn-fgCskxStTRh5I1xJBeCEc_H3IQlDN80Oqj2Zz01CKag6FQwqyCDvr-M3-65E4CJimgAIKt91NCLVJN2Qn4qG6L3vbFQQgTlsazPiXYzacp-vnLV3dYRalzPl6oTp3352jW5L7xbNhOAFtpLSmH9E0F5NYaKHgwXYX9KP",
+      "step": 1,
+      "totalSteps": 3
+    },
+    {
+      "id": "2",
+      "title": "Stress Intervention",
+      "description": "Guided techniques and exercises to help you find calm in high-pressure moments.",
+      "step": 2,
+      "totalSteps": 3
+    },
+    {
+      "id": "3",
+      "title": "Professional Support",
+      "description": "Connect with certified therapists for personalized guidance and support on your journey to stress management.",
+      "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuBo5ryUyHBoZPK4zI9F1TfA_NDjYteAAHak3UaF4LutCVIJ3NVuzlu0K66am_D6AzR_Np5BqZonXZ8Itzfb3lNvJkISIF-tSbr5nCBVPqSHP6QaGBoX7nyqarYWtobBG8E-gt4L-w40RQuVfX9ZaXXIB3PlNpzA95bRX6v5Ra9FFTKQkXvoH8UtQ-BjS2hZFHPA-BKvUKaLckwfsfVm41wT_f6fJ4DNUSAW3Ts14Iy3mMI8yyysaP5d-JNklHbWdwUtHR79ZLWoJ7qU",
+      "step": 3,
+      "totalSteps": 3
+    }
+  ],
+  "interventions": [
+    {
+      "id": "1",
+      "name": "Técnica de Respiración",
+      "description": "Ejercicio de respiración profunda para reducir el estrés",
+      "duration": 10,
+      "type": "breathing"
+    },
+    {
+      "id": "2",
+      "name": "Meditación Guiada",
+      "description": "Sesión de meditación para la calma mental",
+      "duration": 15,
+      "type": "meditation"
+    }
+  ],
+  "professionals": [
+    {
+      "id": "1",
+      "name": "Dr. Elena Ramirez",
+      "specialty": "Cognitive Behavioral Therapy",
+      "experience": "10 años de experiencia",
+      "rating": 4.8,
+      "reviews": 120,
+      "price": 80,
+      "availability": "Lunes a Viernes, 9 AM - 6 PM",
+      "bio": "La Dra. Ramirez es una psicóloga clínica con más de 10 años de experiencia en el tratamiento del estrés laboral y el bienestar emocional. Su enfoque integrador combina terapias cognitivo-conductuales con técnicas de mindfulness y relajación.",
+      "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuBdeypsgHbf9OiSq0HRhoZvPF8DG8hQBMVY8af7xBVhscp_mJ5aYqtMYpzFtkF39vsMMFuHiuEqdh2iTrfAy5Hw2MlI7OvKTn8EHtRv_ngHe26_jkr-GhpRMlAzXVrrUtqoy3csQPI9aP3RFyxkzMW7AqIFtQFmbmVtaghi1yCKT_KC3nW85ctzWlXal-EAH50jfB0Ho45TU9MiF_EcKeUNgsLmCDfnX_wP-NgCieG9gSobuMRyx8sdT4uG8zY5TCuOsoHZvPAmds6z"
+    },
+    {
+      "id": "2",
+      "name": "Dr. Carlos Mendez",
+      "specialty": "Mindfulness & Stress Reduction",
+      "experience": "8 años de experiencia",
+      "rating": 4.9,
+      "reviews": 150,
+      "price": 75,
+      "availability": "Martes a Sábado, 10 AM - 8 PM",
+      "bio": "El Dr. Mendez se especializa en técnicas de mindfulness y reducción del estrés. Ha ayudado a cientos de pacientes a encontrar el equilibrio y la paz interior a través de métodos innovadores.",
+      "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuCzlop9NYV_dGYNIAeNixzXrHoC2En49lhNnJ5hGjzUf0lckeYmSQzmeKQDoQSKXEQWhNv5zVKatvLOy9Lilk3piUgk2ukJzxdkmy6Uu-wdf-npXOWDUhyjkI3mbt7FsS1D65hVw-CBqTAx0G-WgPuTLdkhZmkoMX8Dwubk81v8GfdpPQPnSYZT85KASekhBmF5hej9VaMPKm_7z1hxzs8vZc85adC0XC_zzPyBwwmx6r1dxtMX_S87BGlyC_WgTf-zCbl-MAlEnALj"
+    },
+    {
+      "id": "3",
+      "name": "Dr. Sofia Castro",
+      "specialty": "Occupational Stress Management",
+      "experience": "7 años de experiencia",
+      "rating": 4.7,
+      "reviews": 90,
+      "price": 70,
+      "availability": "Lunes a Jueves, 2 PM - 9 PM",
+      "bio": "La Dra. Castro se enfoca en el manejo del estrés ocupacional y ayuda a profesionales a mantener un equilibrio saludable entre trabajo y vida personal.",
+      "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuBjfwHjSoiwQ0j5cQW9SeiIfKI4bCuS7qDzbpCe3mVmxMikS55m7mCmHYB-YfwKSTMf7uiMgB4nw4EWjI-9gCRQi-VMXvDexqLw27iRlwZt-GzCCxoMiHBQaOL7MNSl7GwUmR4Hf7W2rxmuh0DJ3OdbGK460E9xR8x3hsF59krEiXHZTn8bz4PMMKckXaRzV2H1SigqIjhUT2-KbBFljzHkDeeIdqjxEc6WibKUuf_Tj9C7mzTis_yotP4i6BYiShY9Jq_4b8hMoU8B"
+    },
+    {
+      "id": "4",
+      "name": "Dr. Javier Torres",
+      "specialty": "Work-Life Balance",
+      "experience": "12 años de experiencia",
+      "rating": 4.6,
+      "reviews": 110,
+      "price": 85,
+      "availability": "Miércoles a Domingo, 8 AM - 5 PM",
+      "bio": "El Dr. Torres es experto en ayudar a las personas a lograr un equilibrio saludable entre su vida laboral y personal, reduciendo el estrés y mejorando la calidad de vida.",
+      "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuCPQdriZ61xvDx5UJllkZKCF6tgtKQnysaohbXQVOH16q6A7kJWrlFscBcTMqD2DG6-bK-JoYwG4rAg5vAb5-Xn5JXIHV4uXKfawOWUW3SH6SOEFqz6Q0HdzzR6aJT1CoHchLm94TBsK-D7PsnLPjARAuo8954ayPgpBnsAzuGXSnZMgfsT3mXm8VJOceLEKdpo6JXH8yCx8xOiLb2JmYVz0LS4SRLc_wC3vj0E1t7_vQ32Rc2jyAesFCbpK_zkKAg7okOPFulrdOMj"
+    }
+  ],
+  "payments": [
+    {
+      "id": "1",
+      "plan": "Basic",
+      "price": 9.99,
+      "features": [
+        "Acceso a técnicas básicas",
+        "Seguimiento diario",
+        "Soporte por email"
+      ]
+    },
+    {
+      "id": "2",
+      "plan": "Premium",
+      "price": 19.99,
+      "features": [
+        "Todas las técnicas",
+        "Seguimiento avanzado",
+        "Sesiones con profesionales",
+        "Soporte 24/7"
+      ]
+    }
+  ],
+  "stressData": {
+    "currentLevel": 65,
+    "average": 55,
+    "peakHours": "10 AM - 12 PM",
+    "weeklyChange": -10,
+    "weeklyData": [
+      {
+        "day": "Lun",
+        "value": 70
+      },
+      {
+        "day": "Mar",
+        "value": 55
+      },
+      {
+        "day": "Mié",
+        "value": 60
+      },
+      {
+        "day": "Jue",
+        "value": 75
+      },
+      {
+        "day": "Vie",
+        "value": 50
+      },
+      {
+        "day": "Sáb",
+        "value": 45
+      },
+      {
+        "day": "Dom",
+        "value": 65
+      }
+    ]
+  },
+  "appointments": [
+    {
+      "id": "1",
+      "professionalId": 1,
+      "userId": 1,
+      "date": "2025-10-15",
+      "time": "10:00",
+      "duration": 50,
+      "status": "scheduled",
+      "notes": "Primera consulta para manejo de estrés laboral"
+    },
+    {
+      "id": "2",
+      "professionalId": 2,
+      "userId": 1,
+      "date": "2025-10-20",
+      "time": "14:00",
+      "duration": 50,
+      "status": "confirmed",
+      "notes": "Sesión de seguimiento de técnicas de mindfulness"
+    },
+    {
+      "id": "dc26",
+      "professionalId": 2,
+      "userId": 1,
+      "date": "2025-10-07",
+      "time": "10:00",
+      "duration": 50,
+      "status": "scheduled",
+      "notes": "",
+      "contactPhone": "236523",
+      "contactEmail": "juancarlosanguloabud@gmail.com"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "1",
+      "professionalId": 1,
+      "userId": 3,
+      "userName": "Carlos G.",
+      "userImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuBG5wwXhN8hWFnvYOTSH-GYuNBnY_cS1045wqUKWcJjkChnlfzXTBojjrATZIKSKNZVDXWh5X0JDt42l1bkj4IfFD00ynmTtnY31I-bhViJ8gU-sErbuMCxK8GcaDpUm4uutQo340CCL013ptGFSH8g9erj2VpsJCdZRpqShtJ8sl5J9SOFtmQFXqOUSLkgVlFqJE4Z6KaAe8DlAX8L1v7lKhH2yBqek6nRsINkgv3CJiqjHDSzKlJmzZkxJsYFOtV2J6p7U1YZRp5D",
+      "rating": 5,
+      "comment": "La Dra. Ramirez me ayudó a superar un periodo de estrés intenso en el trabajo. Sus técnicas fueron muy efectivas y su trato muy humano.",
+      "date": "2025-08-15"
+    },
+    {
+      "id": "2",
+      "professionalId": 1,
+      "userId": 4,
+      "userName": "Ana M.",
+      "userImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuDrWBsM1GvyUwILBijmWbopfi9dF-oynYZiUsHRH8XnFakLdlTMkYWpXBmYxEJKtzKeMx9mtZ_EO-YMl_EUiUSeWxUlxb03P40NjbKZRqvTgmA0h3NUwncxBiHQdsogssp_3-yIryUtgnyQ4YPzDM5PNYRDdqR7ocemZfm3V5BSnD3TCGkffpdGMntSs9_3Zgp8olCbPkNGf2SZaoVwRwIa6mE1PW-fFquOmSnPH0V3KXjMW2aUFdIDkCBx0mwfMps4PQQkRAyXT48U",
+      "rating": 4,
+      "comment": "Tuve una experiencia positiva con la Dra. Ramirez. Sus sesiones me proporcionaron herramientas útiles para gestionar el estrés, aunque me hubiera gustado más seguimiento.",
+      "date": "2025-06-20"
+    }
+  ],
+  "stressTriggers": [
+    {
+      "id": "1",
+      "userId": 1,
+      "date": "2025-10-06",
+      "time": "14:30",
+      "category": "Reunión",
+      "description": "Reunión con el jefe sobre rendimiento del equipo, presión por resultados",
+      "stressLevel": 8,
+      "createdAt": "2025-10-06T14:35:00Z"
+    },
+    {
+      "id": "2",
+      "userId": 1,
+      "date": "2025-10-05",
+      "time": "09:15",
+      "category": "Plazo de entrega",
+      "description": "Cliente movió fecha límite del proyecto una semana antes",
+      "stressLevel": 9,
+      "createdAt": "2025-10-05T09:20:00Z"
+    },
+    {
+      "id": "1759777469946",
+      "userId": 1,
+      "date": "2025-10-06",
+      "time": "14:04",
+      "category": "Plazo de entrega",
+      "description": "me estrese\n",
+      "stressLevel": 8,
+      "createdAt": "2025-10-06T19:04:29.946Z"
+    },
+    {
+      "id": "1759781006670",
+      "userId": 1,
+      "date": "2025-10-06",
+      "time": "15:03",
+      "category": "Sobrecarga de trabajo",
+      "description": "Mucha chamba",
+      "stressLevel": 7,
+      "createdAt": "2025-10-06T20:03:26.670Z"
+    }
+  ],
+  "activeBreaks": [
+    {
+      "frequency": 60,
+      "duration": 10,
+      "isActive": true,
+      "settings": {
+        "workingHours": {
+          "start": "09:00",
+          "end": "18:00"
+        },
+        "workingDays": [
+          "monday",
+          "tuesday",
+          "wednesday",
+          "thursday",
+          "friday"
+        ]
+      },
+      "id": "1",
+      "userId": 1
+    }
+  ],
+  "breathingExercises": [
+    {
+      "id": "1",
+      "name": "Mindful Breathing",
+      "description": "Basic breathing technique for stress relief",
+      "duration": 300,
+      "instructions": [
+        "Sit comfortably with your back straight",
+        "Close your eyes or soften your gaze",
+        "Breathe in slowly through your nose for 4 counts",
+        "Hold your breath for 4 counts",
+        "Exhale slowly through your mouth for 6 counts",
+        "Repeat this cycle"
+      ],
+      "audio": "https://example.com/mindful-breathing.mp3"
+    },
+    {
+      "id": "2",
+      "name": "Box Breathing",
+      "description": "4-4-4-4 breathing technique used by navy seals",
+      "duration": 600,
+      "instructions": [
+        "Inhale for 4 counts",
+        "Hold for 4 counts",
+        "Exhale for 4 counts",
+        "Hold empty for 4 counts"
+      ],
+      "audio": "https://example.com/box-breathing.mp3"
+    }
+  ],
+  "resourceLibrary": [
+    {
+      "id": "1",
+      "title": "Mindful Breathing Basics",
+      "author": "Dr. Anya Sharma",
+      "category": "audio",
+      "type": "guided_meditation",
+      "duration": 288,
+      "description": "This technique focuses on deep, conscious breathing to calm the nervous system and reduce stress. Follow Dr. Sharma's guidance to find your rhythm and center yourself.",
+      "thumbnail": "https://lh3.googleusercontent.com/aida-public/AB6AXuA5ELsCFghcJQpPyozE-mm1jN1JC9-GkybgJRIJuqwOQBXDq8BhV9zz8ry5QopEm-Y77y1PrA94k9G6Ao0fGtEAIVNl9QfAiW4Vx6s6ReXACJfyOhCPxnWtA2BmaqXoluy8zGJujXBH4Cfj_ZI_XszQDqx3VfBgnvLrOQA87tIIUMBi2e69ONMXZPwVWs8qnnj8aX2QVLu29TDEf7DHuYBz4uFrBTBaYpkA6kokvDXlOKDKIU3fkKNvaeLjDuA8JZQopI4S13No75Bu",
+      "audioUrl": "https://example.com/mindful-breathing-basics.mp3",
+      "tags": [
+        "breathing",
+        "meditation",
+        "stress-relief"
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Progressive Muscle Relaxation",
+      "author": "Dr. Michael Chen",
+      "category": "video",
+      "type": "exercise",
+      "duration": 900,
+      "description": "Learn to systematically tense and relax different muscle groups to achieve deep physical relaxation.",
+      "thumbnail": "https://lh3.googleusercontent.com/aida-public/AB6AXuAVnF2TWw73fErpHd8yNzMClhv7ppJZwDEll4vnglE_V2_JusbKi_n55sRXt2aeJ0_RSHKp0vaTIpyH5ZtlK8kQKJF1sHoqh-szwaeAj4NufnW033sVBggnBMfYHma_kxBGxaTCXOsqAupGNKCkFAfdhrHROzZc_nzpw4XIPANxo1hi8YAuPBT7_SOzS99lJdYzQWJRifCeNQjzHBukZErTmoB2ff5mdTKlnTDw8hrJUODwbQNlQiWH4qtFBUYNvidOHmkfd6VChJSo",
+      "videoUrl": "https://example.com/progressive-muscle-relaxation.mp4",
+      "tags": [
+        "relaxation",
+        "physical",
+        "tension-relief"
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Workplace Stress Management Guide",
+      "author": "NeuroZen Team",
+      "category": "reading",
+      "type": "article",
+      "duration": 600,
+      "description": "Comprehensive guide on identifying, managing, and preventing workplace stress. Includes practical strategies and real-world examples.",
+      "thumbnail": "https://lh3.googleusercontent.com/aida-public/AB6AXuDk9w6uWqyNE9iQrCElADq0mLbLxt28FlrJwRl-f37Eae0zPM3R9yeUPYs1RavQdXAHHxFLwhnJB6t7tJjf3SRpFYLYR5gj7ReS6vNZ7OKc2OdP9pLAjjzQATg8oz6OYZdnNKb_kpXlSLwIIkYBgNdr592b4EU1Wk55clGo2E8vjhm4nKoB_H2sh0J7OmxliPh-Mg2z-i2H8FHuwTmMWdIVlGw3d2A7bcFzUyOACPAYHAveL86yH4rr7N4ZPVI4PnQwAdXdmZKyebZq",
+      "content": "Full article content here...",
+      "tags": [
+        "workplace",
+        "management",
+        "prevention"
+      ]
+    },
+    {
+      "id": "4",
+      "title": "Quick Desk Exercises",
+      "author": "Sarah Martinez, PT",
+      "category": "exercises",
+      "type": "physical",
+      "duration": 420,
+      "description": "Simple exercises you can do at your desk to relieve tension and boost energy without changing clothes.",
+      "thumbnail": "https://lh3.googleusercontent.com/aida-public/AB6AXuASzCJ22_1ztNrIsCmRFtbh4Z6D340iD2ukNMvMYyVWwY7dY39EqWuDwmkWR0OI7eM_ET6XiTslt3v3e6-JVIypMi3UvbtCmw-Ned3Yw0kngrWe7A4bwiKP55oZ70tYXyKCnruJbBCn-QnMwKBdj9YCM0hxFYaWgvGYRqJWgwwjY4YGX1iMWOVVg6TRh44rzAarkLjVCU0RHGVqR2g1RqjRryo7ZL3BaHyntW7tLXBY4DgIyWD7wh7hL3wURz06HPjpmRgGUOSKbvuD",
+      "videoUrl": "https://example.com/desk-exercises.mp4",
+      "tags": [
+        "exercises",
+        "desk",
+        "workplace",
+        "physical"
+      ]
+    }
+  ],
+  "breathingSessions": []
+}
