@@ -177,7 +177,49 @@
         "resultsCountPlural": "{count} results",
         "resultsFor": "for \"{query}\"",
         "resultsIn": "in {category}",
-        "retry": "Retry"
+        "retry": "Retry",
+        "featuredResources": "Featured Resources",
+        "exploreByCategory": "Explore by category",
+        "resources": "resources",
+        "recentlyViewed": "Recently Viewed",
+        "categories": {
+          "all": "All",
+          "audio": "Audio",
+          "video": "Video",
+          "reading": "Reading",
+          "exercises": "Exercises"
+        },
+        "items": {
+          "1": {
+            "title": "Mindful Breathing Basics",
+            "description": "This technique focuses on deep, conscious breathing to calm the nervous system and reduce stress. Follow Dr. Sharma's guidance to find your rhythm and center yourself."
+          },
+          "2": {
+            "title": "Progressive Muscle Relaxation",
+            "description": "Learn to systematically tense and relax different muscle groups to achieve deep physical relaxation."
+          },
+          "3": {
+            "title": "Workplace Stress Management Guide",
+            "description": "Comprehensive guide on identifying, managing, and preventing workplace stress. Includes practical strategies and real-world examples."
+          },
+          "4": {
+            "title": "Quick Desk Exercises",
+            "description": "Simple exercises you can do at your desk to relieve tension and boost energy without changing clothes."
+          }
+        },
+        "tags": {
+          "breathing": "Breathing",
+          "meditation": "Meditation",
+          "stress-relief": "Stress Relief",
+          "relaxation": "Relaxation",
+          "physical": "Physical",
+          "tension-relief": "Tension Relief",
+          "workplace": "Workplace",
+          "management": "Management",
+          "prevention": "Prevention",
+          "exercises": "Exercises",
+          "desk": "Desk"
+        }
       }
     },
     "triggers": {

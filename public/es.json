@@ -177,7 +177,49 @@
         "resultsCountPlural": "{count} resultados",
         "resultsFor": "para \"{query}\"",
         "resultsIn": "en {category}",
-        "retry": "Reintentar"
+        "retry": "Reintentar",
+        "featuredResources": "Recursos Destacados",
+        "exploreByCategory": "Explorar por categoría",
+        "resources": "recursos",
+        "recentlyViewed": "Vistos Recientemente",
+        "categories": {
+          "all": "Todos",
+          "audio": "Audio",
+          "video": "Video",
+          "reading": "Lectura",
+          "exercises": "Ejercicios"
+        },
+        "items": {
+          "1": {
+            "title": "Fundamentos de Respiración Consciente",
+            "description": "Esta técnica se enfoca en la respiración profunda y consciente para calmar el sistema nervioso y reducir el estrés. Sigue la guía de la Dra. Sharma para encontrar tu ritmo y centrarte."
+          },
+          "2": {
+            "title": "Relajación Muscular Progresiva",
+            "description": "Aprende a tensar y relajar sistemáticamente diferentes grupos musculares para lograr una relajación física profunda."
+          },
+          "3": {
+            "title": "Guía de Manejo del Estrés Laboral",
+            "description": "Guía completa sobre identificación, manejo y prevención del estrés laboral. Incluye estrategias prácticas y ejemplos del mundo real."
+          },
+          "4": {
+            "title": "Ejercicios Rápidos de Escritorio",
+            "description": "Ejercicios simples que puedes hacer en tu escritorio para aliviar la tensión y aumentar la energía sin cambiarte de ropa."
+          }
+        },
+        "tags": {
+          "breathing": "Respiración",
+          "meditation": "Meditación",
+          "stress-relief": "Alivio del Estrés",
+          "relaxation": "Relajación",
+          "physical": "Físico",
+          "tension-relief": "Alivio de Tensión",
+          "workplace": "Laboral",
+          "management": "Gestión",
+          "prevention": "Prevención",
+          "exercises": "Ejercicios",
+          "desk": "Escritorio"
+        }
       }
     },
     "triggers": {
