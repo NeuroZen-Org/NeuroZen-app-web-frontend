@@ -349,18 +349,18 @@
  * @version 1.0.0
  */
 
-import { DashboardService } from '../../services/DashboardService.js';
 import {
-  Chart,
   CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
+  Chart,
+  Filler,
   Legend,
-  Filler
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip
 } from 'chart.js';
+import { DashboardService } from '../../services/DashboardService.js';
 
 // Register Chart.js components
 Chart.register(
