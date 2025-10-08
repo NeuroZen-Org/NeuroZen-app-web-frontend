@@ -154,7 +154,7 @@
         "title": "Biblioteca de Recursos",
         "description": "Audio, videos y artículos",
         "audio": "Audio",
-        "videos": "Videos", 
+        "videos": "Videos",
         "articles": "Artículos",
         "search": "Buscar recursos...",
         "filter": "Filtrar por tipo",
@@ -301,12 +301,16 @@
     "errorBookingAppointmentGeneric": "Error al reservar la cita. Por favor, inténtalo de nuevo.",
     "days": {
       "monday": "Lun",
-      "tuesday": "Mar", 
+      "tuesday": "Mar",
       "wednesday": "Mié",
       "thursday": "Jue",
       "friday": "Vie",
       "saturday": "Sáb",
-      "sunday": "Dom"
+      "sunday": "Dom",
+      "Sem 1": "Sem 1",
+      "Sem 2": "Sem 2",
+      "Sem 3": "Sem 3",
+      "Sem 4": "Sem 4"
     }
   },
   "userProfile": {

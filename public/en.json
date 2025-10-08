@@ -154,7 +154,7 @@
         "title": "Resource Library",
         "description": "Audio, videos and articles",
         "audio": "Audio",
-        "videos": "Videos", 
+        "videos": "Videos",
         "articles": "Articles",
         "search": "Search resources...",
         "filter": "Filter by type",
@@ -301,12 +301,16 @@
     "errorBookingAppointmentGeneric": "Error booking appointment. Please try again.",
     "days": {
       "monday": "Mon",
-      "tuesday": "Tue", 
+      "tuesday": "Tue",
       "wednesday": "Wed",
       "thursday": "Thu",
       "friday": "Fri",
       "saturday": "Sat",
-      "sunday": "Sun"
+      "sunday": "Sun",
+      "Sem 1": "Week 1",
+      "Sem 2": "Week 2",
+      "Sem 3": "Week 3",
+      "Sem 4": "Week 4"
     }
   },
   "userProfile": {
