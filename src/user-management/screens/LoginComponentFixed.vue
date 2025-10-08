@@ -4,7 +4,7 @@
       <div class="w-full max-w-sm">
         <div class="text-center mb-10">
           <h1 class="text-4xl font-bold text-primary">NeuroZen</h1>
-          <p class="mt-2 text-muted-light dark:text-muted-dark">Bienvenido de nuevo</p>
+          <p class="mt-2 text-muted-light dark:text-muted-dark">{{ $t('auth.login.welcomeBack') }}</p>
         </div>
         
         <!-- Error message -->
@@ -19,26 +19,26 @@
 
         <form @submit.prevent="handleLogin" class="space-y-6">
           <div>
-            <label class="sr-only" for="email">Email</label>
+            <label class="sr-only" for="email">{{ $t('auth.login.email') }}</label>
             <input 
               v-model="formData.email"
               class="w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-primary/20 dark:border-primary/40 rounded-lg focus:ring-primary focus:border-primary placeholder-muted-light dark:placeholder-muted-dark" 
               id="email" 
               name="email" 
-              placeholder="Correo electrónico" 
+              :placeholder="$t('auth.login.emailPlaceholder')" 
               type="email"
               required
               :disabled="isLoading"
             />
           </div>
           <div>
-            <label class="sr-only" for="password">Password</label>
+            <label class="sr-only" for="password">{{ $t('auth.login.password') }}</label>
             <input 
               v-model="formData.password"
               class="w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-primary/20 dark:border-primary/40 rounded-lg focus:ring-primary focus:border-primary placeholder-muted-light dark:placeholder-muted-dark" 
               id="password" 
               name="password" 
-              placeholder="Contraseña" 
+              :placeholder="$t('auth.login.passwordPlaceholder')" 
               type="password"
               required
               :disabled="isLoading"
@@ -55,12 +55,12 @@
                 :disabled="isLoading"
               />
               <label class="ml-2 block text-sm text-text-light dark:text-text-dark" for="remember-me">
-                Recordarme
+                {{ $t('auth.login.rememberMe') }}
               </label>
             </div>
             <div class="text-sm">
               <a class="font-medium text-primary hover:text-primary/80" href="#" @click.prevent="handleForgotPassword">
-                ¿Olvidó su contraseña?
+                {{ $t('auth.login.forgotPassword') }}
               </a>
             </div>
           </div>
@@ -70,15 +70,15 @@
               type="submit"
               :disabled="isLoading"
             >
-              {{ isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión' }}
+              {{ isLoading ? $t('auth.login.submitting') : $t('auth.login.submit') }}
             </button>
           </div>
         </form>
         
         <p class="mt-8 text-center text-sm text-muted-light dark:text-muted-dark">
-          ¿No tienes una cuenta? 
+          {{ $t('auth.login.noAccount') }} 
           <a class="font-medium text-primary hover:text-primary/80" href="#" @click.prevent="goToRegister">
-            Regístrate
+            {{ $t('auth.login.signUp') }}
           </a>
         </p>
       </div>
