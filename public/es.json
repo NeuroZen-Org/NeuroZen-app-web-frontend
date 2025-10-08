@@ -128,9 +128,14 @@
       "email": "Correo Electrónico",
       "password": "Contraseña",
       "submit": "Iniciar Sesión",
+      "submitting": "Iniciando sesión...",
       "forgotPassword": "¿Olvidaste tu contraseña?",
       "noAccount": "¿No tienes una cuenta?",
-      "signUp": "Regístrate aquí"
+      "signUp": "Regístrate aquí",
+      "rememberMe": "Recordarme",
+      "welcomeBack": "Bienvenido de vuelta",
+      "emailPlaceholder": "Correo electrónico",
+      "passwordPlaceholder": "Contraseña"
     },
     "register": {
       "title": "Crear Cuenta",
@@ -139,8 +144,14 @@
       "password": "Contraseña",
       "confirmPassword": "Confirmar Contraseña",
       "submit": "Crear Cuenta",
+      "submitting": "Creando cuenta...",
       "hasAccount": "¿Ya tienes una cuenta?",
-      "signIn": "Inicia sesión aquí"
+      "signIn": "Inicia sesión aquí",
+      "tagline": "Crea tu cuenta para empezar a gestionar el estrés laboral.",
+      "stepProgress": "Paso {current} de {total}",
+      "namePlaceholder": "Tu Nombre Completo",
+      "emailPlaceholder": "tu@email.com",
+      "passwordPlaceholder": "••••••••"
     }
   },
   "stress": {
@@ -158,7 +169,15 @@
         "articles": "Artículos",
         "search": "Buscar recursos...",
         "filter": "Filtrar por tipo",
-        "all": "Todos"
+        "all": "Todos",
+        "clearFilters": "Limpiar filtros",
+        "noResults": "No se encontraron recursos",
+        "noResultsDescription": "Intenta con otros términos de búsqueda o categorías diferentes.",
+        "resultsCount": "{count} resultado",
+        "resultsCountPlural": "{count} resultados",
+        "resultsFor": "para \"{query}\"",
+        "resultsIn": "en {category}",
+        "retry": "Reintentar"
       }
     },
     "triggers": {
@@ -185,7 +204,17 @@
       "successMessage": "Desencadenante registrado exitosamente",
       "errorMessage": "Error al guardar el registro",
       "category": "Categoría",
-      "selectCategory": "Seleccionar categoría"
+      "selectCategory": "Seleccionar categoría",
+      "categories": {
+        "meeting": "Reunión",
+        "deadline": "Plazo de entrega",
+        "interpersonalConflict": "Conflicto interpersonal",
+        "workOverload": "Sobrecarga de trabajo",
+        "technicalProblems": "Problemas técnicos",
+        "difficultClient": "Cliente difícil",
+        "organizationalChanges": "Cambios organizacionales",
+        "other": "Otro"
+      }
     },
     "breathing": {
       "title": "Ejercicios de Respiración",

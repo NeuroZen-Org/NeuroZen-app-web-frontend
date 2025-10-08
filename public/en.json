@@ -128,9 +128,14 @@
       "email": "Email",
       "password": "Password",
       "submit": "Login",
+      "submitting": "Logging in...",
       "forgotPassword": "Forgot your password?",
       "noAccount": "Don't have an account?",
-      "signUp": "Sign up here"
+      "signUp": "Sign up here",
+      "rememberMe": "Remember me",
+      "welcomeBack": "Welcome back",
+      "emailPlaceholder": "Email address",
+      "passwordPlaceholder": "Password"
     },
     "register": {
       "title": "Create Account",
@@ -139,8 +144,14 @@
       "password": "Password",
       "confirmPassword": "Confirm Password",
       "submit": "Create Account",
+      "submitting": "Creating account...",
       "hasAccount": "Already have an account?",
-      "signIn": "Sign in here"
+      "signIn": "Sign in here",
+      "tagline": "Create your account to start managing work stress.",
+      "stepProgress": "Step {current} of {total}",
+      "namePlaceholder": "Your Full Name",
+      "emailPlaceholder": "your@email.com",
+      "passwordPlaceholder": "••••••••"
     }
   },
   "stress": {
@@ -158,7 +169,15 @@
         "articles": "Articles",
         "search": "Search resources...",
         "filter": "Filter by type",
-        "all": "All"
+        "all": "All",
+        "clearFilters": "Clear filters",
+        "noResults": "No resources found",
+        "noResultsDescription": "Try different search terms or categories.",
+        "resultsCount": "{count} result",
+        "resultsCountPlural": "{count} results",
+        "resultsFor": "for \"{query}\"",
+        "resultsIn": "in {category}",
+        "retry": "Retry"
       }
     },
     "triggers": {
@@ -185,7 +204,17 @@
       "successMessage": "Trigger registered successfully",
       "errorMessage": "Error saving the record",
       "category": "Category",
-      "selectCategory": "Select category"
+      "selectCategory": "Select category",
+      "categories": {
+        "meeting": "Meeting",
+        "deadline": "Deadline",
+        "interpersonalConflict": "Interpersonal conflict",
+        "workOverload": "Work overload",
+        "technicalProblems": "Technical problems",
+        "difficultClient": "Difficult client",
+        "organizationalChanges": "Organizational changes",
+        "other": "Other"
+      }
     },
     "breathing": {
       "title": "Breathing Exercises",
