@@ -370,7 +370,10 @@ export default {
           }
         ]
       },
-      editedUser: {}
+      editedUser: {
+        preferences: {},
+        emergencyContacts: []
+      }
     };
   },
   
