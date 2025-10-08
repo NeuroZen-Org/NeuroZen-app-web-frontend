@@ -5,7 +5,7 @@
         <div class="text-center mb-8">
           <h1 class="text-3xl sm:text-4xl font-extrabold text-primary">NeuroZen</h1>
           <p class="mt-2 text-text-light/80 dark:text-text-dark/80">
-            Crea tu cuenta para empezar a gestionar el estrés laboral.
+            {{ $t('auth.register.tagline') }}
           </p>
         </div>
         
@@ -13,7 +13,7 @@
           <!-- Progress indicator -->
           <div class="mb-6">
             <div class="flex justify-between mb-2">
-              <span class="text-sm font-semibold text-primary">Paso {{ currentStep }} de {{ totalSteps }}</span>
+              <span class="text-sm font-semibold text-primary">{{ $t('auth.register.stepProgress', { current: currentStep, total: totalSteps }) }}</span>
             </div>
             <div class="w-full bg-border-light dark:bg-border-dark rounded-full h-2">
               <div 
@@ -36,7 +36,7 @@
           <form @submit.prevent="handleRegister" class="space-y-6">
             <div>
               <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2" for="email">
-                Email
+                {{ $t('auth.register.email') }}
               </label>
               <div class="mt-1">
                 <input 
@@ -45,7 +45,7 @@
                   class="w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary placeholder-placeholder-light dark:placeholder-placeholder-dark" 
                   id="email" 
                   name="email" 
-                  placeholder="tu@email.com" 
+                  :placeholder="$t('auth.register.emailPlaceholder')" 
                   required 
                   type="email"
                   :disabled="isLoading"
@@ -55,7 +55,7 @@
             
             <div>
               <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2" for="password">
-                Contraseña
+                {{ $t('auth.register.password') }}
               </label>
               <div class="mt-1">
                 <input 
@@ -64,7 +64,7 @@
                   class="w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary placeholder-placeholder-light dark:placeholder-placeholder-dark" 
                   id="password" 
                   name="password" 
-                  placeholder="••••••••" 
+                  :placeholder="$t('auth.register.passwordPlaceholder')" 
                   required 
                   type="password"
                   :disabled="isLoading"
@@ -74,7 +74,7 @@
             
             <div>
               <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2" for="name">
-                Nombre
+                {{ $t('auth.register.name') }}
               </label>
               <div class="mt-1">
                 <input 
@@ -83,7 +83,7 @@
                   class="w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary placeholder-placeholder-light dark:placeholder-placeholder-dark" 
                   id="name" 
                   name="name" 
-                  placeholder="Tu Nombre Completo" 
+                  :placeholder="$t('auth.register.namePlaceholder')" 
                   required 
                   type="text"
                   :disabled="isLoading"
@@ -97,16 +97,16 @@
                 type="submit"
                 :disabled="isLoading"
               >
-                {{ isLoading ? 'Creando cuenta...' : 'Crear Cuenta' }}
+                {{ isLoading ? $t('auth.register.submitting') : $t('auth.register.submit') }}
               </button>
             </div>
           </form>
           
           <div class="mt-6 text-center">
             <p class="text-sm text-text-light/80 dark:text-text-dark/80">
-              ¿Ya tienes una cuenta?
+              {{ $t('auth.register.hasAccount') }}
               <a class="font-semibold text-primary hover:underline" href="#" @click.prevent="goToLogin">
-                Inicia sesión
+                {{ $t('auth.register.signIn') }}
               </a>
             </p>
           </div>
