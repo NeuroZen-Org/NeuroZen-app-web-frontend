@@ -12,7 +12,7 @@
  */
 export class HttpClient {
   /**
-   * Constructor del cliente HTTP
+   * Constructor del cliente HTTP oa
    * @param {string} baseURL - URL base de la API (por defecto: http://localhost:3002)
    */
   constructor(baseURL = 'http://localhost:3002') {
