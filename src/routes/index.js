@@ -8,7 +8,7 @@
 
 import { createRouter, createWebHistory } from 'vue-router';
 
-// Import components
+// Import components oa
 import LoginComponent from '../user-management/screens/login.component.vue';
 import RegisterComponent from '../user-management/screens/RegisterComponent.vue';
 import OnboardingWelcomeComponent from '../shared/screens/OnboardingWelcomeComponent.vue';
