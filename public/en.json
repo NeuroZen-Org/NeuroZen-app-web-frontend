@@ -270,7 +270,45 @@
       "session": "Breathing Session",
       "exercises": "Exercises",
       "availableExercises": "Available exercises",
-      "errorLoadingExercises": "Could not load breathing exercises"
+      "errorLoadingExercises": "Could not load breathing exercises",
+      "findYourCalm": "Find your calm",
+      "introDescription": "Breathing techniques are an effective way to reduce stress and anxiety. Select an exercise that fits your available time.",
+      "practiceTips": "Practice tips",
+      "tips": {
+        "posture": "Sit comfortably with your back straight",
+        "headphones": "Use headphones for a better experience",
+        "eyes": "Close your eyes or focus your gaze",
+        "silentMode": "Put your phone on silent mode"
+      },
+      "phases": {
+        "inhale": "Inhale",
+        "holdIn": "Hold",
+        "exhale": "Exhale",
+        "holdOut": "Hold"
+      },
+      "timeRemaining": "remaining",
+      "resume": "Resume",
+      "sessionCompleted": "Session completed!",
+      "completedMessage": "You have completed your {duration} breathing session.",
+      "howDoYouFeel": "How do you feel?",
+      "notesOptional": "Notes (optional)",
+      "notesPlaceholder": "How was your experience? Did you notice any change in your stress level?",
+      "anotherSession": "Another session",
+      "saveAndFinish": "Save and finish",
+      "exitConfirmation": {
+        "title": "Are you sure?",
+        "message": "If you exit now, you will lose the progress of the current session.",
+        "cancel": "Cancel",
+        "exit": "Exit"
+      },
+      "moodOptions": {
+        "veryStressed": "Very stressed",
+        "stressed": "Stressed",
+        "neutral": "Neutral",
+        "relaxed": "Relaxed",
+        "veryRelaxed": "Very relaxed"
+      },
+      "retry": "Retry"
     },
     "activeBreaks": {
       "title": "Active Breaks",

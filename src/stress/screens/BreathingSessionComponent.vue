@@ -5,7 +5,7 @@
       <button class="back-button" @click="goBack">
         <i class="fas fa-arrow-left"></i>
       </button>
-      <h1>Sesión de Respiración</h1>
+      <h1>{{ $t('stress.breathing.session') }}</h1>
     </div>
 
     <!-- Loading State -->
@@ -19,15 +19,15 @@
       <div class="error-icon">⚠️</div>
       <h3>{{ $t('common.errorLoading') }}</h3>
       <p>{{ error }}</p>
-      <button class="retry-button" @click="loadExercises">Reintentar</button>
+      <button class="retry-button" @click="loadExercises">{{ $t('stress.breathing.retry') }}</button>
     </div>
 
     <!-- Exercise Selection -->
     <div v-else-if="!sessionActive && !sessionCompleted" class="content">
       <div class="intro-section">
         <div class="intro-card">
-          <h2>Encuentra tu calma</h2>
-          <p>Las técnicas de respiración son una forma efectiva de reducir el estrés y la ansiedad. Selecciona un ejercicio que se adapte a tu tiempo disponible.</p>
+          <h2>{{ $t('stress.breathing.findYourCalm') }}</h2>
+          <p>{{ $t('stress.breathing.introDescription') }}</p>
         </div>
       </div>
 
@@ -57,23 +57,23 @@
 
       <!-- Tips Section -->
       <div class="tips-section">
-        <h3>Consejos para la práctica</h3>
+        <h3>{{ $t('stress.breathing.practiceTips') }}</h3>
         <div class="tips-grid">
           <div class="tip-card">
             <i class="fas fa-chair"></i>
-            <p>Siéntate cómodamente con la espalda recta</p>
+            <p>{{ $t('stress.breathing.tips.posture') }}</p>
           </div>
           <div class="tip-card">
             <i class="fas fa-volume-up"></i>
-            <p>Usa auriculares para una mejor experiencia</p>
+            <p>{{ $t('stress.breathing.tips.headphones') }}</p>
           </div>
           <div class="tip-card">
             <i class="fas fa-eye-slash"></i>
-            <p>Cierra los ojos o enfoca tu mirada</p>
+            <p>{{ $t('stress.breathing.tips.eyes') }}</p>
           </div>
           <div class="tip-card">
             <i class="fas fa-mobile-alt"></i>
-            <p>Pon tu teléfono en modo silencioso</p>
+            <p>{{ $t('stress.breathing.tips.silentMode') }}</p>
           </div>
         </div>
       </div>
@@ -120,11 +120,11 @@
           @click="toggleSession"
         >
           <i :class="sessionPaused ? 'fas fa-play' : 'fas fa-pause'"></i>
-          {{ sessionPaused ? 'Reanudar' : 'Pausar' }}
+          {{ sessionPaused ? $t('stress.breathing.resume') : $t('stress.breathing.pause') }}
         </button>
         
         <div class="time-remaining">
-          {{ formatTime(timeRemaining) }} restante
+          {{ formatTime(timeRemaining) }} {{ $t('stress.breathing.timeRemaining') }}
         </div>
       </div>
 
@@ -140,12 +140,12 @@
         <div class="completion-icon">
           <i class="fas fa-check-circle"></i>
         </div>
-        <h2>¡Sesión completada!</h2>
-        <p>Has completado tu sesión de respiración de {{ formatDuration(selectedExercise.duration) }}.</p>
+        <h2>{{ $t('stress.breathing.sessionCompleted') }}</h2>
+        <p>{{ $t('stress.breathing.completedMessage', { duration: formatDuration(selectedExercise.duration) }) }}</p>
         
         <!-- Rating -->
         <div class="rating-section">
-          <h3>¿Cómo te sientes?</h3>
+          <h3>{{ $t('stress.breathing.howDoYouFeel') }}</h3>
           <div class="mood-selector">
             <button 
               v-for="mood in moodOptions" 
@@ -161,10 +161,10 @@
 
         <!-- Notes -->
         <div class="notes-section">
-          <h3>Notas (opcional)</h3>
+          <h3>{{ $t('stress.breathing.notesOptional') }}</h3>
           <textarea 
             v-model="sessionNotes"
-            placeholder="¿Cómo fue tu experiencia? ¿Notaste algún cambio en tu nivel de estrés?"
+            :placeholder="$t('stress.breathing.notesPlaceholder')"
             rows="3"
           ></textarea>
         </div>
@@ -172,10 +172,10 @@
         <!-- Actions -->
         <div class="completion-actions">
           <button class="secondary-button" @click="startNewSession">
-            Otra sesión
+            {{ $t('stress.breathing.anotherSession') }}
           </button>
           <button class="primary-button" @click="saveAndFinish">
-            Guardar y terminar
+            {{ $t('stress.breathing.saveAndFinish') }}
           </button>
         </div>
       </div>
@@ -184,11 +184,11 @@
     <!-- Exit Confirmation Modal -->
     <div v-if="showExitModal" class="modal-overlay" @click="cancelExit">
       <div class="modal-content" @click.stop>
-        <h3>¿Estás seguro?</h3>
-        <p>Si sales ahora, perderás el progreso de la sesión actual.</p>
+        <h3>{{ $t('stress.breathing.exitConfirmation.title') }}</h3>
+        <p>{{ $t('stress.breathing.exitConfirmation.message') }}</p>
         <div class="modal-actions">
-          <button class="cancel-button" @click="cancelExit">Cancelar</button>
-          <button class="confirm-button" @click="confirmExit">Salir</button>
+          <button class="cancel-button" @click="cancelExit">{{ $t('stress.breathing.exitConfirmation.cancel') }}</button>
+          <button class="confirm-button" @click="confirmExit">{{ $t('stress.breathing.exitConfirmation.exit') }}</button>
         </div>
       </div>
     </div>
@@ -247,15 +247,7 @@ export default {
           exhale: 4,
           'hold-out': 4
         }
-      },
-      
-      moodOptions: [
-        { value: 1, emoji: '😫', label: 'Muy estresado' },
-        { value: 2, emoji: '😰', label: 'Estresado' },
-        { value: 3, emoji: '😐', label: 'Neutral' },
-        { value: 4, emoji: '😌', label: 'Relajado' },
-        { value: 5, emoji: '😊', label: 'Muy relajado' }
-      ]
+      }
     }
   },
   computed: {
@@ -268,10 +260,10 @@ export default {
     
     phaseText() {
       const texts = {
-        'inhale': 'Inhala',
-        'hold-in': 'Mantén',
-        'exhale': 'Exhala',
-        'hold-out': 'Mantén'
+        'inhale': this.$t('stress.breathing.phases.inhale'),
+        'hold-in': this.$t('stress.breathing.phases.holdIn'),
+        'exhale': this.$t('stress.breathing.phases.exhale'),
+        'hold-out': this.$t('stress.breathing.phases.holdOut')
       };
       return texts[this.currentPhase] || '';
     },
@@ -286,6 +278,16 @@ export default {
         'hold-out': 5
       };
       return instructions[phaseIndex[this.currentPhase]] || instructions[0];
+    },
+
+    moodOptions() {
+      return [
+        { value: 1, emoji: '😫', label: this.$t('stress.breathing.moodOptions.veryStressed') },
+        { value: 2, emoji: '😰', label: this.$t('stress.breathing.moodOptions.stressed') },
+        { value: 3, emoji: '😐', label: this.$t('stress.breathing.moodOptions.neutral') },
+        { value: 4, emoji: '😌', label: this.$t('stress.breathing.moodOptions.relaxed') },
+        { value: 5, emoji: '😊', label: this.$t('stress.breathing.moodOptions.veryRelaxed') }
+      ];
     }
   },
   async mounted() {

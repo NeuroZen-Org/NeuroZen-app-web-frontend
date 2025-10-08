@@ -270,7 +270,45 @@
       "session": "Sesión de Respiración",
       "exercises": "Ejercicios",
       "availableExercises": "Ejercicios disponibles",
-      "errorLoadingExercises": "No se pudieron cargar los ejercicios de respiración"
+      "errorLoadingExercises": "No se pudieron cargar los ejercicios de respiración",
+      "findYourCalm": "Encuentra tu calma",
+      "introDescription": "Las técnicas de respiración son una forma efectiva de reducir el estrés y la ansiedad. Selecciona un ejercicio que se adapte a tu tiempo disponible.",
+      "practiceTips": "Consejos para la práctica",
+      "tips": {
+        "posture": "Siéntate cómodamente con la espalda recta",
+        "headphones": "Usa auriculares para una mejor experiencia",
+        "eyes": "Cierra los ojos o enfoca tu mirada",
+        "silentMode": "Pon tu teléfono en modo silencioso"
+      },
+      "phases": {
+        "inhale": "Inhala",
+        "holdIn": "Mantén",
+        "exhale": "Exhala",
+        "holdOut": "Mantén"
+      },
+      "timeRemaining": "restante",
+      "resume": "Reanudar",
+      "sessionCompleted": "¡Sesión completada!",
+      "completedMessage": "Has completado tu sesión de respiración de {duration}.",
+      "howDoYouFeel": "¿Cómo te sientes?",
+      "notesOptional": "Notas (opcional)",
+      "notesPlaceholder": "¿Cómo fue tu experiencia? ¿Notaste algún cambio en tu nivel de estrés?",
+      "anotherSession": "Otra sesión",
+      "saveAndFinish": "Guardar y terminar",
+      "exitConfirmation": {
+        "title": "¿Estás seguro?",
+        "message": "Si sales ahora, perderás el progreso de la sesión actual.",
+        "cancel": "Cancelar",
+        "exit": "Salir"
+      },
+      "moodOptions": {
+        "veryStressed": "Muy estresado",
+        "stressed": "Estresado",
+        "neutral": "Neutral",
+        "relaxed": "Relajado",
+        "veryRelaxed": "Muy relajado"
+      },
+      "retry": "Reintentar"
     },
     "activeBreaks": {
       "title": "Pausas Activas",
