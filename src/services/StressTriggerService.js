@@ -1,12 +1,12 @@
 /**
  * StressTriggerService - Servicio para gestión de triggers de estrés
  * Maneja la creación, obtención y eliminación de factores de estrés del usuario
- * 
+ *
  * @author Juan Carlos Angulo
  * @version 1.0.0
  */
 
-import { HttpClient } from './HttpClient.js';
+import { HttpClient } from "./HttpClient.js";
 
 /**
  * Servicio para la gestión de triggers de estrés del usuario
@@ -30,10 +30,10 @@ export class StressTriggerService {
    */
   async getStressTriggers(userId) {
     try {
-      const triggers = await this.httpClient.get('/stressTriggers');
-      return triggers.filter(trigger => trigger.userId === userId);
+      const triggers = await this.httpClient.get("/stressTriggers");
+      return triggers.filter((trigger) => trigger.userId === userId);
     } catch (error) {
-      throw new Error('Failed to fetch stress triggers: ' + error.message);
+      throw new Error("Failed to fetch stress triggers: " + error.message);
     }
   }
 
@@ -49,14 +49,14 @@ export class StressTriggerService {
    */
   async addStressTrigger(triggerData) {
     try {
-      const trigger = await this.httpClient.post('/stressTriggers', {
+      const trigger = await this.httpClient.post("/stressTriggers", {
         ...triggerData,
         id: Date.now().toString(),
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       });
       return trigger;
     } catch (error) {
-      throw new Error('Failed to add stress trigger: ' + error.message);
+      throw new Error("Failed to add stress trigger: " + error.message);
     }
   }
 
@@ -69,24 +69,24 @@ export class StressTriggerService {
     try {
       await this.httpClient.delete(`/stressTriggers/${triggerId}`);
     } catch (error) {
-      throw new Error('Failed to delete stress trigger: ' + error.message);
+      throw new Error("Failed to delete stress trigger: " + error.message);
     }
   }
 
   /**
    * Obtiene las categorías predefinidas de triggers de estrés
-   * @returns {Array<string>} Lista de categorías disponibles
+   * @returns {Array<string>} Lista de claves de categorías para i18n
    */
   getStressTriggerCategories() {
     return [
-      'Reunión',
-      'Plazo de entrega',
-      'Conflicto interpersonal',
-      'Sobrecarga de trabajo',
-      'Problemas técnicos',
-      'Cliente difícil',
-      'Cambios organizacionales',
-      'Otro'
+      "meeting",
+      "deadline",
+      "interpersonalConflict",
+      "workOverload",
+      "technicalProblems",
+      "difficultClient",
+      "organizationalChanges",
+      "other",
     ];
   }
 }
