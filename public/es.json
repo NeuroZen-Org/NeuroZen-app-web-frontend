@@ -1,0 +1,396 @@
+{
+  "app": {
+    "name": "NeuroZen",
+    "tagline": "Tu bienestar mental es nuestra prioridad"
+  },
+  "navigation": {
+    "dashboard": "Inicio",
+    "stress": "Gestión de Estrés",
+    "professionals": "Profesionales",
+    "profile": "Perfil",
+    "settings": "Configuración",
+    "logout": "Cerrar Sesión",
+    "login": "Iniciar Sesión",
+    "register": "Registrarse"
+  },
+  "header": {
+    "notifications": "Notificaciones",
+    "profile": "Perfil",
+    "settings": "Configuración",
+    "help": "Ayuda",
+    "logout": "Cerrar Sesión",
+    "language": "Idioma"
+  },
+  "footer": {
+    "company": "NeuroZen",
+    "description": "Plataforma líder en gestión del estrés y bienestar mental",
+    "links": {
+      "about": "Acerca de",
+      "contact": "Contacto",
+      "privacy": "Privacidad",
+      "terms": "Términos",
+      "support": "Soporte",
+      "blog": "Blog"
+    },
+    "contact": {
+      "title": "Contacto",
+      "email": "info@neurozen.com",
+      "phone": "+1 (555) 123-4567",
+      "address": "123 Wellness St, Health City, HC 12345"
+    },
+    "social": {
+      "title": "Síguenos",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn"
+    },
+    "copyright": "© 2025 NeuroZen. Todos los derechos reservados."
+  },
+  "dashboard": {
+    "title": "Panel de Control",
+    "welcome": "Bienvenido de vuelta",
+    "quickActions": {
+      "title": "Acciones Rápidas",
+      "bookSession": "Reservar Sesión",
+      "viewProfile": "Ver Perfil",
+      "settings": "Configuración",
+      "stressLevel": "Nivel de Estrés",
+      "breathingExercise": "Ejercicio de Respiración",
+      "activeBreaks": "Pausas Activas"
+    },
+    "stats": {
+      "title": "Estadísticas",
+      "todayStress": "Estrés de Hoy",
+      "weeklyAverage": "Promedio Semanal",
+      "sessionsCompleted": "Sesiones Completadas",
+      "streakDays": "Días Consecutivos"
+    },
+    "periods": {
+      "day": "Día",
+      "week": "Semana",
+      "month": "Mes"
+    },
+    "periodTexts": {
+      "day": "Últimas 24 horas",
+      "week": "Últimos 7 días",
+      "month": "Último mes"
+    },
+    "chart": {
+      "stressLevel": "Nivel de Estrés",
+      "stressLevelShort": "Estrés",
+      "averageStress": "Promedio de Estrés",
+      "peakStressHours": "Horas Pico de Estrés"
+    },
+    "tools": {
+      "title": "Herramientas de Manejo del Estrés",
+      "registerTrigger": {
+        "title": "Registrar Desencadenante",
+        "description": "Identifica situaciones que generan estrés"
+      },
+      "activeBreaks": {
+        "title": "Pausas Activas",
+        "description": "Configura descansos regulares"
+      },
+      "breathingSession": {
+        "title": "Sesión de Respiración",
+        "description": "Ejercicios de respiración guiada"
+      },
+      "resourceLibrary": {
+        "title": "Biblioteca de Recursos",
+        "description": "Audio, videos y artículos"
+      },
+      "bookSession": {
+        "title": "Reservar Sesión",
+        "description": "Agendar cita con profesional"
+      },
+      "myProfile": {
+        "title": "Mi Perfil",
+        "description": "Gestiona tu información personal"
+      },
+      "settings": {
+        "title": "Configuración",
+        "description": "Ajustes de la aplicación"
+      }
+    },
+    "insights": {
+      "decreased": "En el período seleccionado, tus niveles de estrés han sido {percentage}% más bajos en comparación con el período anterior. Tus horas pico de estrés se mantienen constantes, generalmente entre las {peakHours}. Considera incorporar técnicas de relajación durante estos momentos para gestionar el estrés de forma eficaz.",
+      "increased": "En el período seleccionado, tus niveles de estrés han aumentado un {percentage}% en comparación con el período anterior. Te recomendamos prestar especial atención a las {peakHours}, que son tus horas pico de estrés. Considera contactar con un profesional para obtener apoyo adicional."
+    },
+    "errors": {
+      "loadingData": "Error al cargar los datos del dashboard: {error}",
+      "updatingData": "Error al actualizar los datos: {error}"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar Sesión",
+      "email": "Correo Electrónico",
+      "password": "Contraseña",
+      "submit": "Iniciar Sesión",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "noAccount": "¿No tienes una cuenta?",
+      "signUp": "Regístrate aquí"
+    },
+    "register": {
+      "title": "Crear Cuenta",
+      "name": "Nombre Completo",
+      "email": "Correo Electrónico",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar Contraseña",
+      "submit": "Crear Cuenta",
+      "hasAccount": "¿Ya tienes una cuenta?",
+      "signIn": "Inicia sesión aquí"
+    }
+  },
+  "stress": {
+    "management": {
+      "title": "Gestión de Estrés",
+      "activeBreaks": "Pausas Activas",
+      "breathing": "Ejercicios de Respiración",
+      "resources": "Biblioteca de Recursos",
+      "triggers": "Registrar Desencadenantes",
+      "resourceLibrary": {
+        "title": "Biblioteca de Recursos",
+        "description": "Audio, videos y artículos",
+        "audio": "Audio",
+        "videos": "Videos", 
+        "articles": "Artículos",
+        "search": "Buscar recursos...",
+        "filter": "Filtrar por tipo",
+        "all": "Todos"
+      }
+    },
+    "triggers": {
+      "title": "Registrar Desencadenante de Estrés",
+      "subtitle": "Anota los detalles del evento para un mejor seguimiento.",
+      "level": "Nivel de Estrés",
+      "situation": "Situación",
+      "thoughts": "Pensamientos",
+      "physicalSymptoms": "Síntomas Físicos",
+      "save": "Guardar Registro",
+      "date": "Fecha",
+      "time": "Hora",
+      "stressLevelLabel": "Nivel de Estrés (1-10)",
+      "situationLabel": "¿Qué estaba sucediendo?",
+      "situationPlaceholder": "Describe la situación que causó el estrés...",
+      "emotionsLabel": "¿Qué emociones experimentaste?",
+      "emotionsPlaceholder": "Ansiedad, frustración, miedo, etc.",
+      "thoughtsLabel": "¿Qué pensamientos tuviste?",
+      "thoughtsPlaceholder": "Describe los pensamientos que experimentaste...",
+      "physicalSymptomsLabel": "¿Qué síntomas físicos notaste?",
+      "physicalSymptomsPlaceholder": "Tensión muscular, dolor de cabeza, sudoración, etc.",
+      "responseLabel": "¿Cómo respondiste al estrés?",
+      "responsePlaceholder": "Describe cómo manejaste la situación...",
+      "successMessage": "Desencadenante registrado exitosamente",
+      "errorMessage": "Error al guardar el registro",
+      "category": "Categoría",
+      "selectCategory": "Seleccionar categoría"
+    },
+    "breathing": {
+      "title": "Ejercicios de Respiración",
+      "selectExercise": "Seleccionar Ejercicio",
+      "start": "Comenzar",
+      "pause": "Pausar",
+      "stop": "Detener",
+      "inhale": "Inhalar",
+      "exhale": "Exhalar",
+      "hold": "Mantener",
+      "session": "Sesión de Respiración",
+      "exercises": "Ejercicios",
+      "availableExercises": "Ejercicios disponibles",
+      "errorLoadingExercises": "No se pudieron cargar los ejercicios de respiración"
+    },
+    "activeBreaks": {
+      "title": "Pausas Activas",
+      "configure": "Configurar",
+      "frequency": "Frecuencia",
+      "duration": "Duración",
+      "enable": "Habilitar",
+      "disable": "Deshabilitar",
+      "configuration": "Configuración",
+      "configurationSaved": "Configuración guardada exitosamente",
+      "errorLoadingConfig": "No se pudo cargar la configuración de pausas activas",
+      "errorSavingConfig": "Error al guardar la configuración"
+    }
+  },
+  "professionals": {
+    "title": "Conexión Profesional",
+    "bookSession": "Reservar Sesión",
+    "findTherapist": "Encontrar Terapeuta",
+    "myAppointments": "Mis Citas",
+    "booking": {
+      "title": "Reservar Sesión",
+      "selectDate": "Seleccionar Fecha",
+      "selectTime": "Seleccionar Hora",
+      "selectProfessional": "Seleccionar Profesional",
+      "sessionType": "Tipo de Sesión",
+      "confirm": "Confirmar Reserva",
+      "summary": "Resumen de la Reserva"
+    }
+  },
+  "profile": {
+    "title": "Perfil de Usuario",
+    "personal": "Información Personal",
+    "stats": "Estadísticas",
+    "preferences": "Preferencias",
+    "emergency": "Contactos de Emergencia",
+    "edit": "Editar",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "settings": {
+    "title": "Configuración",
+    "general": "General",
+    "notifications": "Notificaciones",
+    "privacy": "Privacidad",
+    "about": "Acerca de",
+    "language": "Idioma",
+    "theme": "Tema",
+    "save": "Guardar Cambios",
+    "generalConfiguration": "Configuración General",
+    "advancedConfiguration": "Configuración Avanzada",
+    "configurationSaved": "Configuración guardada"
+  },
+  "payment": {
+    "confirmation": {
+      "title": "Confirmación de Pago",
+      "success": "Pago Exitoso",
+      "details": "Detalles del Pago",
+      "receipt": "Recibo",
+      "nextSteps": "Próximos Pasos"
+    }
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "close": "Cerrar",
+    "submit": "Enviar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "view": "Ver",
+    "download": "Descargar",
+    "upload": "Subir",
+    "yes": "Sí",
+    "no": "No",
+    "retry": "Reintentar",
+    "saving": "Guardando...",
+    "loadingConfiguration": "Cargando configuración...",
+    "loadingExercises": "Cargando ejercicios...",
+    "loadingResources": "Cargando recursos...",
+    "loadingResource": "Cargando recurso...",
+    "loadingAppointment": "Cargando información de la cita...",
+    "errorLoading": "Error al cargar",
+    "errorLoadingContent": "Error al cargar el contenido: {error}",
+    "errorLoadingWelcomeContent": "Error al cargar el contenido de bienvenida: {error}",
+    "errorLoadingTherapists": "Error al cargar los terapeutas: {error}",
+    "errorLoadingTherapistInfo": "Error al cargar la información del terapeuta: {error}",
+    "errorBookingAppointment": "Error al reservar la cita: {error}",
+    "errorRegisteringTrigger": "Error al registrar el desencadenante: {error}",
+    "errorSavingConfiguration": "Error al guardar la configuración",
+    "errorConfirmingAppointment": "Error al confirmar la cita. Por favor intenta nuevamente.",
+    "errorBookingAppointmentGeneric": "Error al reservar la cita. Por favor, inténtalo de nuevo.",
+    "days": {
+      "monday": "Lun",
+      "tuesday": "Mar", 
+      "wednesday": "Mié",
+      "thursday": "Jue",
+      "friday": "Vie",
+      "saturday": "Sáb",
+      "sunday": "Dom"
+    }
+  },
+  "userProfile": {
+    "title": "Mi Perfil",
+    "memberSince": "Miembro desde",
+    "sessions": "Sesiones",
+    "streakDays": "Días seguidos",
+    "stressReduction": "Reducción estrés",
+    "personalInfo": {
+      "title": "Información Personal",
+      "email": "Email",
+      "phone": "Teléfono",
+      "birthDate": "Fecha de Nacimiento",
+      "gender": "Género",
+      "genderOptions": {
+        "select": "Seleccionar",
+        "male": "Masculino",
+        "female": "Femenino",
+        "other": "Otro",
+        "preferNotToSay": "Prefiero no decir"
+      }
+    },
+    "healthInfo": {
+      "title": "Información de Salud",
+      "medicalConditions": "Condiciones médicas actuales",
+      "medicalConditionsPlaceholder": "Describe cualquier condición médica relevante...",
+      "medications": "Medicamentos actuales",
+      "medicationsPlaceholder": "Lista los medicamentos que tomas actualmente...",
+      "stressLevel": "Nivel de estrés actual (1-10)"
+    },
+    "preferences": {
+      "title": "Preferencias",
+      "notifications": {
+        "title": "Notificaciones",
+        "sessionReminders": "Recordatorios de sesiones",
+        "breathingReminders": "Recordatorios de respiración",
+        "weeklyUpdates": "Actualizaciones semanales"
+      },
+      "privacy": {
+        "title": "Privacidad",
+        "publicProfile": "Perfil público",
+        "shareProgress": "Compartir progreso"
+      },
+      "sessions": {
+        "title": "Sesiones",
+        "preferredDuration": "Duración preferida",
+        "preferredMode": "Modalidad preferida",
+        "durations": {
+          "30": "30 minutos",
+          "45": "45 minutos",
+          "60": "60 minutos",
+          "90": "90 minutos"
+        },
+        "modes": {
+          "video": "Videollamada",
+          "audio": "Solo audio",
+          "chat": "Chat de texto"
+        }
+      }
+    },
+    "emergencyContacts": {
+      "title": "Contactos de Emergencia",
+      "name": "Nombre",
+      "relationship": "Relación",
+      "phone": "Teléfono",
+      "addContact": "Agregar contacto",
+      "removeContact": "Eliminar contacto"
+    },
+    "accountActions": {
+      "title": "Acciones de Cuenta",
+      "changePassword": "Cambiar Contraseña",
+      "downloadData": "Descargar mis datos",
+      "deleteAccount": "Eliminar cuenta"
+    },
+    "actions": {
+      "saveChanges": "Guardar Cambios",
+      "saving": "Guardando...",
+      "successMessage": "Perfil actualizado exitosamente",
+      "errorMessage": "Error al guardar los cambios",
+      "changePasswordNotImplemented": "Funcionalidad de cambio de contraseña - Por implementar",
+      "deleteAccountConfirm": "¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.",
+      "deleteAccountDoubleConfirm": "Esta acción eliminará permanentemente todos tus datos. ¿Continuar?",
+      "deleteAccountNotImplemented": "Funcionalidad de eliminación de cuenta - Por implementar"
+    },
+    "loading": "Cargando perfil..."
+  }
+}

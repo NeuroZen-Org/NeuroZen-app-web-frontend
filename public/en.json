@@ -1,0 +1,396 @@
+{
+  "app": {
+    "name": "NeuroZen",
+    "tagline": "Your mental wellness is our priority"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "stress": "Stress Management",
+    "professionals": "Professionals",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Register"
+  },
+  "header": {
+    "notifications": "Notifications",
+    "profile": "Profile",
+    "settings": "Settings",
+    "help": "Help",
+    "logout": "Logout",
+    "language": "Language"
+  },
+  "footer": {
+    "company": "NeuroZen",
+    "description": "Leading platform for stress management and mental wellness",
+    "links": {
+      "about": "About",
+      "contact": "Contact",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "support": "Support",
+      "blog": "Blog"
+    },
+    "contact": {
+      "title": "Contact",
+      "email": "info@neurozen.com",
+      "phone": "+1 (555) 123-4567",
+      "address": "123 Wellness St, Health City, HC 12345"
+    },
+    "social": {
+      "title": "Follow Us",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn"
+    },
+    "copyright": "© 2025 NeuroZen. All rights reserved."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back",
+    "quickActions": {
+      "title": "Quick Actions",
+      "bookSession": "Book Session",
+      "viewProfile": "View Profile",
+      "settings": "Settings",
+      "stressLevel": "Stress Level",
+      "breathingExercise": "Breathing Exercise",
+      "activeBreaks": "Active Breaks"
+    },
+    "stats": {
+      "title": "Statistics",
+      "todayStress": "Today's Stress",
+      "weeklyAverage": "Weekly Average",
+      "sessionsCompleted": "Sessions Completed",
+      "streakDays": "Streak Days"
+    },
+    "periods": {
+      "day": "Day",
+      "week": "Week",
+      "month": "Month"
+    },
+    "periodTexts": {
+      "day": "Last 24 hours",
+      "week": "Last 7 days",
+      "month": "Last month"
+    },
+    "chart": {
+      "stressLevel": "Stress Level",
+      "stressLevelShort": "Stress",
+      "averageStress": "Average Stress",
+      "peakStressHours": "Peak Stress Hours"
+    },
+    "tools": {
+      "title": "Stress Management Tools",
+      "registerTrigger": {
+        "title": "Register Trigger",
+        "description": "Identify situations that generate stress"
+      },
+      "activeBreaks": {
+        "title": "Active Breaks",
+        "description": "Set up regular breaks"
+      },
+      "breathingSession": {
+        "title": "Breathing Session",
+        "description": "Guided breathing exercises"
+      },
+      "resourceLibrary": {
+        "title": "Resource Library",
+        "description": "Audio, videos and articles"
+      },
+      "bookSession": {
+        "title": "Book Session",
+        "description": "Schedule appointment with professional"
+      },
+      "myProfile": {
+        "title": "My Profile",
+        "description": "Manage your personal information"
+      },
+      "settings": {
+        "title": "Settings",
+        "description": "Application settings"
+      }
+    },
+    "insights": {
+      "decreased": "In the selected period, your stress levels have been {percentage}% lower compared to the previous period. Your peak stress hours remain constant, generally between {peakHours}. Consider incorporating relaxation techniques during these moments to manage stress effectively.",
+      "increased": "In the selected period, your stress levels have increased by {percentage}% compared to the previous period. We recommend paying special attention to {peakHours}, which are your peak stress hours. Consider contacting a professional for additional support."
+    },
+    "errors": {
+      "loadingData": "Error loading dashboard data: {error}",
+      "updatingData": "Error updating data: {error}"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Login",
+      "forgotPassword": "Forgot your password?",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up here"
+    },
+    "register": {
+      "title": "Create Account",
+      "name": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "submit": "Create Account",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in here"
+    }
+  },
+  "stress": {
+    "management": {
+      "title": "Stress Management",
+      "activeBreaks": "Active Breaks",
+      "breathing": "Breathing Exercises",
+      "resources": "Resource Library",
+      "triggers": "Register Triggers",
+      "resourceLibrary": {
+        "title": "Resource Library",
+        "description": "Audio, videos and articles",
+        "audio": "Audio",
+        "videos": "Videos", 
+        "articles": "Articles",
+        "search": "Search resources...",
+        "filter": "Filter by type",
+        "all": "All"
+      }
+    },
+    "triggers": {
+      "title": "Register Stress Trigger",
+      "subtitle": "Record event details for better tracking.",
+      "level": "Stress Level",
+      "situation": "Situation",
+      "thoughts": "Thoughts",
+      "physicalSymptoms": "Physical Symptoms",
+      "save": "Save Record",
+      "date": "Date",
+      "time": "Time",
+      "stressLevelLabel": "Stress Level (1-10)",
+      "situationLabel": "What was happening?",
+      "situationPlaceholder": "Describe the situation that caused stress...",
+      "emotionsLabel": "What emotions did you experience?",
+      "emotionsPlaceholder": "Anxiety, frustration, fear, etc.",
+      "thoughtsLabel": "What thoughts did you have?",
+      "thoughtsPlaceholder": "Describe the thoughts you experienced...",
+      "physicalSymptomsLabel": "What physical symptoms did you notice?",
+      "physicalSymptomsPlaceholder": "Muscle tension, headache, sweating, etc.",
+      "responseLabel": "How did you respond to stress?",
+      "responsePlaceholder": "Describe how you handled the situation...",
+      "successMessage": "Trigger registered successfully",
+      "errorMessage": "Error saving the record",
+      "category": "Category",
+      "selectCategory": "Select category"
+    },
+    "breathing": {
+      "title": "Breathing Exercises",
+      "selectExercise": "Select Exercise",
+      "start": "Start",
+      "pause": "Pause",
+      "stop": "Stop",
+      "inhale": "Inhale",
+      "exhale": "Exhale",
+      "hold": "Hold",
+      "session": "Breathing Session",
+      "exercises": "Exercises",
+      "availableExercises": "Available exercises",
+      "errorLoadingExercises": "Could not load breathing exercises"
+    },
+    "activeBreaks": {
+      "title": "Active Breaks",
+      "configure": "Configure",
+      "frequency": "Frequency",
+      "duration": "Duration",
+      "enable": "Enable",
+      "disable": "Disable",
+      "configuration": "Configuration",
+      "configurationSaved": "Configuration saved successfully",
+      "errorLoadingConfig": "Could not load active breaks configuration",
+      "errorSavingConfig": "Error saving configuration"
+    }
+  },
+  "professionals": {
+    "title": "Professional Connection",
+    "bookSession": "Book Session",
+    "findTherapist": "Find Therapist",
+    "myAppointments": "My Appointments",
+    "booking": {
+      "title": "Book Session",
+      "selectDate": "Select Date",
+      "selectTime": "Select Time",
+      "selectProfessional": "Select Professional",
+      "sessionType": "Session Type",
+      "confirm": "Confirm Booking",
+      "summary": "Booking Summary"
+    }
+  },
+  "profile": {
+    "title": "User Profile",
+    "personal": "Personal Information",
+    "stats": "Statistics",
+    "preferences": "Preferences",
+    "emergency": "Emergency Contacts",
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "notifications": "Notifications",
+    "privacy": "Privacy",
+    "about": "About",
+    "language": "Language",
+    "theme": "Theme",
+    "save": "Save Changes",
+    "generalConfiguration": "General Configuration",
+    "advancedConfiguration": "Advanced Configuration",
+    "configurationSaved": "Configuration saved"
+  },
+  "payment": {
+    "confirmation": {
+      "title": "Payment Confirmation",
+      "success": "Payment Successful",
+      "details": "Payment Details",
+      "receipt": "Receipt",
+      "nextSteps": "Next Steps"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close",
+    "submit": "Submit",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "view": "View",
+    "download": "Download",
+    "upload": "Upload",
+    "yes": "Yes",
+    "no": "No",
+    "retry": "Retry",
+    "saving": "Saving...",
+    "loadingConfiguration": "Loading configuration...",
+    "loadingExercises": "Loading exercises...",
+    "loadingResources": "Loading resources...",
+    "loadingResource": "Loading resource...",
+    "loadingAppointment": "Loading appointment information...",
+    "errorLoading": "Error loading",
+    "errorLoadingContent": "Error loading content: {error}",
+    "errorLoadingWelcomeContent": "Error loading welcome content: {error}",
+    "errorLoadingTherapists": "Error loading therapists: {error}",
+    "errorLoadingTherapistInfo": "Error loading therapist information: {error}",
+    "errorBookingAppointment": "Error booking appointment: {error}",
+    "errorRegisteringTrigger": "Error registering trigger: {error}",
+    "errorSavingConfiguration": "Error saving configuration",
+    "errorConfirmingAppointment": "Error confirming appointment. Please try again.",
+    "errorBookingAppointmentGeneric": "Error booking appointment. Please try again.",
+    "days": {
+      "monday": "Mon",
+      "tuesday": "Tue", 
+      "wednesday": "Wed",
+      "thursday": "Thu",
+      "friday": "Fri",
+      "saturday": "Sat",
+      "sunday": "Sun"
+    }
+  },
+  "userProfile": {
+    "title": "My Profile",
+    "memberSince": "Member since",
+    "sessions": "Sessions",
+    "streakDays": "Streak days",
+    "stressReduction": "Stress reduction",
+    "personalInfo": {
+      "title": "Personal Information",
+      "email": "Email",
+      "phone": "Phone",
+      "birthDate": "Birth Date",
+      "gender": "Gender",
+      "genderOptions": {
+        "select": "Select",
+        "male": "Male",
+        "female": "Female",
+        "other": "Other",
+        "preferNotToSay": "Prefer not to say"
+      }
+    },
+    "healthInfo": {
+      "title": "Health Information",
+      "medicalConditions": "Current medical conditions",
+      "medicalConditionsPlaceholder": "Describe any relevant medical conditions...",
+      "medications": "Current medications",
+      "medicationsPlaceholder": "List the medications you are currently taking...",
+      "stressLevel": "Current stress level (1-10)"
+    },
+    "preferences": {
+      "title": "Preferences",
+      "notifications": {
+        "title": "Notifications",
+        "sessionReminders": "Session reminders",
+        "breathingReminders": "Breathing reminders",
+        "weeklyUpdates": "Weekly updates"
+      },
+      "privacy": {
+        "title": "Privacy",
+        "publicProfile": "Public profile",
+        "shareProgress": "Share progress"
+      },
+      "sessions": {
+        "title": "Sessions",
+        "preferredDuration": "Preferred duration",
+        "preferredMode": "Preferred mode",
+        "durations": {
+          "30": "30 minutes",
+          "45": "45 minutes",
+          "60": "60 minutes",
+          "90": "90 minutes"
+        },
+        "modes": {
+          "video": "Video call",
+          "audio": "Audio only",
+          "chat": "Text chat"
+        }
+      }
+    },
+    "emergencyContacts": {
+      "title": "Emergency Contacts",
+      "name": "Name",
+      "relationship": "Relationship",
+      "phone": "Phone",
+      "addContact": "Add contact",
+      "removeContact": "Remove contact"
+    },
+    "accountActions": {
+      "title": "Account Actions",
+      "changePassword": "Change Password",
+      "downloadData": "Download my data",
+      "deleteAccount": "Delete account"
+    },
+    "actions": {
+      "saveChanges": "Save Changes",
+      "saving": "Saving...",
+      "successMessage": "Profile updated successfully",
+      "errorMessage": "Error saving changes",
+      "changePasswordNotImplemented": "Change password functionality - To be implemented",
+      "deleteAccountConfirm": "Are you sure you want to delete your account? This action cannot be undone.",
+      "deleteAccountDoubleConfirm": "This action will permanently delete all your data. Continue?",
+      "deleteAccountNotImplemented": "Account deletion functionality - To be implemented"
+    },
+    "loading": "Loading profile..."
+  }
+}
