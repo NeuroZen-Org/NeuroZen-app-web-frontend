@@ -282,7 +282,48 @@
       "configuration": "Configuración",
       "configurationSaved": "Configuración guardada exitosamente",
       "errorLoadingConfig": "No se pudo cargar la configuración de pausas activas",
-      "errorSavingConfig": "Error al guardar la configuración"
+      "errorSavingConfig": "Error al guardar la configuración",
+      "currentStatus": "Estado Actual",
+      "activeBreaksAre": "Las pausas activas están",
+      "activated": "activadas",
+      "deactivated": "desactivadas",
+      "nextBreak": "Próxima pausa:",
+      "noScheduledBreaks": "No hay pausas programadas",
+      "frequencyLabel": "Frecuencia de pausas",
+      "frequencyDescription": "Una pausa cada {minutes} minutos",
+      "durationLabel": "Duración de la pausa",
+      "workingHours": "Horario laboral",
+      "start": "Inicio",
+      "end": "Fin",
+      "workingDays": "Días laborales",
+      "todaySchedule": "Horario de hoy",
+      "weeklyStats": "Estadísticas semanales",
+      "breaksCompleted": "Pausas completadas",
+      "compliance": "Cumplimiento",
+      "breakTime": "Tiempo de pausas",
+      "retry": "Reintentar",
+      "frequencyOptions": {
+        "30": "30 min",
+        "45": "45 min",
+        "60": "1 hora",
+        "90": "1.5 horas",
+        "120": "2 horas"
+      },
+      "durationOptions": {
+        "3": "3 min",
+        "5": "5 min",
+        "10": "10 min",
+        "15": "15 min"
+      },
+      "weekDays": {
+        "monday": "L",
+        "tuesday": "M",
+        "wednesday": "X",
+        "thursday": "J",
+        "friday": "V",
+        "saturday": "S",
+        "sunday": "D"
+      }
     }
   },
   "professionals": {

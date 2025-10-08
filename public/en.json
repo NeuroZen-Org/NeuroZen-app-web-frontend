@@ -282,7 +282,48 @@
       "configuration": "Configuration",
       "configurationSaved": "Configuration saved successfully",
       "errorLoadingConfig": "Could not load active breaks configuration",
-      "errorSavingConfig": "Error saving configuration"
+      "errorSavingConfig": "Error saving configuration",
+      "currentStatus": "Current Status",
+      "activeBreaksAre": "Active breaks are",
+      "activated": "activated",
+      "deactivated": "deactivated",
+      "nextBreak": "Next break:",
+      "noScheduledBreaks": "No scheduled breaks",
+      "frequencyLabel": "Break frequency",
+      "frequencyDescription": "One break every {minutes} minutes",
+      "durationLabel": "Break duration",
+      "workingHours": "Working hours",
+      "start": "Start",
+      "end": "End",
+      "workingDays": "Working days",
+      "todaySchedule": "Today's Schedule",
+      "weeklyStats": "Weekly Statistics",
+      "breaksCompleted": "Completed breaks",
+      "compliance": "Compliance",
+      "breakTime": "Break time",
+      "retry": "Retry",
+      "frequencyOptions": {
+        "30": "30 min",
+        "45": "45 min",
+        "60": "1 hour",
+        "90": "1.5 hours",
+        "120": "2 hours"
+      },
+      "durationOptions": {
+        "3": "3 min",
+        "5": "5 min",
+        "10": "10 min",
+        "15": "15 min"
+      },
+      "weekDays": {
+        "monday": "M",
+        "tuesday": "T",
+        "wednesday": "W",
+        "thursday": "T",
+        "friday": "F",
+        "saturday": "S",
+        "sunday": "S"
+      }
     }
   },
   "professionals": {
