@@ -13,13 +13,34 @@
         "peakHours": "9 AM - 11 AM",
         "weeklyChange": -15,
         "weeklyData": [
-          { "day": "monday", "value": 40 },
-          { "day": "tuesday", "value": 35 },
-          { "day": "wednesday", "value": 50 },
-          { "day": "thursday", "value": 45 },
-          { "day": "friday", "value": 55 },
-          { "day": "saturday", "value": 30 },
-          { "day": "sunday", "value": 25 }
+          {
+            "day": "monday",
+            "value": 40
+          },
+          {
+            "day": "tuesday",
+            "value": 35
+          },
+          {
+            "day": "wednesday",
+            "value": 50
+          },
+          {
+            "day": "thursday",
+            "value": 45
+          },
+          {
+            "day": "friday",
+            "value": 55
+          },
+          {
+            "day": "saturday",
+            "value": 30
+          },
+          {
+            "day": "sunday",
+            "value": 25
+          }
         ]
       }
     },
@@ -36,13 +57,34 @@
         "peakHours": "2 PM - 4 PM",
         "weeklyChange": -8,
         "weeklyData": [
-          { "day": "monday", "value": 70 },
-          { "day": "tuesday", "value": 55 },
-          { "day": "wednesday", "value": 60 },
-          { "day": "thursday", "value": 75 },
-          { "day": "friday", "value": 50 },
-          { "day": "saturday", "value": 45 },
-          { "day": "sunday", "value": 65 }
+          {
+            "day": "monday",
+            "value": 70
+          },
+          {
+            "day": "tuesday",
+            "value": 55
+          },
+          {
+            "day": "wednesday",
+            "value": 60
+          },
+          {
+            "day": "thursday",
+            "value": 75
+          },
+          {
+            "day": "friday",
+            "value": 50
+          },
+          {
+            "day": "saturday",
+            "value": 45
+          },
+          {
+            "day": "sunday",
+            "value": 65
+          }
         ]
       }
     },
@@ -59,13 +101,34 @@
         "peakHours": "6 PM - 8 PM",
         "weeklyChange": 5,
         "weeklyData": [
-          { "day": "monday", "value": 80 },
-          { "day": "tuesday", "value": 65 },
-          { "day": "wednesday", "value": 70 },
-          { "day": "thursday", "value": 75 },
-          { "day": "friday", "value": 60 },
-          { "day": "saturday", "value": 55 },
-          { "day": "sunday", "value": 78 }
+          {
+            "day": "monday",
+            "value": 80
+          },
+          {
+            "day": "tuesday",
+            "value": 65
+          },
+          {
+            "day": "wednesday",
+            "value": 70
+          },
+          {
+            "day": "thursday",
+            "value": 75
+          },
+          {
+            "day": "friday",
+            "value": 60
+          },
+          {
+            "day": "saturday",
+            "value": 55
+          },
+          {
+            "day": "sunday",
+            "value": 78
+          }
         ]
       }
     },
@@ -82,15 +145,44 @@
         "peakHours": "12 PM - 2 PM",
         "weeklyChange": -20,
         "weeklyData": [
-          { "day": "monday", "value": 45 },
-          { "day": "tuesday", "value": 30 },
-          { "day": "wednesday", "value": 35 },
-          { "day": "thursday", "value": 50 },
-          { "day": "friday", "value": 40 },
-          { "day": "saturday", "value": 25 },
-          { "day": "sunday", "value": 42 }
+          {
+            "day": "monday",
+            "value": 45
+          },
+          {
+            "day": "tuesday",
+            "value": 30
+          },
+          {
+            "day": "wednesday",
+            "value": 35
+          },
+          {
+            "day": "thursday",
+            "value": 50
+          },
+          {
+            "day": "friday",
+            "value": 40
+          },
+          {
+            "day": "saturday",
+            "value": 25
+          },
+          {
+            "day": "sunday",
+            "value": 42
+          }
         ]
       }
+    },
+    {
+      "id": "5",
+      "email": "juan.perez@example.com",
+      "password": "123456",
+      "name": "Juan Perez",
+      "role": "user",
+      "createdAt": "2025-10-08T20:57:13.669Z"
     }
   ],
   "onboarding": [
