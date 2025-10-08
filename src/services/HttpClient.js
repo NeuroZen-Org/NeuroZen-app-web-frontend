@@ -1,7 +1,7 @@
 /**
  * HttpClient - Cliente HTTP simple para comunicación con APIs
  * Proporciona métodos para realizar peticiones HTTP básicas (GET, POST, PUT, DELETE)
- * 
+ *
  * @author Juan Carlos Angulo
  * @version 1.0.0
  */
@@ -13,9 +13,9 @@
 export class HttpClient {
   /**
    * Constructor del cliente HTTP
-   * @param {string} baseURL - URL base de la API (por defecto: http://localhost:3002)
+   * @param {string} baseURL - URL base de la API (por defecto: http://localhost:3000)
    */
-  constructor(baseURL = 'http://localhost:3000') {
+  constructor(baseURL = "http://localhost:3000") {
     this.baseURL = baseURL;
   }
 
@@ -33,7 +33,7 @@ export class HttpClient {
       }
       return await response.json();
     } catch (error) {
-      console.error('GET request failed:', error);
+      console.error("GET request failed:", error);
       throw error;
     }
   }
@@ -48,9 +48,9 @@ export class HttpClient {
   async post(endpoint, data) {
     try {
       const response = await fetch(`${this.baseURL}${endpoint}`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
@@ -59,7 +59,7 @@ export class HttpClient {
       }
       return await response.json();
     } catch (error) {
-      console.error('POST request failed:', error);
+      console.error("POST request failed:", error);
       throw error;
     }
   }
@@ -74,9 +74,9 @@ export class HttpClient {
   async put(endpoint, data) {
     try {
       const response = await fetch(`${this.baseURL}${endpoint}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
@@ -85,7 +85,7 @@ export class HttpClient {
       }
       return await response.json();
     } catch (error) {
-      console.error('PUT request failed:', error);
+      console.error("PUT request failed:", error);
       throw error;
     }
   }
@@ -99,14 +99,14 @@ export class HttpClient {
   async delete(endpoint) {
     try {
       const response = await fetch(`${this.baseURL}${endpoint}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       return response.status === 204 ? null : await response.json();
     } catch (error) {
-      console.error('DELETE request failed:', error);
+      console.error("DELETE request failed:", error);
       throw error;
     }
   }
