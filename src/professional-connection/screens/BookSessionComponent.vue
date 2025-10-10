@@ -306,7 +306,7 @@ export default {
             id: 1,
             name: 'Dra. María González',
             specialty: 'Psicóloga Clínica',
-            avatar: '/api/placeholder/80/80',
+            avatar: '/images-of-professionals/maria.jpg',
             rating: 4.8,
             reviews: 124,
             pricePerSession: 150
@@ -315,7 +315,7 @@ export default {
             id: 2,
             name: 'Dr. Carlos Rodríguez',
             specialty: 'Psiquiatra',
-            avatar: '/api/placeholder/80/80',
+            avatar: '/images-of-professionals/carlos.jpg',
             rating: 4.9,
             reviews: 89,
             pricePerSession: 200
@@ -324,7 +324,7 @@ export default {
             id: 3,
             name: 'Lic. Ana Martínez',
             specialty: 'Terapeuta Cognitivo-Conductual',
-            avatar: '/api/placeholder/80/80',
+            avatar: '/images-of-professionals/ana.png',
             rating: 4.7,
             reviews: 156,
             pricePerSession: 120
