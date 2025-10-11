@@ -5,7 +5,7 @@
       <div class="header-brand">
         <router-link to="/dashboard" class="brand-link">
           <div class="logo">
-            <img src="/neurozen1_logo.png" alt="NeuroZen Logo" width="47" height="47" />
+            <img src="/neurozen1_logo.png" alt="NeuroZen Logo" />
           </div>
           <span class="brand-name">{{ $t('app.name') }}</span>
         </router-link>
@@ -55,6 +55,15 @@
         >
           <i class="fas fa-user-md"></i>
           {{ $t('navigation.professionals') }}
+        </router-link>
+
+        <router-link 
+          to="/subscriptions" 
+          class="nav-link"
+          :class="{ active: $route.path.includes('/subscriptions') }"
+        >
+          <i class="fas fa-credit-card"></i>
+          {{ $t('navigation.subscriptions') }}
         </router-link>
       </nav>
 
@@ -324,17 +333,19 @@ export default {
 .header-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 70px;
+  height: 90px;
 }
 
 /* Logo y Marca */
 .header-brand {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
+  min-width: 200px;
 }
 
 .brand-link {
@@ -350,8 +361,19 @@ export default {
 }
 
 .logo {
-  margin-right: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: .5rem;
   transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.logo img {
+  padding-top: 5px;
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
 }
 
 .brand-link:hover .logo {
@@ -368,7 +390,8 @@ export default {
 .header-nav {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
+  margin-right: 2rem;
 }
 
 .nav-link {
@@ -456,7 +479,7 @@ export default {
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .action-btn {
@@ -701,29 +724,118 @@ export default {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .header-nav {
-    display: none;
+  .header-container {
+    padding: 0 0.75rem;
+    height: 70px;
+  }
+
+  .header-brand {
+    min-width: auto;
+    flex-shrink: 1;
   }
   
-  .user-name {
-    display: none;
+  .logo img {
+  padding-top: 6px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .logo {
+    margin-right: 0.5rem;
   }
   
   .brand-name {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+  }
+
+  /* Ocultar navegación en móvil */
+  .header-nav {
+    display: none;
+  }
+
+  /* Simplificar acciones del header */
+  .header-actions {
+    gap: 0.5rem;
+  }
+
+  /* Ocultar nombre de usuario en móvil */
+  .user-name {
+    display: none;
+  }
+
+  /* Hacer avatar más pequeño */
+  .avatar-image {
+    width: 35px;
+    height: 35px;
+  }
+
+  /* Ajustar botones de acción */
+  .action-btn {
+    padding: 0.4rem;
+    font-size: 0.85rem;
   }
   
-  .header-container {
-    padding: 0 0.5rem;
-  }
-  
+  /* Panel de notificaciones */
   .notifications-panel {
+    padding-top: 70px;
     padding-right: 0.5rem;
+    padding-left: 0.5rem;
   }
   
   .panel-content {
     width: calc(100vw - 1rem);
     max-width: 350px;
+  }
+
+  /* Dropdown de usuario más pequeño */
+  .user-dropdown-menu {
+    right: 0;
+    left: auto;
+    min-width: 180px;
+  }
+
+  .dropdown-item {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .header-container {
+    padding: 0 0.5rem;
+    height: 60px;
+  }
+
+  .logo img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .brand-name {
+    font-size: 1rem;
+  }
+
+  .header-actions {
+    gap: 0.25rem;
+  }
+
+  .action-btn {
+    padding: 0.3rem;
+  }
+
+  .avatar-image {
+    width: 32px;
+    height: 32px;
+  }
+
+  .notifications-panel {
+    padding: 0.25rem;
+    padding-top: 60px;
+  }
+
+  .panel-content {
+    width: calc(100vw - 0.5rem);
   }
 }
 </style>
