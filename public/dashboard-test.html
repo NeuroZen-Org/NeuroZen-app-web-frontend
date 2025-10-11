@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroZen Dashboard Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .content {
+            padding: 30px;
+        }
+        .period-selector {
+            margin: 20px 0;
+            display: flex;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 25px;
+            padding: 4px;
+            gap: 4px;
+            max-width: 300px;
+            margin: 20px auto;
+        }
+        .period-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            color: #667eea;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        .period-btn.active {
+            background: #667eea;
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        .chart-section {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        .chart-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .stress-info {
+            flex: 1;
+            min-width: 200px;
+        }
+        .stress-level {
+            font-size: 4rem;
+            font-weight: 900;
+            margin: 10px 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .chart-container {
+            flex: 2;
+            min-width: 300px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .chart-canvas {
+            width: 100%;
+            height: 200px;
+        }
+        .chart-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #667eea;
+        }
+        .debug-panel {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            border-left: 4px solid #667eea;
+        }
+        .test-buttons {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .test-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .test-btn.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        .test-btn.secondary {
+            background: #e9ecef;
+            color: #495057;
+        }
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(102, 126, 234, 0.3);
+            border-radius: 50%;
+            border-top-color: #667eea;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>NeuroZen Dashboard - Test de Reactividad</h1>
+            <p>Simulando el comportamiento del componente Vue</p>
+        </div>
+        
+        <div class="content">
+            <!-- Period Selector -->
+            <div class="period-selector">
+                <button class="period-btn" data-period="day">Día</button>
+                <button class="period-btn active" data-period="week">Semana</button>
+                <button class="period-btn" data-period="month">Mes</button>
+            </div>
+            
+            <!-- Chart Section -->
+            <div class="chart-section">
+                <div class="chart-info">
+                    <div class="stress-info">
+                        <h3 style="color: #667eea; margin-bottom: 10px;">Nivel de Estrés</h3>
+                        <div class="stress-level" id="stressLevel">65</div>
+                        <p style="color: #6c757d; margin: 5px 0;">
+                            <span id="periodText">Esta semana</span>
+                            <span style="color: #28a745; font-weight: 600;">↓ 12%</span>
+                        </p>
+                        <div style="background: #e9ecef; height: 8px; border-radius: 4px; margin-top: 15px; overflow: hidden;">
+                            <div id="stressBar" style="background: linear-gradient(90deg, #667eea, #764ba2); height: 100%; width: 65%; transition: width 1s ease;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="stressChart" class="chart-canvas"></canvas>
+                        <div class="chart-labels" id="chartLabels">
+                            <span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Test Controls -->
+            <div class="test-buttons">
+                <button class="test-btn primary" onclick="testReactivity()">🔄 Test Automático</button>
+                <button class="test-btn secondary" onclick="generateNewData()">🎲 Nuevos Datos</button>
+                <button class="test-btn secondary" onclick="toggleDebug()">🐛 Debug Panel</button>
+            </div>
+            
+            <!-- Debug Panel -->
+            <div class="debug-panel" id="debugPanel" style="display: none;">
+                <h4>🔍 Estado del Dashboard</h4>
+                <div id="debugInfo"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Dashboard State
+        let currentPeriod = 'week';
+        let chart = null;
+        let isChangingPeriod = false;
+        let stressData = {};
+        
+        // Mock Data Generator (similar to DashboardService)
+        const mockDataGenerator = {
+            generateStressData(period) {
+                const baseLevel = 45 + Math.random() * 30;
+                
+                switch (period) {
+                    case 'day':
+                        return this.generateDayData(baseLevel);
+                    case 'week':
+                        return this.generateWeekData(baseLevel);
+                    case 'month':
+                        return this.generateMonthData(baseLevel);
+                    default:
+                        return this.generateWeekData(baseLevel);
+                }
+            },
+            
+            generateDayData(baseLevel) {
+                const hours = ['06:00', '09:00', '12:00', '15:00', '18:00', '21:00', '00:00'];
+                const patterns = [0.6, 0.8, 0.9, 1.2, 1.1, 0.7, 0.5];
+                const weeklyData = [];
+                
+                for (let i = 0; i < hours.length; i++) {
+                    const variation = (Math.random() - 0.5) * 10;
+                    const value = Math.max(10, Math.min(100, baseLevel * patterns[i] + variation));
+                    weeklyData.push({ day: hours[i], value: Math.round(value) });
+                }
+                
+                return {
+                    currentLevel: weeklyData[Math.floor(Math.random() * weeklyData.length)].value,
+                    average: Math.round(weeklyData.reduce((sum, item) => sum + item.value, 0) / weeklyData.length),
+                    peakHours: weeklyData.reduce((max, item) => item.value > max.value ? item : max).day,
+                    weeklyChange: Math.round((Math.random() - 0.5) * 20),
+                    weeklyData
+                };
+            },
+            
+            generateWeekData(baseLevel) {
+                const weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+                const patterns = [0.9, 1.0, 1.1, 1.2, 1.1, 0.7, 0.6];
+                const weeklyData = [];
+                
+                for (let i = 0; i < weekDays.length; i++) {
+                    const variation = (Math.random() - 0.5) * 15;
+                    const value = Math.max(10, Math.min(100, baseLevel * patterns[i] + variation));
+                    weeklyData.push({ day: weekDays[i], value: Math.round(value) });
+                }
+                
+                return {
+                    currentLevel: weeklyData[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1].value,
+                    average: Math.round(weeklyData.reduce((sum, item) => sum + item.value, 0) / weeklyData.length),
+                    peakHours: "14:00 - 16:00",
+                    weeklyChange: Math.round((Math.random() - 0.5) * 25),
+                    weeklyData
+                };
+            },
+            
+            generateMonthData(baseLevel) {
+                const monthWeeks = ['week1', 'week2', 'week3', 'week4'];
+                const patterns = [0.8, 1.0, 1.1, 0.9];
+                const weeklyData = [];
+                
+                for (let i = 0; i < monthWeeks.length; i++) {
+                    const variation = (Math.random() - 0.5) * 20;
+                    const value = Math.max(10, Math.min(100, baseLevel * patterns[i] + variation));
+                    weeklyData.push({ day: monthWeeks[i], value: Math.round(value) });
+                }
+                
+                return {
+                    currentLevel: weeklyData[Math.floor(new Date().getDate() / 7)].value,
+                    average: Math.round(weeklyData.reduce((sum, item) => sum + item.value, 0) / weeklyData.length),
+                    peakHours: "10:00 - 16:00",
+                    weeklyChange: Math.round((Math.random() - 0.5) * 30),
+                    weeklyData
+                };
+            }
+        };
+        
+        // Chart Management
+        function initChart() {
+            const canvas = document.getElementById('stressChart');
+            const ctx = canvas.getContext('2d');
+            
+            if (chart) {
+                chart.destroy();
+            }
+            
+            const data = stressData.weeklyData || [];
+            const labels = data.map(d => formatLabel(d.day));
+            const values = data.map(d => d.value);
+            
+            const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+            gradient.addColorStop(0, 'rgba(102, 126, 234, 0.6)');
+            gradient.addColorStop(1, 'rgba(102, 126, 234, 0.1)');
+            
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Stress Level',
+                        data: values,
+                        fill: true,
+                        borderColor: '#667eea',
+                        backgroundColor: gradient,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 0,
+                        pointHoverRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 500,
+                        easing: 'easeInOutQuart'
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            cornerRadius: 6,
+                            displayColors: false
+                        }
+                    },
+                    scales: {
+                        x: { display: false, grid: { display: false } },
+                        y: { display: false, min: 0, max: 100, grid: { display: false } }
+                    }
+                }
+            });
+            
+            updateLabels();
+            updateDebugInfo();
+            console.log('Chart initialized for period:', currentPeriod, 'with data:', data);
+        }
+        
+        function formatLabel(day) {
+            if (currentPeriod === 'day') {
+                return day;
+            } else if (currentPeriod === 'month') {
+                const weekMap = { 'week1': 'Sem 1', 'week2': 'Sem 2', 'week3': 'Sem 3', 'week4': 'Sem 4' };
+                return weekMap[day] || day;
+            } else {
+                const dayMap = {
+                    'monday': 'Lun', 'tuesday': 'Mar', 'wednesday': 'Mié',
+                    'thursday': 'Jue', 'friday': 'Vie', 'saturday': 'Sáb', 'sunday': 'Dom'
+                };
+                return dayMap[day] || day;
+            }
+        }
+        
+        function updateLabels() {
+            const data = stressData.weeklyData || [];
+            const labels = data.map(d => formatLabel(d.day));
+            
+            const labelsContainer = document.getElementById('chartLabels');
+            labelsContainer.innerHTML = labels.map(label => `<span>${label}</span>`).join('');
+        }
+        
+        // Period Management (simulating Vue component behavior)
+        async function changePeriod(newPeriod) {
+            if (isChangingPeriod) {
+                console.log('🚫 Period change already in progress');
+                return;
+            }
+            
+            console.log('🔄 Changing period from', currentPeriod, 'to', newPeriod);
+            
+            isChangingPeriod = true;
+            
+            // Update UI
+            document.querySelectorAll('.period-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-period="${newPeriod}"]`).classList.add('active');
+            
+            try {
+                // Simulate API call delay
+                await new Promise(resolve => setTimeout(resolve, 200));
+                
+                // Generate new data for the period
+                stressData = mockDataGenerator.generateStressData(newPeriod);
+                currentPeriod = newPeriod;
+                
+                // Update UI elements
+                updateStressInfo();
+                
+                // Update chart
+                initChart();
+                
+                console.log('✅ Period change completed successfully');
+                
+            } catch (error) {
+                console.error('❌ Error changing period:', error);
+            } finally {
+                setTimeout(() => {
+                    isChangingPeriod = false;
+                }, 1000);
+            }
+        }
+        
+        function updateStressInfo() {
+            document.getElementById('stressLevel').textContent = stressData.currentLevel;
+            document.getElementById('stressBar').style.width = stressData.currentLevel + '%';
+            
+            const periodTexts = {
+                day: 'Hoy',
+                week: 'Esta semana',
+                month: 'Este mes'
+            };
+            document.getElementById('periodText').textContent = periodTexts[currentPeriod];
+        }
+        
+        // Test Functions
+        function testReactivity() {
+            const periods = ['day', 'week', 'month'];
+            let index = 0;
+            
+            const interval = setInterval(() => {
+                const period = periods[index];
+                console.log('🤖 Auto test: changing to', period);
+                changePeriod(period);
+                
+                index++;
+                if (index >= periods.length) {
+                    clearInterval(interval);
+                    console.log('🎉 Reactivity test completed');
+                }
+            }, 3000);
+        }
+        
+        function generateNewData() {
+            console.log('🎲 Generating new data for current period:', currentPeriod);
+            stressData = mockDataGenerator.generateStressData(currentPeriod);
+            updateStressInfo();
+            initChart();
+        }
+        
+        function toggleDebug() {
+            const panel = document.getElementById('debugPanel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            updateDebugInfo();
+        }
+        
+        function updateDebugInfo() {
+            const info = document.getElementById('debugInfo');
+            info.innerHTML = `
+                <strong>Período actual:</strong> ${currentPeriod}<br>
+                <strong>Nivel de estrés:</strong> ${stressData.currentLevel || 'N/A'}<br>
+                <strong>Promedio:</strong> ${stressData.average || 'N/A'}<br>
+                <strong>Datos del gráfico:</strong> ${stressData.weeklyData ? stressData.weeklyData.length + ' puntos' : 'N/A'}<br>
+                <strong>Cambiando período:</strong> ${isChangingPeriod ? 'Sí' : 'No'}<br>
+                <strong>Gráfico inicializado:</strong> ${chart ? 'Sí' : 'No'}<br>
+                <strong>Última actualización:</strong> ${new Date().toLocaleTimeString()}
+            `;
+        }
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize with week data
+            stressData = mockDataGenerator.generateStressData('week');
+            updateStressInfo();
+            initChart();
+            
+            // Period button listeners
+            document.querySelectorAll('.period-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const period = btn.getAttribute('data-period');
+                    changePeriod(period);
+                });
+            });
+            
+            console.log('Dashboard test initialized');
+        });
+    </script>
+</body>
+</html>
