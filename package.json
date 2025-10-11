@@ -1,14 +1,18 @@
 {
   "name": "front-end-neurozen",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "api": "json-server --watch server/db.json --port 3000",
-    "start": "concurrently \"npm run api\" \"npm run dev\""
+    "api": "json-server --watch server/db.json --port 3002",
+    "start": "concurrently \"npm run api\" \"npm run dev\"",
+    "deploy:setup": "bash deploy-static.sh",
+    "deploy:frontend": "npm run build && firebase deploy --only hosting:frontend",
+    "deploy:all": "npm run deploy:frontend",
+    "serve:emulators": "firebase emulators:start --only hosting"
   },
   "dependencies": {
     "chart.js": "^4.5.0",

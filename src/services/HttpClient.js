@@ -1,10 +1,13 @@
 /**
  * HttpClient - Cliente HTTP simple para comunicación con APIs
  * Proporciona métodos para realizar peticiones HTTP básicas (GET, POST, PUT, DELETE)
- *
+ * Soporta modo estático para Firebase Hosting
+ * 
  * @author Juan Carlos Angulo
- * @version 1.0.0
+ * @version 1.1.0
  */
+
+import { StaticAPIAdapter } from './StaticAPIAdapter.js';
 
 /**
  * Cliente HTTP simple para realizar peticiones a APIs REST
@@ -13,10 +16,20 @@
 export class HttpClient {
   /**
    * Constructor del cliente HTTP
-   * @param {string} baseURL - URL base de la API (por defecto: http://localhost:3000)
+   * @param {string} baseURL - URL base de la API (usa variables de entorno por defecto)
    */
-  constructor(baseURL = "http://localhost:3000") {
+  constructor(baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002') {
     this.baseURL = baseURL;
+    this.timeout = import.meta.env.VITE_API_TIMEOUT || 10000;
+    
+    // Detectar si estamos en modo estático
+    this.isStaticMode = baseURL === 'static' || 
+                       import.meta.env.VITE_API_MODE === 'static';
+    
+    if (this.isStaticMode) {
+      this.staticAdapter = new StaticAPIAdapter();
+      console.info('🔧 HttpClient: Using static API mode for Firebase Hosting');
+    }
   }
 
   /**
@@ -26,6 +39,10 @@ export class HttpClient {
    * @throws {Error} Error si la petición falla
    */
   async get(endpoint) {
+    if (this.isStaticMode) {
+      return await this.staticAdapter.get(endpoint);
+    }
+
     try {
       const response = await fetch(`${this.baseURL}${endpoint}`);
       if (!response.ok) {
@@ -46,6 +63,10 @@ export class HttpClient {
    * @throws {Error} Error si la petición falla
    */
   async post(endpoint, data) {
+    if (this.isStaticMode) {
+      return await this.staticAdapter.post(endpoint, data);
+    }
+
     try {
       const response = await fetch(`${this.baseURL}${endpoint}`, {
         method: "POST",
@@ -72,6 +93,10 @@ export class HttpClient {
    * @throws {Error} Error si la petición falla
    */
   async put(endpoint, data) {
+    if (this.isStaticMode) {
+      return await this.staticAdapter.put(endpoint, data);
+    }
+
     try {
       const response = await fetch(`${this.baseURL}${endpoint}`, {
         method: "PUT",
@@ -97,6 +122,10 @@ export class HttpClient {
    * @throws {Error} Error si la petición falla
    */
   async delete(endpoint) {
+    if (this.isStaticMode) {
+      return await this.staticAdapter.delete(endpoint);
+    }
+
     try {
       const response = await fetch(`${this.baseURL}${endpoint}`, {
         method: "DELETE",

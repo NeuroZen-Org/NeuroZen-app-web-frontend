@@ -65,22 +65,56 @@ export class AuthService {
         throw new Error('User already exists');
       }
 
-      const newUser = {
-        id: (Math.max(...users.map(u => parseInt(u.id)), 0) + 1).toString(),
-        ...userData,
-        role: 'user',
-        createdAt: new Date().toISOString()
-      };
+      // Check if we're in static mode
+      const isStaticMode = import.meta.env.VITE_API_BASE_URL === 'static' || 
+                          import.meta.env.VITE_API_MODE === 'static';
 
-      // Actually persist to fake API
-      const createdUser = await this.httpClient.post('/users', newUser);
+      let newUser;
+      
+      if (isStaticMode) {
+        // En modo estático, simular registro con un usuario demo
+        console.warn('🚧 Static mode: Registration simulated, using demo user');
+        newUser = {
+          id: "3", // ID fijo para modo estático
+          email: userData.email,
+          name: userData.name,
+          password: userData.password,
+          role: 'user',
+          createdAt: new Date().toISOString(),
+          stressData: {
+            currentLevel: 35,
+            average: 40,
+            peakHours: "10 AM - 12 PM",
+            weeklyChange: -5,
+            weeklyData: [
+              { "day": "monday", "value": 30 },
+              { "day": "tuesday", "value": 25 },
+              { "day": "wednesday", "value": 40 },
+              { "day": "thursday", "value": 35 },
+              { "day": "friday", "value": 45 },
+              { "day": "saturday", "value": 20 },
+              { "day": "sunday", "value": 15 }
+            ]
+          }
+        };
+      } else {
+        // Modo normal con API real
+        newUser = {
+          id: (Math.max(...users.map(u => parseInt(u.id)), 0) + 1).toString(),
+          ...userData,
+          role: 'user',
+          createdAt: new Date().toISOString()
+        };
+        // Actually persist to API
+        newUser = await this.httpClient.post('/users', newUser);
+      }
       
       // Store auth info
       localStorage.setItem('authToken', 'fake-jwt-token');
-      localStorage.setItem('currentUser', JSON.stringify(createdUser));
-      localStorage.setItem('user', JSON.stringify(createdUser));
+      localStorage.setItem('currentUser', JSON.stringify(newUser));
+      localStorage.setItem('user', JSON.stringify(newUser));
       
-      return createdUser;
+      return newUser;
     } catch (error) {
       throw new Error('Registration failed: ' + error.message);
     }
