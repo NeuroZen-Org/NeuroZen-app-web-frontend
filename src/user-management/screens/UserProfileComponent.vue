@@ -514,7 +514,7 @@ export default {
 <style scoped>
 .user-profile-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #078330 0%, #54c470 100%);
   padding: 20px;
 }
 
@@ -581,14 +581,14 @@ export default {
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid #667eea;
+  border: 4px solid #198a03;
 }
 
 .change-avatar-btn {
   position: absolute;
   bottom: 0;
   right: 0;
-  background: #667eea;
+  background: #056b40;
   color: white;
   border: none;
   width: 40px;
@@ -603,7 +603,7 @@ export default {
 }
 
 .change-avatar-btn:hover {
-  background: #5a67d8;
+  background: #18cf46;
 }
 
 .user-info h2 {
@@ -635,7 +635,7 @@ export default {
 }
 
 .badge {
-  background: #667eea;
+  background: #057414;
   color: white;
   padding: 4px 12px;
   border-radius: 20px;
@@ -659,7 +659,7 @@ export default {
 .stat-number {
   font-size: 32px;
   font-weight: 700;
-  color: #667eea;
+  color: #054e1b;
   margin-bottom: 5px;
 }
 
@@ -728,7 +728,7 @@ export default {
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #005704;
 }
 
 .form-group input.readonly,
@@ -757,14 +757,14 @@ export default {
   appearance: none;
   width: 20px;
   height: 20px;
-  background: #667eea;
+  background: #01680a;
   border-radius: 50%;
   cursor: pointer;
 }
 
 .stress-value {
   font-weight: 700;
-  color: #667eea;
+  color: #097536;
   font-size: 18px;
   min-width: 30px;
   text-align: center;
@@ -834,7 +834,7 @@ export default {
 }
 
 .toggle-switch input[type="checkbox"]:checked + .toggle-label {
-  background: #667eea;
+  background: #036d03;
 }
 
 .toggle-switch input[type="checkbox"]:checked + .toggle-label::after {
@@ -876,7 +876,7 @@ export default {
 }
 
 .add-contact-btn {
-  background: #667eea;
+  background: #04880f;
   color: white;
   border: none;
   padding: 12px 20px;
@@ -989,7 +989,7 @@ export default {
   width: 40px;
   height: 40px;
   border: 4px solid #f3f3f3;
-  border-top: 4px solid #667eea;
+  border-top: 4px solid #107406;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 15px;

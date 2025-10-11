@@ -312,7 +312,7 @@ export default {
 
 <style scoped>
 .header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #08611b 0%, #08611b 100%);
   color: white;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   position: sticky;
@@ -438,7 +438,7 @@ export default {
 
 .dropdown-item:hover {
   background: #f3f4f6;
-  color: #4f46e5;
+  color: #18630e;
 }
 
 .dropdown-item i {
@@ -492,7 +492,7 @@ export default {
   position: absolute;
   top: -5px;
   right: -5px;
-  background: #ef4444;
+  background: #dd4343;
   color: white;
   border-radius: 50%;
   width: 18px;
@@ -513,7 +513,7 @@ export default {
   align-items: center;
   gap: 0.75rem;
   padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(206, 142, 24, 0.1);
   border: none;
   border-radius: 12px;
   color: white;
