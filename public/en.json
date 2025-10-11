@@ -7,6 +7,7 @@
     "dashboard": "Dashboard",
     "stress": "Stress Management",
     "professionals": "Professionals",
+    "subscriptions": "Subscriptions",
     "profile": "Profile",
     "settings": "Settings",
     "logout": "Logout",
@@ -557,5 +558,80 @@
       "deleteAccountNotImplemented": "Account deletion functionality - To be implemented"
     },
     "loading": "Loading profile..."
+  },
+  "subscriptions": {
+    "plans": {
+      "title": "Choose your plan",
+      "description": "Find the perfect plan for your needs",
+      "subtitle": "Your mental wellbeing deserves flexible options. Choose the plan that best suits your needs and start creating a balance between work and your health.",
+      "getplan": "Get plan",
+      "basic": {
+        "name": "Basic",
+        "price": "Free",
+        "subtitle": "Start your journey with no commitment."
+      },
+      "advanced": {
+        "name": "Advanced",
+        "price": "$5.82",
+        "subtitle": "Daily guidance for lasting wellbeing."
+      },
+      "professional": {
+        "name": "Professional (Zen+)",
+        "price": "$17.53",
+        "subtitle": "Complete assistance with expert advice."
+      },
+      "feature": {
+        "1": "Health questionnaire & stress test",
+        "2": "Weekly stress assessment",
+        "3": "Basic stress dashboard",
+        "4": "Manual symptom tracking",
+        "5": "Limited access to articles & videos",
+        "6": "Basic ergonomics reminders",
+        "7": "Everything in Basic",
+        "8": "Biometric stress analysis",
+        "9": "Personalized recommendations",
+        "10": "Guided breathing & exercises",
+        "11": "Active breaks & smart reminders",
+        "12": "Downloadable progress reports",
+        "13": "Full access to all resources",
+        "14": "Chat support",
+        "15": "Everything in Advanced",
+        "16": "Access to certified psychologists",
+        "17": "Online therapy sessions",
+        "18": "Support groups & wellness challenges",
+        "19": "Workload & stress analytics",
+        "20": "Corporate dashboard & reports",
+        "21": "Priority support"
+      }
+    },
+    "purchase": {
+      "title": "Complete your purchase",
+      "description": "You are one step away from improving your wellbeing with NeuroZen",
+      "plan": "Selected plan",
+      "price": "Price",
+      "perMonth": "per month",
+      "paymentInfo": "Payment information",
+      "cardInfo": "Card information",
+      "securePayment": "Secure and encrypted payment",
+      "backToPlans": "Back to plans",
+      "notSpecified": "Plan not specified",
+      "success": "Purchase completed successfully!",
+      "redirecting": "Redirecting to main page...",
+      "form": {
+        "name": "Full name",
+        "namePlaceholder": "John Doe",
+        "lastName": "Last name",
+        "lastNamePlaceholder": "Doe",
+        "email": "Email address",
+        "emailPlaceholder": "your@email.com",
+        "card": "Card number",
+        "cardPlaceholder": "1234 5678 9012 3456",
+        "expiry": "Expiry date",
+        "expiryPlaceholder": "MM/YY",
+        "cvv": "CVV",
+        "cvvPlaceholder": "123",
+        "submit": "Confirm purchase"
+      }
+    }
   }
 }
