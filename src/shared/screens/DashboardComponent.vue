@@ -115,6 +115,19 @@
                     </div>
                   </div>
                 </button>
+
+                <button
+                  @click="$router.push('/subscriptions')"
+                  class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-primary/50"
+                >
+                  <div class="flex items-center gap-3">
+                    <i class="fas fa-credit-card text-primary text-2xl"></i>
+                    <div class="text-left">
+                      <h3 class="font-semibold">{{ $t('navigation.subscriptions') }}</h3>
+                      <p class="text-sm text-gray-600 dark:text-gray-400">{{ $t('subscriptions.plans.title') }}</p>
+                    </div>
+                  </div>
+                </button>
               </div>
             </div>
 
