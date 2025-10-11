@@ -7,6 +7,7 @@
     "dashboard": "Inicio",
     "stress": "Gestión de Estrés",
     "professionals": "Profesionales",
+    "subscriptions": "Suscripciones",
     "profile": "Perfil",
     "settings": "Configuración",
     "logout": "Cerrar Sesión",
@@ -546,5 +547,80 @@
       "deleteAccountNotImplemented": "Funcionalidad de eliminación de cuenta - Por implementar"
     },
     "loading": "Cargando perfil..."
+  },
+  "subscriptions": {
+    "plans": {
+      "title": "Elige tu plan",
+      "description": "Encuentra el plan perfecto para tus necesidades",
+      "subtitle": "Tu bienestar mental merece opciones flexibles. Elige el plan que mejor se acomode a tus necesidades y empieza a crear un balance entre el trabajo y tu salud.",
+      "getplan": "Obtener plan",
+      "basic": {
+        "name": "Básico",
+        "price": "Gratis",
+        "subtitle": "Empieza tu travesía sin compromiso."
+      },
+      "advanced": {
+        "name": "Avanzado",
+        "price": "$5.82",
+        "subtitle": "Asesoramiento diario para un bienestar duradero."
+      },
+      "professional": {
+        "name": "Profesional (Zen+)",
+        "price": "$17.53",
+        "subtitle": "Asistencia completa con asesoramiento experto."
+      },
+      "feature": {
+        "1": "Cuestionario de salud y test de estrés",
+        "2": "Evaluación semanal de estrés",
+        "3": "Panel básico de estrés",
+        "4": "Seguimiento manual de síntomas",
+        "5": "Acceso limitado a artículos y videos",
+        "6": "Recordatorios básicos de ergonomía",
+        "7": "Todo en Básico",
+        "8": "Análisis biométrico de estrés",
+        "9": "Recomendaciones personalizadas",
+        "10": "Respiración guiada y ejercicios",
+        "11": "Pausas activas y recordatorios inteligentes",
+        "12": "Informes de progreso descargables",
+        "13": "Acceso completo a todos los recursos",
+        "14": "Soporte por chat",
+        "15": "Todo en Avanzado",
+        "16": "Acceso a psicólogos certificados",
+        "17": "Sesiones de terapia en línea",
+        "18": "Grupos de apoyo y desafíos de bienestar",
+        "19": "Análisis de carga de trabajo y estrés",
+        "20": "Panel corporativo e informes",
+        "21": "Soporte prioritario"
+      }
+    },
+    "purchase": {
+      "title": "Completa tu compra",
+      "description": "Estás a un paso de mejorar tu bienestar con NeuroZen",
+      "plan": "Plan seleccionado",
+      "price": "Precio",
+      "perMonth": "por mes",
+      "paymentInfo": "Información de pago",
+      "cardInfo": "Información de tarjeta",
+      "securePayment": "Pago seguro y encriptado",
+      "backToPlans": "Volver a planes",
+      "notSpecified": "Plan no especificado",
+      "success": "¡Compra realizada con éxito!",
+      "redirecting": "Redirigiendo a la página principal...",
+      "form": {
+        "name": "Nombre completo",
+        "namePlaceholder": "Juan Pérez",
+        "lastName": "Apellido",
+        "lastNamePlaceholder": "Pérez",
+        "email": "Correo electrónico",
+        "emailPlaceholder": "tu@email.com",
+        "card": "Número de tarjeta",
+        "cardPlaceholder": "1234 5678 9012 3456",
+        "expiry": "Fecha de vencimiento",
+        "expiryPlaceholder": "MM/AA",
+        "cvv": "CVV",
+        "cvvPlaceholder": "123",
+        "submit": "Confirmar compra"
+      }
+    }
   }
 }
