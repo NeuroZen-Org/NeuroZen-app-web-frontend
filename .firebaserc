@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "neurozen-frontend"
-  }
+  },
+  "targets": {
+    "neurozen-frontend": {
+      "hosting": {
+        "frontend": [
+          "neurozen-frontend"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

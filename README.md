@@ -133,13 +133,41 @@ npm run build
 
 # Preview del build
 npm run preview
+
+# Despliegue en Firebase
+npm run deploy:setup    # Configuración inicial
+npm run deploy:all      # Desplegar todo
+npm run deploy:frontend # Solo frontend
 ```
 
-## 🔗 URLs de Desarrollo
+## 🔗 URLs
 
+### Desarrollo
 - **Frontend**: http://localhost:5173
-- **API Mock**: http://localhost:3000
-- **API Docs**: http://localhost:3000 (JSON Server UI)
+- **API Mock**: http://localhost:3002
+- **API Docs**: http://localhost:3002 (JSON Server UI)
+
+### Producción
+- **Frontend**: https://neurozen-frontend.web.app
+- **API**: Modo estático (datos servidos desde `/data/db.json`)
+
+## ⚙️ Variables de Entorno
+
+La aplicación utiliza variables de entorno para configurar diferentes ambientes:
+
+### Desarrollo (`.env.development`)
+```bash
+VITE_API_BASE_URL=http://localhost:3002
+VITE_API_TIMEOUT=10000
+```
+
+### Producción (`.env.production`)
+```bash
+VITE_API_BASE_URL=static
+VITE_API_MODE=static
+VITE_API_TIMEOUT=15000
+VITE_FRONTEND_URL=https://neurozen-frontend.web.app
+```
 
 ## 🧪 Datos de Prueba
 
@@ -351,6 +379,65 @@ const router = createRouter({
 - [x] Diseño responsive
 - [x] API fake con JSON Server
 - [x] Documentación
+
+## Despliegue en Firebase
+
+La aplicación está configurada para despliegue en Firebase Hosting con una API estática que funciona completamente en el plan gratuito.
+
+### Configuración rápida
+```bash
+# 1. Setup inicial (solo primera vez)
+npm run deploy:setup
+
+# 2. Desplegar
+npm run deploy:all
+```
+
+### Comandos de despliegue
+```bash
+npm run deploy:frontend  # Desplegar frontend con API estática
+npm run deploy:all       # Igual que deploy:frontend
+```
+
+### URLs de producción
+- **App:** https://neurozen-frontend.web.app
+- **API:** Modo estático integrado (sin Cloud Functions)
+
+### Arquitectura Firebase
+```
+firebase-project/
+├── Hosting (Frontend + API estática)  # neurozen-frontend.web.app
+│   ├── /dist/                         # App compilada
+│   └── /data/db.json                  # Base de datos estática
+└── Emulators                          # Para testing local
+```
+
+### Modo API Estática
+- ✅ **Sin Cloud Functions** - Funciona en plan gratuito
+- ✅ **Datos persistentes** - Servidos desde `/data/db.json`
+- ✅ **Compatible** - Misma interfaz que la API REST
+- ⚠️ **Solo lectura** - Operaciones POST/PUT/DELETE simuladas
+- 📝 **Logging** - Las mutaciones se logean en consola
+
+### 🛠️ Solución de Problemas
+
+#### Error "Item with id 'XXXXX' not found"
+Si ves este error en el dashboard:
+
+1. **Ve a la página de debug**: https://neurozen-frontend.web.app/debug.html
+2. **Limpia el localStorage** usando el botón correspondiente
+3. **Haz login con un usuario válido** (admin@neurozen.com / 123456)
+
+#### Usuarios válidos para pruebas:
+- **Admin**: admin@neurozen.com / 123456
+- **Usuario Demo**: user@example.com / password  
+- **Usuario Completo**: juan.perez@example.com / 123456
+
+#### Verificar que la API funcione:
+- **Datos**: https://neurozen-frontend.web.app/data/db.json
+- **Debug**: https://neurozen-frontend.web.app/debug.html
+
+**📖 Para guía detallada, ver:** [FIREBASE_DEPLOY.md](FIREBASE_DEPLOY.md)
 
 ## Contribución
 
