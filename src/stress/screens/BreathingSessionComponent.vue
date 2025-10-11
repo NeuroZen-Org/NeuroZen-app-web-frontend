@@ -474,7 +474,7 @@ export default {
 <style scoped>
 .breathing-session-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, hsl(137, 19%, 30%) 0%, #5b8662 100%);
   color: white;
 }
 

@@ -516,7 +516,7 @@ export default {
 <style scoped>
 .book-session-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #5c9c6c 0%, #448630 100%);
   padding: 20px;
   position: relative;
 }
@@ -581,7 +581,7 @@ export default {
 
 .professional-card:hover,
 .professional-card.selected {
-  border-color: #667eea;
+  border-color: #0b531d;
   background: #f8f9ff;
   transform: translateY(-2px);
 }
@@ -626,7 +626,7 @@ export default {
 
 .price {
   font-weight: 600;
-  color: #667eea;
+  color: #086323;
   margin: 0;
   font-size: 16px;
 }
@@ -669,7 +669,7 @@ export default {
 }
 
 .nav-btn {
-  background: #667eea;
+  background: #067c1f;
   color: white;
   border: none;
   width: 40px;
@@ -683,7 +683,7 @@ export default {
 }
 
 .nav-btn:hover {
-  background: #5a67d8;
+  background: #06691f;
 }
 
 .calendar-grid {
@@ -718,12 +718,12 @@ export default {
 }
 
 .calendar-day.available:hover {
-  background: #667eea;
+  background: #036d03;
   color: white;
 }
 
 .calendar-day.selected {
-  background: #667eea;
+  background: #4a7e5b;
   color: white;
 }
 
@@ -764,8 +764,8 @@ export default {
 
 .time-slot:hover,
 .time-slot.selected {
-  border-color: #667eea;
-  background: #667eea;
+  border-color: #087a11;
+  background: #016d49;
   color: white;
 }
 
@@ -788,14 +788,14 @@ export default {
 
 .session-type-card:hover,
 .session-type-card.selected {
-  border-color: #667eea;
+  border-color: #07722b;
   background: #f8f9ff;
   transform: translateY(-2px);
 }
 
 .type-icon {
   font-size: 36px;
-  color: #667eea;
+  color: #066115;
   margin-bottom: 15px;
 }
 
@@ -811,7 +811,7 @@ export default {
 
 .duration {
   font-weight: 600;
-  color: #667eea !important;
+  color: #056923 !important;
 }
 
 /* Summary */
@@ -876,7 +876,7 @@ export default {
 .summary-section.total .price {
   font-size: 24px;
   font-weight: 700;
-  color: #667eea;
+  color: #035723;
   margin: 0;
 }
 
@@ -890,7 +890,7 @@ export default {
 
 .continue-btn,
 .book-btn {
-  background: #667eea;
+  background: #015a0d;
   color: white;
   border: none;
   padding: 15px 30px;
@@ -905,7 +905,7 @@ export default {
 
 .continue-btn:hover,
 .book-btn:hover {
-  background: #5a67d8;
+  background: #035f1f;
 }
 
 .continue-btn:disabled,
@@ -915,7 +915,7 @@ export default {
 }
 
 .book-btn {
-  background: #48bb78;
+  background: #056940;
 }
 
 .book-btn:hover {

@@ -692,7 +692,7 @@ Versión de la app: 1.2.3
 <style scoped>
 .settings-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #47724e 0%, #36a36f 100%);
   padding: 20px;
 }
 
@@ -897,14 +897,14 @@ Versión de la app: 1.2.3
   appearance: none;
   width: 18px;
   height: 18px;
-  background: #667eea;
+  background: #046911;
   border-radius: 50%;
   cursor: pointer;
 }
 
 .font-size-value {
   font-weight: 600;
-  color: #667eea;
+  color: #048636;
   min-width: 40px;
   text-align: center;
 }
@@ -942,7 +942,7 @@ Versión de la app: 1.2.3
 }
 
 .toggle-switch input[type="checkbox"]:checked + .toggle-label {
-  background: #667eea;
+  background: #055f2e;
 }
 
 .toggle-switch input[type="checkbox"]:checked + .toggle-label::after {
@@ -1003,7 +1003,7 @@ Versión de la app: 1.2.3
 .app-logo {
   width: 80px;
   height: 80px;
-  background: #667eea;
+  background: #028102;
   color: white;
   border-radius: 20px;
   display: flex;
@@ -1056,12 +1056,12 @@ Versión de la app: 1.2.3
 }
 
 .action-btn.primary {
-  background: #667eea;
+  background: #48bb78;
   color: white;
 }
 
 .action-btn.primary:hover {
-  background: #5a67d8;
+  background: #48bb78;
 }
 
 .action-btn.secondary {
@@ -1090,7 +1090,7 @@ Versión de la app: 1.2.3
 }
 
 .legal-links a {
-  color: #667eea;
+  color: #069235;
   text-decoration: none;
   font-weight: 500;
   padding: 8px 0;

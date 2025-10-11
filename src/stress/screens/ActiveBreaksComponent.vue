@@ -348,7 +348,7 @@ export default {
 <style scoped>
 .active-breaks-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #426339 0%, #307223 100%);
   padding: 20px;
   color: white;
 }
@@ -419,7 +419,7 @@ export default {
 
 .retry-button {
   background: white;
-  color: #667eea;
+  color: #047213;
   border: none;
   padding: 12px 24px;
   border-radius: 25px;
@@ -561,7 +561,7 @@ export default {
 .frequency-selector button.active,
 .duration-selector button.active {
   background: white;
-  color: #667eea;
+  color: #05630d;
   font-weight: 600;
 }
 
@@ -621,7 +621,7 @@ export default {
 
 .days-selector button.active {
   background: white;
-  color: #667eea;
+  color: #077911;
 }
 
 .schedule-grid {
