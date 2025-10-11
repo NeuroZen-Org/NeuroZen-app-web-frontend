@@ -416,30 +416,6 @@
 
 import { DashboardService } from '../../services/DashboardService.js';
 import StressLevelChart from './StressLevelChart.vue';
-import {
-  CategoryScale,
-  Chart,
-  Filler,
-  Legend,
-  LinearScale,
-  LineElement,
-  PointElement,
-  Title,
-  Tooltip
-} from 'chart.js';
-import { DashboardService } from '../../services/DashboardService.js';
-
-// Register Chart.js components
-Chart.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-);
 
 export default {
   name: 'DashboardComponent',
