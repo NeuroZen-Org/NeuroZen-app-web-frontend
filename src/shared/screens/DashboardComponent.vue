@@ -210,7 +210,7 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <!-- Register Trigger -->
                 <div 
-                  @click="$router.push('/stress/register-trigger')"
+                  @click="$router.push('/stress/triggers')"
                   class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer border border-primary/20 hover:border-primary/40"
                 >
                   <div class="flex flex-col items-center text-center">
@@ -246,7 +246,7 @@
 
                 <!-- Breathing Session -->
                 <div 
-                  @click="$router.push('/stress/breathing-session')"
+                  @click="$router.push('/stress/breathing')"
                   class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer border border-primary/20 hover:border-primary/40"
                 >
                   <div class="flex flex-col items-center text-center">
@@ -264,7 +264,7 @@
 
                 <!-- Resource Library -->
                 <div 
-                  @click="$router.push('/resources')"
+                  @click="$router.push('/stress/resources')"
                   class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer border border-primary/20 hover:border-primary/40"
                 >
                   <div class="flex flex-col items-center text-center">
