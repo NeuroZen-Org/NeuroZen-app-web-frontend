@@ -3,11 +3,28 @@
     <div class="flex flex-col min-h-screen">
       <!-- Main Content -->
       <main class="flex-1 p-4 sm:p-6 md:p-8">
-        <div class="max-w-4xl mx-auto">
-          <!-- Loading State -->
-          <div v-if="isLoading" class="flex justify-center items-center min-h-96">
-            <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
-          </div>            <!-- Error State -->
+        <div class="max-w-4xl mx-auto">            <!-- Loading State -->
+            <div v-if="isLoading" class="flex justify-center items-center min-h-96">
+              <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+            </div>
+            
+            <!-- Debug Login Button -->
+            <div v-if="!stressData && !isLoading" class="text-center mb-8 p-4 bg-yellow-100 rounded-lg">
+              <h3 class="text-lg font-bold mb-2">🐛 Modo Debug</h3>
+              <p class="mb-4">No se encontraron datos de estrés. ¿Necesitas hacer login?</p>
+              <button 
+                @click="debugLogin"
+                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2"
+              >
+                Login Usuario Demo
+              </button>
+              <button 
+                @click="loadStressData"
+                class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+              >
+                Recargar Datos
+              </button>
+            </div><!-- Error State -->
             <div v-else-if="errorMessage" class="text-center">
               <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
                 {{ errorMessage }}
@@ -124,23 +141,46 @@
 
             <!-- Period Toggle -->
             <div class="mb-6">
-              <div class="flex bg-primary/10 dark:bg-primary/20 rounded-full p-1">
+              <div class="flex bg-primary/10 dark:bg-primary/20 rounded-full p-1 relative">
+                <!-- Loading indicator sin mensaje -->
+                <div v-if="isChangingPeriod" class="absolute inset-0 bg-primary/5 rounded-full flex items-center justify-center z-10">
+                  <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                </div>
+                
                 <label 
                   v-for="period in periods" 
                   :key="period.value"
                   class="flex-1 text-center cursor-pointer py-2 px-4 rounded-full transition-colors duration-300"
-                  :class="selectedPeriod === period.value ? 'bg-primary text-white' : 'text-primary'"
+                  :class="[
+                    selectedPeriod === period.value ? 'bg-primary text-white' : 'text-primary',
+                    isChangingPeriod ? 'pointer-events-none opacity-50' : ''
+                  ]"
                 >
                   <span class="font-medium">{{ $t(`dashboard.periods.${period.value}`) }}</span>
                   <input 
                     v-model="selectedPeriod"
                     :value="period.value"
-                    @change="onPeriodChange"
+                    :disabled="isChangingPeriod"
                     class="sr-only" 
                     name="period" 
                     type="radio"
                   />
                 </label>
+              </div>
+              
+              <!-- Mensaje de estado -->
+              <div v-if="isChangingPeriod" class="text-center mt-2">
+                <p class="text-xs text-primary/80">
+                  Actualizando datos... Disponible en 
+                  <span class="font-bold">{{ Math.ceil(disableCountdown) }}</span> segundo{{ Math.ceil(disableCountdown) !== 1 ? 's' : '' }}
+                </p>
+                <!-- Barra de progreso -->
+                <div class="w-24 h-1 bg-primary/20 rounded-full mx-auto mt-1 overflow-hidden">
+                  <div 
+                    class="h-full bg-primary rounded-full transition-all duration-100"
+                    :style="{ width: `${(1 - disableCountdown) * 100}%` }"
+                  ></div>
+                </div>
               </div>
             </div>
 
@@ -149,24 +189,47 @@
               <div class="flex flex-col md:flex-row justify-between items-start gap-6">
                 <div>
                   <p class="text-lg font-medium text-primary">{{ $t('dashboard.chart.stressLevel') }}</p>
-                  <p class="text-5xl font-bold text-foreground-light dark:text-foreground-dark">
-                    {{ stressData.currentLevel }}
+                  <p class="text-5xl font-bold" :class="getStressLevelColor()">
+                    {{ stressData?.currentLevel || 0 }}
                   </p>
                   <div class="flex items-center gap-2 mt-1">
                     <p class="text-sm text-primary/80 dark:text-primary/90">
                       {{ $t(`dashboard.periodTexts.${selectedPeriod}`) }}
                     </p>
                     <p class="text-sm font-medium flex items-center"
-                       :class="stressData.weeklyChange < 0 ? 'text-green-600' : 'text-red-600'">
-                      <i class="fas text-base"
-                         :class="stressData.weeklyChange < 0 ? 'fa-arrow-down' : 'fa-arrow-up'"></i>
-                      {{ Math.abs(stressData.weeklyChange) }}%
+                       :class="(stressData?.weeklyChange || 0) < 0 ? 'text-green-600' : 'text-red-600'">
+                      <i class="fas text-base mr-1"
+                         :class="(stressData?.weeklyChange || 0) < 0 ? 'fa-arrow-down' : 'fa-arrow-up'"></i>
+                      {{ Math.abs(stressData?.weeklyChange || 0) }}%
+                    </p>
+                  </div>
+                  <!-- Stress Level Indicator -->
+                  <div class="mt-3">
+                    <div class="w-32 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                      <div 
+                        class="h-full rounded-full transition-all duration-1000"
+                        :class="getStressBarColor()"
+                        :style="{ width: `${stressData?.currentLevel || 0}%` }"
+                      ></div>
+                    </div>
+                    <p class="text-xs mt-1 font-medium" :class="getStressLevelColor()">
+                      {{ getStressLevelText() }}
                     </p>
                   </div>
                 </div>
                 
                 <!-- Chart Area -->
                 <div class="w-full md:w-3/5">
+                  <StressLevelChart
+                    ref="stressChart"
+                    :chart-data="chartData"
+                    :period="selectedPeriod"
+                    :average-stress="stressData?.average || 50"
+                    :is-loading="false"
+                    :error="errorMessage"
+                    :chart-width="400"
+                    :chart-height="150"
+                  />
                   <canvas ref="stressChart" width="400" height="150" class="max-w-full"></canvas>
                   <div class="flex justify-between mt-2 text-xs font-bold text-primary/80 dark:text-primary/90">
                     <span v-for="dataPoint in stressData.weeklyData" :key="dataPoint.day">
@@ -184,13 +247,13 @@
               <div class="bg-primary/10 dark:bg-primary/20 p-6 rounded-lg">
                 <p class="text-lg font-medium text-primary">{{ $t('dashboard.chart.averageStress') }}</p>
                 <p class="text-4xl font-bold mt-2 text-foreground-light dark:text-foreground-dark">
-                  {{ stressData.average }}
+                  {{ stressData?.average || 0 }}
                 </p>
               </div>
               <div class="bg-primary/10 dark:bg-primary/20 p-6 rounded-lg">
                 <p class="text-lg font-medium text-primary">{{ $t('dashboard.chart.peakStressHours') }}</p>
                 <p class="text-4xl font-bold mt-2 text-foreground-light dark:text-foreground-dark">
-                  {{ stressData.peakHours }}
+                  {{ stressData?.peakHours || '--' }}
                 </p>
               </div>
             </div>
@@ -351,6 +414,8 @@
  * @version 1.0.0
  */
 
+import { DashboardService } from '../../services/DashboardService.js';
+import StressLevelChart from './StressLevelChart.vue';
 import {
   CategoryScale,
   Chart,
@@ -378,19 +443,25 @@ Chart.register(
 
 export default {
   name: 'DashboardComponent',
+  components: {
+    StressLevelChart
+  },
   data() {
     return {
       stressData: null,
       isLoading: true,
       errorMessage: '',
       dashboardService: null,
-      stressChart: null, // Chart.js instance
       selectedPeriod: 'week',
       periods: [
         { value: 'day' },
         { value: 'week' },
         { value: 'month' }
-      ]
+      ],
+      refreshInterval: null, // Para actualizaciones automáticas
+      periodChangeTimeout: null, // Para debounce de cambios de período
+      isChangingPeriod: false, // Flag para evitar cambios concurrentes
+      disableCountdown: 0 // Contador para mostrar segundos restantes
     };
   },
   computed: {
@@ -401,24 +472,66 @@ export default {
     userName() {
       const user = JSON.parse(localStorage.getItem('user') || '{}');
       return user.name || 'Usuario';
+    },
+
+    /**
+     * Obtiene los datos del gráfico según el período seleccionado
+     * @returns {Array} Datos formateados para el gráfico
+     */
+    chartData() {
+      const data = this.stressData?.weeklyData || [];
+      console.log('🔍 Chart data computed:', data, 'for period:', this.selectedPeriod);
+      return data;
+    }
+  },
+
+  watch: {
+    /**
+     * Observa cambios en el período seleccionado
+     * Actualiza los datos cuando el usuario cambia el período
+     */
+    selectedPeriod: {
+      handler(newPeriod, oldPeriod) {
+        if (newPeriod !== oldPeriod && oldPeriod !== undefined) {
+          console.log('🔄 Period change requested from', oldPeriod, 'to', newPeriod);
+          
+          // Si ya hay un cambio en progreso, ignorar completamente
+          if (this.isChangingPeriod) {
+            console.log('🚫 Period change blocked - already in progress');
+            // Revertir el cambio en el UI
+            this.$nextTick(() => {
+              this.selectedPeriod = oldPeriod;
+            });
+            return;
+          }
+          
+          // Cancelar cualquier cambio pendiente
+          if (this.periodChangeTimeout) {
+            clearTimeout(this.periodChangeTimeout);
+            this.periodChangeTimeout = null;
+          }
+          
+          // Ejecutar el cambio inmediatamente
+          this.handlePeriodChange(newPeriod);
+        }
+      },
+      immediate: false
     }
   },
   async created() {
     this.dashboardService = new DashboardService();
     await this.loadStressData();
-  },
-  async mounted() {
-    // Initialize chart after component is mounted
-    this.$nextTick(() => {
-      if (this.stressData) {
-        this.initializeChart();
-      }
-    });
+    
+    // Configurar actualización automática cada 5 minutos para datos realistas
+    this.setupAutoRefresh();
   },
   beforeUnmount() {
-    // Cleanup chart instance
-    if (this.stressChart) {
-      this.stressChart.destroy();
+    // Cleanup intervals and timeouts
+    if (this.refreshInterval) {
+      clearInterval(this.refreshInterval);
+    }
+    if (this.periodChangeTimeout) {
+      clearTimeout(this.periodChangeTimeout);
     }
   },
   methods: {
@@ -427,16 +540,15 @@ export default {
      * Maneja estados de carga y errores
      */
     async loadStressData() {
+      console.log('📊 Loading stress data...');
       this.isLoading = true;
       this.errorMessage = '';
       
       try {
         this.stressData = await this.dashboardService.getStressData();
-        // Update chart after data is loaded
-        this.$nextTick(() => {
-          this.updateChart();
-        });
+        console.log('✅ Stress data loaded:', this.stressData);
       } catch (error) {
+        console.error('❌ Error loading stress data:', error);
         this.errorMessage = this.$t('dashboard.errors.loadingData', { error: error.message });
       } finally {
         this.isLoading = false;
@@ -444,118 +556,56 @@ export default {
     },
 
     /**
-     * Maneja el cambio de período en las estadísticas
-     * Actualiza los datos y el gráfico según el período seleccionado
+     * Maneja el cambio de período en las estadísticas (método legacy)
+     * Redirige al nuevo método con protecciones
      */
     async onPeriodChange() {
-      this.isLoading = true;
+      return this.handlePeriodChange(this.selectedPeriod);
+    },
+
+    /**
+     * Actualiza los datos de estrés sin mostrar estado de carga
+     * Para actualizaciones automáticas en segundo plano
+     */
+    async refreshStressData() {
       try {
-        this.stressData = await this.dashboardService.updateStressPeriod(this.selectedPeriod);
-        // Update chart with new data
-        this.$nextTick(() => {
-          this.updateChart();
-        });
+        const newData = await this.dashboardService.updateStressPeriod(this.selectedPeriod);
+        
+        // Solo actualizar si hay cambios significativos
+        if (this.hasSignificantChange(newData)) {
+          this.stressData = newData;
+        }
       } catch (error) {
-        this.errorMessage = this.$t('dashboard.errors.updatingData', { error: error.message });
-      } finally {
-        this.isLoading = false;
+        console.warn('Error refreshing stress data:', error.message);
       }
     },
 
     /**
-     * Inicializa el gráfico de Chart.js con los datos de estrés
-     * Configura el estilo y las opciones del gráfico
+     * Configura la actualización automática de datos
+     * Simula datos en tiempo real actualizando cada cierto tiempo
      */
-    initializeChart() {
-      if (!this.$refs.stressChart || !this.stressData) return;
-      
-      const ctx = this.$refs.stressChart.getContext('2d');
-      
-      this.stressChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: this.stressData.weeklyData.map(d => this.$t(`common.days.${d.day}`)),
-          datasets: [{
-            label: this.$t('dashboard.chart.stressLevel'),
-            data: this.stressData.weeklyData.map(d => d.value),
-            borderColor: '#4F46E5',
-            backgroundColor: 'rgba(79, 70, 229, 0.1)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: '#4F46E5',
-            pointBorderColor: '#fff',
-            pointBorderWidth: 2,
-            pointRadius: 6,
-            pointHoverRadius: 8,
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false
-            },
-            tooltip: {
-              backgroundColor: '#1F2937',
-              titleColor: '#F9FAFB',
-              bodyColor: '#F9FAFB',
-              borderColor: '#4F46E5',
-              borderWidth: 1,
-              cornerRadius: 8,
-              displayColors: false,
-              callbacks: {
-                title: (context) => {
-                  return `${context[0].label}`;
-                },
-                label: (context) => {
-                  return `${this.$t('dashboard.chart.stressLevelShort')}: ${context.parsed.y}/10`;
-                }
-              }
-            }
-          },
-          scales: {
-            x: {
-              display: true,
-              grid: {
-                display: false
-              },
-              ticks: {
-                color: '#6B7280',
-                font: {
-                  size: 12,
-                  weight: 'bold'
-                }
-              }
-            },
-            y: {
-              display: false,
-              min: 0,
-              max: 10
-            }
-          },
-          interaction: {
-            intersect: false,
-            mode: 'index'
-          },
-          elements: {
-            point: {
-              hoverBackgroundColor: '#4F46E5',
-              hoverBorderColor: '#fff',
-              hoverBorderWidth: 3
-            }
-          }
+    setupAutoRefresh() {
+      // Actualizar datos cada 5 minutos solo para el período 'day'
+      this.refreshInterval = setInterval(() => {
+        if (this.selectedPeriod === 'day') {
+          this.refreshStressData();
         }
-      });
+      }, 300000); // 5 minutos
     },
 
-    updateChart() {
-      if (!this.stressChart || !this.stressData) return;
+    /**
+     * Verifica si hay cambios significativos en los datos
+     * @param {Object} newData - Nuevos datos para comparar
+     * @returns {boolean} True si hay cambios significativos
+     */
+    hasSignificantChange(newData) {
+      if (!this.stressData || !newData) return true;
       
-      this.stressChart.data.labels = this.stressData.weeklyData.map(d => this.$t(`common.days.${d.day}`));
-      this.stressChart.data.datasets[0].data = this.stressData.weeklyData.map(d => d.value);
-      this.stressChart.update('active');
+      const threshold = 5; // Cambio mínimo del 5% para actualizar
+      const currentAvg = this.stressData.average;
+      const newAvg = newData.average;
+      
+      return Math.abs(currentAvg - newAvg) >= threshold;
     },
 
     getInsightText() {
@@ -574,7 +624,147 @@ export default {
           peakHours: this.stressData.peakHours
         });
       }
-    }
+    },
+
+    /**
+     * Obtiene el color del texto según el nivel de estrés
+     * @returns {string} Clases CSS para el color
+     */
+    getStressLevelColor() {
+      if (!this.stressData || this.stressData.currentLevel == null) return 'text-foreground-light dark:text-foreground-dark';
+      
+      const level = this.stressData.currentLevel;
+      
+      if (level <= 40) {
+        return 'text-green-600 dark:text-green-400';
+      } else if (level <= 70) {
+        return 'text-yellow-600 dark:text-yellow-400';
+      } else {
+        return 'text-red-600 dark:text-red-400';
+      }
+    },
+
+    /**
+     * Obtiene el color de la barra de progreso según el nivel de estrés
+     * @returns {string} Clases CSS para el color de fondo
+     */
+    getStressBarColor() {
+      if (!this.stressData || this.stressData.currentLevel == null) return 'bg-primary';
+      
+      const level = this.stressData.currentLevel;
+      
+      if (level <= 40) {
+        return 'bg-green-500';
+      } else if (level <= 70) {
+        return 'bg-yellow-500';
+      } else {
+        return 'bg-red-500';
+      }
+    },
+
+    /**
+     * Obtiene el texto descriptivo del nivel de estrés
+     * @returns {string} Texto descriptivo
+     */
+    getStressLevelText() {
+      if (!this.stressData || this.stressData.currentLevel == null) return '';
+      
+      const level = this.stressData.currentLevel;
+      
+      if (level <= 30) {
+        return this.$t('dashboard.stressLevels.veryLow');
+      } else if (level <= 50) {
+        return this.$t('dashboard.stressLevels.low');
+      } else if (level <= 70) {
+        return this.$t('dashboard.stressLevels.moderate');
+      } else if (level <= 85) {
+        return this.$t('dashboard.stressLevels.high');
+      } else {
+        return this.$t('dashboard.stressLevels.veryHigh');
+      }
+    },
+
+    /**
+     * Login debug para testing
+     */
+    debugLogin() {
+      const demoUser = {
+        id: "2",
+        name: "Usuario Demo",
+        email: "user@example.com",
+        role: "user"
+      };
+      
+      localStorage.setItem('user', JSON.stringify(demoUser));
+      localStorage.setItem('authToken', 'demo-token-456');
+      
+      console.log('🐛 Debug login successful:', demoUser);
+      
+      // Recargar datos
+      this.loadStressData();
+    },
+
+    /**
+     * Maneja el cambio de período con protección contra cambios rápidos
+     */
+    async handlePeriodChange(newPeriod) {
+      // Verificar si ya hay un cambio en progreso
+      if (this.isChangingPeriod) {
+        console.log('🚫 Ignoring period change - already in progress');
+        return;
+      }
+      
+      // Marcar como en progreso y deshabilitar por 1 segundo
+      this.isChangingPeriod = true;
+      this.disableCountdown = 1;
+      this.errorMessage = '';
+      
+      try {
+        console.log('🔄 Starting period change to:', newPeriod);
+        
+        // Pequeña pausa para evitar conflictos
+        await new Promise(resolve => setTimeout(resolve, 50));
+        
+        const newData = await this.dashboardService.updateStressPeriod(newPeriod);
+        
+        // Verificar que el período no haya cambiado mientras esperábamos
+        if (this.selectedPeriod === newPeriod) {
+          this.stressData = newData;
+          console.log('✅ Period successfully updated to:', newPeriod, 'Data:', newData);
+        } else {
+          console.log('⚠️ Period changed during update, discarding result');
+        }
+        
+      } catch (error) {
+        console.error('❌ Error updating period:', error);
+        this.errorMessage = this.$t('dashboard.errors.updatingData', { error: error.message });
+      } finally {
+        // Contador descendente visual
+        const countdown = setInterval(() => {
+          this.disableCountdown--;
+          if (this.disableCountdown <= 0) {
+            clearInterval(countdown);
+          }
+        }, 100);
+        
+        // Mantener deshabilitado por 1 segundo completo
+        setTimeout(() => {
+          this.isChangingPeriod = false;
+          this.disableCountdown = 0;
+          console.log('✅ Period change re-enabled');
+        }, 1000); // 1 segundo de disable
+        
+        // Limpiar el timeout
+        if (this.periodChangeTimeout) {
+          clearTimeout(this.periodChangeTimeout);
+          this.periodChangeTimeout = null;
+        }
+      }
+    },
+
+    /**
+     * Fuerza la inicialización del gráfico
+     */
   }
 };
 </script>

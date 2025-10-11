@@ -210,35 +210,35 @@
   "stressData": {
     "currentLevel": 65,
     "average": 55,
-    "peakHours": "10 AM - 12 PM",
+    "peakHours": "10:00 - 12:00",
     "weeklyChange": -10,
     "weeklyData": [
       {
-        "day": "Lun",
+        "day": "monday",
         "value": 70
       },
       {
-        "day": "Mar",
+        "day": "tuesday",
         "value": 55
       },
       {
-        "day": "Mié",
+        "day": "wednesday",
         "value": 60
       },
       {
-        "day": "Jue",
+        "day": "thursday",
         "value": 75
       },
       {
-        "day": "Vie",
+        "day": "friday",
         "value": 50
       },
       {
-        "day": "Sáb",
+        "day": "saturday",
         "value": 45
       },
       {
-        "day": "Dom",
+        "day": "sunday",
         "value": 65
       }
     ]

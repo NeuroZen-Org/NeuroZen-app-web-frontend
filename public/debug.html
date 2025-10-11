@@ -32,6 +32,7 @@
         <h3>Acciones:</h3>
         <button onclick="clearStorage()">🗑️ Limpiar Todo el LocalStorage</button>
         <button onclick="loginValidUser()">👤 Login con Usuario Válido (admin@neurozen.com)</button>
+        <button onclick="loginDemoUser()">🎯 Login Usuario Demo (con datos de estrés)</button>
         <button onclick="showValidUsers()">📋 Mostrar Usuarios Válidos</button>
         <button onclick="checkApiMode()">🔍 Verificar Modo API</button>
         
@@ -65,7 +66,7 @@
             document.getElementById('hasToken').textContent = token ? 'Sí' : 'No';
             
             // Determinar modo API
-            const apiMode = window.location.hostname === 'localhost' ? 'Desarrollo (JSON Server)' : 'Producción (Estático)';
+            const apiMode = window.location.hostname === 'localhost' ? 'Desarrollo (Estático)' : 'Producción (Estático)';
             document.getElementById('apiMode').textContent = apiMode;
         }
 
@@ -90,6 +91,23 @@
             
             updateInfo();
             showResult('✅ Login realizado con admin@neurozen.com. Ya puedes usar la aplicación.', 'success');
+        }
+
+        function loginDemoUser() {
+            const demoUser = {
+                id: "2",
+                email: "user@example.com",
+                name: "Usuario Demo",
+                role: "user",
+                password: "password"
+            };
+            
+            localStorage.setItem('authToken', 'demo-jwt-token');
+            localStorage.setItem('currentUser', JSON.stringify(demoUser));
+            localStorage.setItem('user', JSON.stringify(demoUser));
+            
+            updateInfo();
+            showResult('✅ Login exitoso como Usuario Demo. Este usuario tiene datos de estrés completos para el dashboard.', 'success');
         }
 
         async function showValidUsers() {
