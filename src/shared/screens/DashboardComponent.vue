@@ -231,8 +231,8 @@
                   </div>
                 </div>
                 
-                <!-- Chart Area -->
-                <div class="w-full md:w-3/5">
+<!-- Chart Area -->
+<div class="w-full md:w-3/5">
                   <StressLevelChart
                     ref="stressChart"
                     :chart-data="chartData"

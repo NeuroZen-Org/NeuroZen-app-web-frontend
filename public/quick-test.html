@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple NeuroZen Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: #f0f0f0; 
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+        }
+        .btn { 
+            padding: 10px 20px; 
+            margin: 5px; 
+            border: none; 
+            background: #007bff; 
+            color: white; 
+            border-radius: 5px; 
+            cursor: pointer; 
+        }
+        .btn:hover { 
+            background: #0056b3; 
+        }
+        .btn.active { 
+            background: #28a745; 
+        }
+        .status { 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px; 
+            background: #e9ecef; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 NeuroZen Dashboard Test</h1>
+        <p>Test rápido para verificar que el dashboard esté funcionando correctamente.</p>
+        
+        <h3>1. Login Test</h3>
+        <button class="btn" onclick="doLogin()">Login Demo</button>
+        <button class="btn" onclick="checkLogin()">Verificar Login</button>
+        <div id="loginStatus" class="status">Estado: No verificado</div>
+        
+        <h3>2. Dashboard Access Test</h3>
+        <button class="btn" onclick="testDashboard()">Abrir Dashboard</button>
+        <div id="dashboardStatus" class="status">Estado: No probado</div>
+        
+        <h3>3. Quick Navigation</h3>
+        <button class="btn" onclick="goToDashboard()">Ir al Dashboard Real</button>
+        <button class="btn" onclick="goToTestDashboard()">Ir al Dashboard de Test</button>
+        
+        <div style="margin-top: 30px; padding: 15px; background: #d4edda; border-radius: 5px;">
+            <strong>✅ Instrucciones:</strong><br>
+            1. Hacer clic en "Login Demo" para autenticarse<br>
+            2. Hacer clic en "Ir al Dashboard Real" para probar<br>
+            3. En el dashboard, probar cambiar entre Día/Semana/Mes<br>
+            4. Verificar que el gráfico cambie inmediatamente
+        </div>
+    </div>
+
+    <script>
+        function doLogin() {
+            const demoUser = {
+                id: "2",
+                name: "Usuario Demo",
+                email: "demo@neurozen.com",
+                role: "user"
+            };
+            
+            localStorage.setItem('user', JSON.stringify(demoUser));
+            localStorage.setItem('authToken', 'demo-token-456');
+            
+            document.getElementById('loginStatus').innerHTML = '✅ Login exitoso como: ' + demoUser.name;
+            console.log('Demo login successful');
+        }
+        
+        function checkLogin() {
+            const user = localStorage.getItem('user');
+            const token = localStorage.getItem('authToken');
+            
+            if (user && token) {
+                const userData = JSON.parse(user);
+                document.getElementById('loginStatus').innerHTML = '✅ Logueado como: ' + userData.name;
+            } else {
+                document.getElementById('loginStatus').innerHTML = '❌ No hay usuario logueado';
+            }
+        }
+        
+        function testDashboard() {
+            const user = localStorage.getItem('user');
+            if (user) {
+                document.getElementById('dashboardStatus').innerHTML = '✅ Listo para acceder al dashboard';
+            } else {
+                document.getElementById('dashboardStatus').innerHTML = '❌ Necesitas hacer login primero';
+            }
+        }
+        
+        function goToDashboard() {
+            window.open('/', '_blank');
+        }
+        
+        function goToTestDashboard() {
+            window.open('/dashboard-test.html', '_blank');
+        }
+        
+        // Check status on load
+        window.addEventListener('load', checkLogin);
+    </script>
+</body>
+</html>
