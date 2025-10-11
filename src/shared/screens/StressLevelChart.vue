@@ -126,68 +126,68 @@
         }
       }
     },
-    watch: {
-      chartData: {
-        handler(newData, oldData) {
-          console.log('📊 Chart data changed:', newData);
-          console.log('📊 Old data:', oldData);
-          
-          if (newData && newData.length > 0) {
-            // Cancelar inicialización pendiente
-            if (this.initTimeout) {
-              clearTimeout(this.initTimeout);
-              this.initTimeout = null;
-            }
-            
-            // Evitar inicializaciones concurrentes
-            if (this.isInitializing) {
-              console.log('⚠️ Chart initialization already in progress');
-              return;
-            }
-            
-            this.$nextTick(() => {
-              if (this.chart && !this.chart.destroyed) {
-                console.log('🔄 Updating existing chart...');
-                this.updateChart();
-              } else {
-                console.log('🚀 Initializing new chart...');
-                this.initializeChart();
-              }
-            });
+  watch: {
+    chartData: {
+      handler(newData, oldData) {
+        console.log('📊 Chart data changed:', newData);
+        console.log('📊 Old data:', oldData);
+        console.log('📊 Period:', this.period);
+        
+        if (newData && newData.length > 0) {
+          // Cancelar inicialización pendiente
+          if (this.initTimeout) {
+            clearTimeout(this.initTimeout);
+            this.initTimeout = null;
           }
-        },
-        deep: true,
-        immediate: false
+          
+          // Evitar inicializaciones concurrentes
+          if (this.isInitializing) {
+            console.log('⚠️ Chart initialization already in progress');
+            return;
+          }
+          
+          this.$nextTick(() => {
+            if (this.chart && !this.chart.destroyed) {
+              console.log('🔄 Updating existing chart...');
+              this.updateChart();
+            } else {
+              console.log('🚀 Initializing new chart...');
+              this.initializeChart();
+            }
+          });
+        }
       },
-      period: {
-        handler(newPeriod, oldPeriod) {
-          console.log('📅 Period changed from', oldPeriod, 'to', newPeriod);
-          
-          if (newPeriod && this.chartData && this.chartData.length > 0) {
-            // Cancelar inicialización pendiente
-            if (this.initTimeout) {
-              clearTimeout(this.initTimeout);
-              this.initTimeout = null;
-            }
-            
-            // Evitar reinicializaciones concurrentes
-            if (this.isInitializing) {
-              console.log('⚠️ Chart initialization already in progress for period change');
-              return;
-            }
-            
-            // Debounce para cambios de período
-            this.initTimeout = setTimeout(() => {
-              this.$nextTick(() => {
-                console.log('🔄 Reinitializing chart for period change...');
-                this.initializeChart();
-              });
-            }, 100);
-          }
-        },
-        immediate: false
-      }
+      deep: true,
+      immediate: true // Cambiar a true para inicialización inicial
     },
+    period: {
+      handler(newPeriod, oldPeriod) {
+        console.log('📅 Period changed from', oldPeriod, 'to', newPeriod);
+        
+        // Reinicializar siempre que cambie el período, sin importar si hay datos
+        if (newPeriod !== oldPeriod && oldPeriod !== undefined) {
+          // Cancelar inicialización pendiente
+          if (this.initTimeout) {
+            clearTimeout(this.initTimeout);
+            this.initTimeout = null;
+          }
+          
+          // Evitar reinicializaciones concurrentes
+          if (this.isInitializing) {
+            console.log('⚠️ Chart initialization already in progress for period change');
+            return;
+          }
+          
+          // Reinicializar inmediatamente para cambios de período
+          this.$nextTick(() => {
+            console.log('🔄 Forcing chart reinitialization for period change...');
+            this.initializeChart();
+          });
+        }
+      },
+      immediate: false
+    }
+  },
     mounted() {
       console.log('🚀 Chart component mounted');
       // Initialize chart with a delay to ensure DOM is ready
@@ -367,40 +367,46 @@
           console.error('❌ Error creating chart:', error);
         }
       },
-  
       /**
-       * Actualiza el gráfico con nuevos datos sin recrearlo
-       */
-      updateChart() {
-        if (!this.chart || this.chart.destroyed) {
-          console.log('🔄 Chart not available, reinitializing...');
-          this.initializeChart();
-          return;
-        }
-        
-        if (!this.chartData || this.chartData.length === 0) {
-          console.warn('⚠️ No data to update chart');
-          return;
-        }
-        
-        console.log('🔄 Updating chart data...');
-        
-        // Prepare new data
-        const labels = this.chartData.map(d => this.formatLabel(d.day));
-        const values = this.chartData.map(d => d.value);
-        
-        console.log('🔄 Updating chart with labels:', labels, 'values:', values);
-        
-        // Update chart data
-        this.chart.data.labels = labels;
-        this.chart.data.datasets[0].data = values;
-        this.chart.data.datasets[0].borderColor = this.chartColors.border;
+     * Actualiza el gráfico con nuevos datos sin recrearlo
+     */
+    updateChart() {
+      if (!this.chart || this.chart.destroyed) {
+        console.log('🔄 Chart not available, reinitializing...');
+        this.initializeChart();
+        return;
+      }
+      
+      if (!this.chartData || this.chartData.length === 0) {
+        console.warn('⚠️ No data to update chart');
+        return;
+      }
+      
+      console.log('🔄 Updating chart data...');
+      
+      // Prepare new data
+      const labels = this.chartData.map(d => this.formatLabel(d.day));
+      const values = this.chartData.map(d => d.value);
+      
+      console.log('🔄 Updating chart with labels:', labels, 'values:', values);
+      
+      // Update chart data
+      this.chart.data.labels = labels;
+      this.chart.data.datasets[0].data = values;
+      this.chart.data.datasets[0].borderColor = this.chartColors.border;
+      
+      // Recrear el gradiente para asegurar que se actualice correctamente
+      try {
         this.chart.data.datasets[0].backgroundColor = this.createGradient();
-        
-        // Animate the update
-        this.chart.update('active');
-        console.log('✅ Chart updated successfully');
-      },
+      } catch (error) {
+        console.warn('Error updating gradient, using fallback:', error);
+        this.chart.data.datasets[0].backgroundColor = this.chartColors.background;
+      }
+      
+      // Animate the update
+      this.chart.update('active');
+      console.log('✅ Chart updated successfully');
+    },
   
       /**
        * Formatea las etiquetas según el período

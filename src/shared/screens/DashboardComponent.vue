@@ -231,8 +231,8 @@
                   </div>
                 </div>
                 
-<!-- Chart Area -->
-<div class="w-full md:w-3/5">
+                <!-- Chart Area -->
+                <div class="w-full md:w-3/5">
                   <StressLevelChart
                     ref="stressChart"
                     :chart-data="chartData"
@@ -460,7 +460,22 @@ export default {
      * @returns {Array} Datos formateados para el gráfico
      */
     chartData() {
-      const data = this.stressData?.weeklyData || [];
+      if (!this.stressData) return [];
+      
+      let data = [];
+      switch (this.selectedPeriod) {
+        case 'day':
+          data = this.stressData.dayData || this.stressData.weeklyData || [];
+          break;
+        case 'month':
+          data = this.stressData.monthData || this.stressData.weeklyData || [];
+          break;
+        case 'week':
+        default:
+          data = this.stressData.weeklyData || [];
+          break;
+      }
+      
       console.log('🔍 Chart data computed:', data, 'for period:', this.selectedPeriod);
       return data;
     }

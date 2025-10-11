@@ -142,7 +142,8 @@ export class DashboardService {
       average,
       peakHours: peakTime,
       weeklyChange: Math.round((Math.random() - 0.5) * 20), // ±10%
-      weeklyData: hourlyData
+      dayData: hourlyData,
+      weeklyData: hourlyData // Compatibilidad con código existente
     };
   }
 
@@ -212,7 +213,8 @@ export class DashboardService {
       average,
       peakHours: "10:00 - 16:00",
       weeklyChange: Math.round((Math.random() - 0.5) * 30), // ±15%
-      weeklyData: monthlyData
+      monthData: monthlyData,
+      weeklyData: monthlyData // Compatibilidad con código existente
     };
   }
 
