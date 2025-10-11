@@ -340,7 +340,7 @@ export default {
         name: 'Juan Pérez',
         email: 'juan.perez@email.com',
         phone: '+1 (555) 123-4567',
-        avatar: '/api/placeholder/120/120',
+        avatar: '/images-of-professionals/usuariodemo.jpg',
         birthDate: '1990-05-15',
         gender: 'male',
         memberSince: '2023-01-15',
