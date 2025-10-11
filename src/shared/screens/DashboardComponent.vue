@@ -230,14 +230,6 @@
                     :chart-width="400"
                     :chart-height="150"
                   />
-                  <canvas ref="stressChart" width="400" height="150" class="max-w-full"></canvas>
-                  <div class="flex justify-between mt-2 text-xs font-bold text-primary/80 dark:text-primary/90">
-                    <span v-for="dataPoint in stressData.weeklyData" :key="dataPoint.day">
-                      {{ 
-                        dataPoint.day.includes(":") ? dataPoint.day : $t(`common.days.${dataPoint.day}`)  
-                      }}
-                    </span>
-                  </div>
                 </div>
               </div>
             </div>
