@@ -7,10 +7,7 @@
         <div class="footer-section company-info">
           <div class="company-brand">
             <div class="logo">
-              <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="16" cy="16" r="16" fill="#4F46E5"/>
-                <path d="M12 20L20 12M12 12L20 20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              <img src="/neurozen1_logo.png" alt="NeuroZen Logo" width="80" height="80" />
             </div>
             <h3>{{ $t('footer.company') }}</h3>
           </div>
