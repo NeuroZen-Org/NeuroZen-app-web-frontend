@@ -231,8 +231,8 @@
                   </div>
                 </div>
                 
-<!-- Chart Area -->
-<div class="w-full md:w-3/5">
+                <!-- Chart Area -->
+                <div class="w-full md:w-3/5">
                   <StressLevelChart
                     ref="stressChart"
                     :chart-data="chartData"
@@ -243,14 +243,6 @@
                     :chart-width="400"
                     :chart-height="150"
                   />
-                  <canvas ref="stressChart" width="400" height="150" class="max-w-full"></canvas>
-                  <div class="flex justify-between mt-2 text-xs font-bold text-primary/80 dark:text-primary/90">
-                    <span v-for="dataPoint in stressData.weeklyData" :key="dataPoint.day">
-                      {{ 
-                        dataPoint.day.includes(":") ? dataPoint.day : $t(`common.days.${dataPoint.day}`)  
-                      }}
-                    </span>
-                  </div>
                 </div>
               </div>
             </div>
@@ -468,7 +460,22 @@ export default {
      * @returns {Array} Datos formateados para el gráfico
      */
     chartData() {
-      const data = this.stressData?.weeklyData || [];
+      if (!this.stressData) return [];
+      
+      let data = [];
+      switch (this.selectedPeriod) {
+        case 'day':
+          data = this.stressData.dayData || this.stressData.weeklyData || [];
+          break;
+        case 'month':
+          data = this.stressData.monthData || this.stressData.weeklyData || [];
+          break;
+        case 'week':
+        default:
+          data = this.stressData.weeklyData || [];
+          break;
+      }
+      
       console.log('🔍 Chart data computed:', data, 'for period:', this.selectedPeriod);
       return data;
     }
