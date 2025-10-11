@@ -7,10 +7,7 @@
         <div class="footer-section company-info">
           <div class="company-brand">
             <div class="logo">
-              <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="16" cy="16" r="16" fill="#4F46E5"/>
-                <path d="M12 20L20 12M12 12L20 20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              <img src="/neurozen1_logo.png" alt="NeuroZen Logo" width="80" height="80" />
             </div>
             <h3>{{ $t('footer.company') }}</h3>
           </div>
@@ -157,7 +154,7 @@ export default {
 
 <style scoped>
 .footer {
-  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  background: linear-gradient(135deg, #1f372b 0%, #112719 100%);
   color: #f9fafb;
   margin-top: auto;
   position: relative;
@@ -226,7 +223,7 @@ export default {
 }
 
 .social-link:hover {
-  background: #4f46e5;
+  background: #44b961;
   color: white;
   transform: translateY(-2px);
 }
@@ -247,7 +244,7 @@ export default {
   left: 0;
   width: 30px;
   height: 2px;
-  background: #4f46e5;
+  background: #197521;
   border-radius: 1px;
 }
 
@@ -270,7 +267,7 @@ export default {
 }
 
 .footer-link:hover {
-  color: #4f46e5;
+  color: #64d464;
   transform: translateX(3px);
 }
 
@@ -291,7 +288,7 @@ export default {
 }
 
 .contact-item i {
-  color: #4f46e5;
+  color: #13880f;
   width: 16px;
   text-align: center;
   margin-top: 0.1rem;
@@ -343,7 +340,7 @@ export default {
   right: 2rem;
   width: 50px;
   height: 50px;
-  background: #4f46e5;
+  background: #09551c;
   color: white;
   border: none;
   border-radius: 50%;
@@ -352,15 +349,15 @@ export default {
   align-items: center;
   justify-content: center;
   font-size: 1.1rem;
-  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
+  box-shadow: 0 4px 20px rgba(4, 136, 22, 0.3);
   transition: all 0.3s ease;
   z-index: 100;
 }
 
 .scroll-to-top:hover {
-  background: #4338ca;
+  background: #087a24;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+  box-shadow: 0 8px 25px rgba(5, 77, 14, 0.4);
 }
 
 /* Responsive Design */
@@ -465,7 +462,7 @@ export default {
   left: 0;
   width: 0;
   height: 1px;
-  background: #4f46e5;
+  background: #0a7719;
   transition: width 0.3s ease;
 }
 
@@ -482,7 +479,7 @@ export default {
 .footer-link:focus,
 .social-link:focus,
 .scroll-to-top:focus {
-  outline: 2px solid #4f46e5;
+  outline: 2px solid #06750f;
   outline-offset: 2px;
 }
 

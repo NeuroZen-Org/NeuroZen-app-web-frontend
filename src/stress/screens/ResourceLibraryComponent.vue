@@ -15,7 +15,7 @@
         <input 
           type="text" 
           v-model="searchQuery"
-          placeholder="Buscar recursos..."
+          :placeholder="$t('stress.management.resourceLibrary.search')"
           @input="performSearch"
         >
         <button v-if="searchQuery" class="clear-search" @click="clearSearch">
@@ -47,7 +47,7 @@
       <div class="error-icon">⚠️</div>
       <h3>{{ $t('common.errorLoading') }}</h3>
       <p>{{ error }}</p>
-      <button class="retry-button" @click="loadResources">Reintentar</button>
+      <button class="retry-button" @click="loadResources">{{ $t('stress.management.resourceLibrary.retry') }}</button>
     </div>
 
     <!-- Content -->
@@ -55,20 +55,20 @@
       <!-- Results Info -->
       <div class="results-info" v-if="searchQuery || selectedCategory !== 'all'">
         <p>
-          {{ filteredResources.length }} resultado{{ filteredResources.length !== 1 ? 's' : '' }}
-          <span v-if="searchQuery"> para "{{ searchQuery }}"</span>
-          <span v-if="selectedCategory !== 'all'"> en {{ getCategoryLabel(selectedCategory) }}</span>
+          {{ filteredResources.length === 1 ? $t('stress.management.resourceLibrary.resultsCount', { count: filteredResources.length }) : $t('stress.management.resourceLibrary.resultsCountPlural', { count: filteredResources.length }) }}
+          <span v-if="searchQuery"> {{ $t('stress.management.resourceLibrary.resultsFor', { query: searchQuery }) }}</span>
+          <span v-if="selectedCategory !== 'all'"> {{ $t('stress.management.resourceLibrary.resultsIn', { category: getCategoryLabel(selectedCategory) }) }}</span>
         </p>
         <button class="clear-filters" @click="clearFilters" v-if="searchQuery || selectedCategory !== 'all'">
-          Limpiar filtros
+          {{ $t('stress.management.resourceLibrary.clearFilters') }}
         </button>
       </div>
 
       <!-- No Results -->
       <div v-if="filteredResources.length === 0" class="no-results">
         <div class="no-results-icon">🔍</div>
-        <h3>No se encontraron recursos</h3>
-        <p>Intenta con otros términos de búsqueda o categorías diferentes.</p>
+        <h3>{{ $t('stress.management.resourceLibrary.noResults') }}</h3>
+        <p>{{ $t('stress.management.resourceLibrary.noResultsDescription') }}</p>
       </div>
 
       <!-- Resources Grid -->
@@ -90,9 +90,9 @@
           </div>
           
           <div class="resource-content">
-            <h3>{{ resource.title }}</h3>
+            <h3>{{ getTranslatedTitle(resource) }}</h3>
             <p class="resource-author">{{ resource.author }}</p>
-            <p class="resource-description">{{ resource.description }}</p>
+            <p class="resource-description">{{ getTranslatedDescription(resource) }}</p>
             
             <div class="resource-tags">
               <span 
@@ -100,7 +100,7 @@
                 :key="tag"
                 class="tag"
               >
-                {{ tag }}
+                {{ getTranslatedTag(tag) }}
               </span>
             </div>
           </div>
@@ -109,7 +109,7 @@
 
       <!-- Featured Section -->
       <div v-if="!searchQuery && selectedCategory === 'all'" class="featured-section">
-        <h2>Recursos destacados</h2>
+        <h2>{{ $t('stress.management.resourceLibrary.featuredResources') }}</h2>
         <div class="featured-grid">
           <div 
             v-for="resource in featuredResources" 
@@ -124,7 +124,7 @@
               </div>
             </div>
             <div class="featured-content">
-              <h4>{{ resource.title }}</h4>
+              <h4>{{ getTranslatedTitle(resource) }}</h4>
               <p>{{ resource.author }}</p>
             </div>
           </div>
@@ -133,7 +133,7 @@
 
       <!-- Quick Categories -->
       <div v-if="!searchQuery && selectedCategory === 'all'" class="quick-categories">
-        <h2>Explorar por categoría</h2>
+        <h2>{{ $t('stress.management.resourceLibrary.exploreByCategory') }}</h2>
         <div class="category-cards">
           <div 
             v-for="category in categories.filter(c => c.value !== 'all')" 
@@ -145,7 +145,7 @@
               <i :class="category.icon"></i>
             </div>
             <h4>{{ category.label }}</h4>
-            <p>{{ getCategoryCount(category.value) }} recursos</p>
+            <p>{{ getCategoryCount(category.value) }} {{ $t('stress.management.resourceLibrary.resources') }}</p>
           </div>
         </div>
       </div>
@@ -153,7 +153,7 @@
 
     <!-- Recently Viewed (if user has history) -->
     <div v-if="recentlyViewed.length > 0 && !searchQuery" class="recent-section">
-      <h2>Vistos recientemente</h2>
+      <h2>{{ $t('stress.management.resourceLibrary.recentlyViewed') }}</h2>
       <div class="recent-grid">
         <div 
           v-for="resource in recentlyViewed" 
@@ -163,7 +163,7 @@
         >
           <img :src="resource.thumbnail" :alt="resource.title" />
           <div class="recent-info">
-            <h5>{{ resource.title }}</h5>
+            <h5>{{ getTranslatedTitle(resource) }}</h5>
             <p>{{ resource.author }}</p>
           </div>
         </div>
@@ -188,20 +188,21 @@ export default {
       searchQuery: '',
       selectedCategory: 'all',
       recentlyViewed: [],
-      searchTimeout: null,
-      
-      categories: [
-        { value: 'all', label: 'Todos', icon: 'fas fa-th' },
-        { value: 'audio', label: 'Audio', icon: 'fas fa-headphones' },
-        { value: 'video', label: 'Video', icon: 'fas fa-play-circle' },
-        { value: 'reading', label: 'Lectura', icon: 'fas fa-book-open' },
-        { value: 'exercises', label: 'Ejercicios', icon: 'fas fa-dumbbell' }
-      ]
+      searchTimeout: null
     }
   },
   computed: {
     featuredResources() {
       return this.resources.slice(0, 3);
+    },
+    categories() {
+      return [
+        { value: 'all', label: this.$t('stress.management.resourceLibrary.categories.all'), icon: 'fas fa-th' },
+        { value: 'audio', label: this.$t('stress.management.resourceLibrary.categories.audio'), icon: 'fas fa-headphones' },
+        { value: 'video', label: this.$t('stress.management.resourceLibrary.categories.video'), icon: 'fas fa-play-circle' },
+        { value: 'reading', label: this.$t('stress.management.resourceLibrary.categories.reading'), icon: 'fas fa-book-open' },
+        { value: 'exercises', label: this.$t('stress.management.resourceLibrary.categories.exercises'), icon: 'fas fa-dumbbell' }
+      ];
     }
   },
   async mounted() {
@@ -217,7 +218,7 @@ export default {
         this.filteredResources = [...this.resources];
       } catch (error) {
         console.error('Error loading resources:', error);
-        this.error = 'No se pudieron cargar los recursos';
+        this.error = this.$t('common.errorLoadingResources');
       } finally {
         this.loading = false;
       }
@@ -250,12 +251,16 @@ export default {
       // Filter by search query
       if (this.searchQuery.trim()) {
         const query = this.searchQuery.toLowerCase().trim();
-        filtered = filtered.filter(resource => 
-          resource.title.toLowerCase().includes(query) ||
-          resource.description.toLowerCase().includes(query) ||
-          resource.author.toLowerCase().includes(query) ||
-          resource.tags.some(tag => tag.toLowerCase().includes(query))
-        );
+        filtered = filtered.filter(resource => {
+          const translatedTitle = this.getTranslatedTitle(resource).toLowerCase();
+          const translatedDescription = this.getTranslatedDescription(resource).toLowerCase();
+          const translatedTags = resource.tags.map(tag => this.getTranslatedTag(tag).toLowerCase());
+          
+          return translatedTitle.includes(query) ||
+            translatedDescription.includes(query) ||
+            resource.author.toLowerCase().includes(query) ||
+            translatedTags.some(tag => tag.includes(query));
+        });
       }
 
       this.filteredResources = filtered;
@@ -331,6 +336,27 @@ export default {
 
     goBack() {
       this.$router.go(-1);
+    },
+
+    getTranslatedTitle(resource) {
+      const key = `stress.management.resourceLibrary.items.${resource.id}.title`;
+      const translated = this.$t(key);
+      // If translation key is returned (not found), use original title
+      return translated !== key ? translated : resource.title;
+    },
+
+    getTranslatedDescription(resource) {
+      const key = `stress.management.resourceLibrary.items.${resource.id}.description`;
+      const translated = this.$t(key);
+      // If translation key is returned (not found), use original description
+      return translated !== key ? translated : resource.description;
+    },
+
+    getTranslatedTag(tag) {
+      const key = `stress.management.resourceLibrary.tags.${tag}`;
+      const translated = this.$t(key);
+      // If translation key is returned (not found), use original tag
+      return translated !== key ? translated : tag;
     }
   }
 }
@@ -339,7 +365,7 @@ export default {
 <style scoped>
 .resource-library-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, hsl(137, 19%, 30%) 0%, #5b8662 100%);
   color: white;
 }
 
@@ -628,6 +654,7 @@ export default {
   opacity: 0.9;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

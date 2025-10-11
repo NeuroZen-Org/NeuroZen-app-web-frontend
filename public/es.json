@@ -139,9 +139,14 @@
       "email": "Correo Electrónico",
       "password": "Contraseña",
       "submit": "Iniciar Sesión",
+      "submitting": "Iniciando sesión...",
       "forgotPassword": "¿Olvidaste tu contraseña?",
       "noAccount": "¿No tienes una cuenta?",
-      "signUp": "Regístrate aquí"
+      "signUp": "Regístrate aquí",
+      "rememberMe": "Recordarme",
+      "welcomeBack": "Bienvenido de vuelta",
+      "emailPlaceholder": "Correo electrónico",
+      "passwordPlaceholder": "Contraseña"
     },
     "register": {
       "title": "Crear Cuenta",
@@ -150,8 +155,14 @@
       "password": "Contraseña",
       "confirmPassword": "Confirmar Contraseña",
       "submit": "Crear Cuenta",
+      "submitting": "Creando cuenta...",
       "hasAccount": "¿Ya tienes una cuenta?",
-      "signIn": "Inicia sesión aquí"
+      "signIn": "Inicia sesión aquí",
+      "tagline": "Crea tu cuenta para empezar a gestionar el estrés laboral.",
+      "stepProgress": "Paso {current} de {total}",
+      "namePlaceholder": "Tu Nombre Completo",
+      "emailPlaceholder": "tu@email.com",
+      "passwordPlaceholder": "••••••••"
     }
   },
   "stress": {
@@ -165,11 +176,61 @@
         "title": "Biblioteca de Recursos",
         "description": "Audio, videos y artículos",
         "audio": "Audio",
-        "videos": "Videos", 
+        "videos": "Videos",
         "articles": "Artículos",
         "search": "Buscar recursos...",
         "filter": "Filtrar por tipo",
-        "all": "Todos"
+        "all": "Todos",
+        "clearFilters": "Limpiar filtros",
+        "noResults": "No se encontraron recursos",
+        "noResultsDescription": "Intenta con otros términos de búsqueda o categorías diferentes.",
+        "resultsCount": "{count} resultado",
+        "resultsCountPlural": "{count} resultados",
+        "resultsFor": "para \"{query}\"",
+        "resultsIn": "en {category}",
+        "retry": "Reintentar",
+        "featuredResources": "Recursos Destacados",
+        "exploreByCategory": "Explorar por categoría",
+        "resources": "recursos",
+        "recentlyViewed": "Vistos Recientemente",
+        "categories": {
+          "all": "Todos",
+          "audio": "Audio",
+          "video": "Video",
+          "reading": "Lectura",
+          "exercises": "Ejercicios"
+        },
+        "items": {
+          "1": {
+            "title": "Fundamentos de Respiración Consciente",
+            "description": "Esta técnica se enfoca en la respiración profunda y consciente para calmar el sistema nervioso y reducir el estrés. Sigue la guía de la Dra. Sharma para encontrar tu ritmo y centrarte."
+          },
+          "2": {
+            "title": "Relajación Muscular Progresiva",
+            "description": "Aprende a tensar y relajar sistemáticamente diferentes grupos musculares para lograr una relajación física profunda."
+          },
+          "3": {
+            "title": "Guía de Manejo del Estrés Laboral",
+            "description": "Guía completa sobre identificación, manejo y prevención del estrés laboral. Incluye estrategias prácticas y ejemplos del mundo real."
+          },
+          "4": {
+            "title": "Ejercicios Rápidos de Escritorio",
+            "description": "Ejercicios simples que puedes hacer en tu escritorio para aliviar la tensión y aumentar la energía sin cambiarte de ropa."
+          }
+        },
+        "tags": {
+          "breathing": "Respiración",
+          "meditation": "Meditación",
+          "stress-relief": "Alivio del Estrés",
+          "relaxation": "Relajación",
+          "physical": "Físico",
+          "tension-relief": "Alivio de Tensión",
+          "workplace": "Laboral",
+          "management": "Gestión",
+          "prevention": "Prevención",
+          "exercises": "Ejercicios",
+          "desk": "Escritorio"
+        }
       }
     },
     "triggers": {
@@ -196,7 +257,17 @@
       "successMessage": "Desencadenante registrado exitosamente",
       "errorMessage": "Error al guardar el registro",
       "category": "Categoría",
-      "selectCategory": "Seleccionar categoría"
+      "selectCategory": "Seleccionar categoría",
+      "categories": {
+        "meeting": "Reunión",
+        "deadline": "Plazo de entrega",
+        "interpersonalConflict": "Conflicto interpersonal",
+        "workOverload": "Sobrecarga de trabajo",
+        "technicalProblems": "Problemas técnicos",
+        "difficultClient": "Cliente difícil",
+        "organizationalChanges": "Cambios organizacionales",
+        "other": "Otro"
+      }
     },
     "breathing": {
       "title": "Ejercicios de Respiración",
@@ -210,7 +281,45 @@
       "session": "Sesión de Respiración",
       "exercises": "Ejercicios",
       "availableExercises": "Ejercicios disponibles",
-      "errorLoadingExercises": "No se pudieron cargar los ejercicios de respiración"
+      "errorLoadingExercises": "No se pudieron cargar los ejercicios de respiración",
+      "findYourCalm": "Encuentra tu calma",
+      "introDescription": "Las técnicas de respiración son una forma efectiva de reducir el estrés y la ansiedad. Selecciona un ejercicio que se adapte a tu tiempo disponible.",
+      "practiceTips": "Consejos para la práctica",
+      "tips": {
+        "posture": "Siéntate cómodamente con la espalda recta",
+        "headphones": "Usa auriculares para una mejor experiencia",
+        "eyes": "Cierra los ojos o enfoca tu mirada",
+        "silentMode": "Pon tu teléfono en modo silencioso"
+      },
+      "phases": {
+        "inhale": "Inhala",
+        "holdIn": "Mantén",
+        "exhale": "Exhala",
+        "holdOut": "Mantén"
+      },
+      "timeRemaining": "restante",
+      "resume": "Reanudar",
+      "sessionCompleted": "¡Sesión completada!",
+      "completedMessage": "Has completado tu sesión de respiración de {duration}.",
+      "howDoYouFeel": "¿Cómo te sientes?",
+      "notesOptional": "Notas (opcional)",
+      "notesPlaceholder": "¿Cómo fue tu experiencia? ¿Notaste algún cambio en tu nivel de estrés?",
+      "anotherSession": "Otra sesión",
+      "saveAndFinish": "Guardar y terminar",
+      "exitConfirmation": {
+        "title": "¿Estás seguro?",
+        "message": "Si sales ahora, perderás el progreso de la sesión actual.",
+        "cancel": "Cancelar",
+        "exit": "Salir"
+      },
+      "moodOptions": {
+        "veryStressed": "Muy estresado",
+        "stressed": "Estresado",
+        "neutral": "Neutral",
+        "relaxed": "Relajado",
+        "veryRelaxed": "Muy relajado"
+      },
+      "retry": "Reintentar"
     },
     "activeBreaks": {
       "title": "Pausas Activas",
@@ -222,7 +331,48 @@
       "configuration": "Configuración",
       "configurationSaved": "Configuración guardada exitosamente",
       "errorLoadingConfig": "No se pudo cargar la configuración de pausas activas",
-      "errorSavingConfig": "Error al guardar la configuración"
+      "errorSavingConfig": "Error al guardar la configuración",
+      "currentStatus": "Estado Actual",
+      "activeBreaksAre": "Las pausas activas están",
+      "activated": "activadas",
+      "deactivated": "desactivadas",
+      "nextBreak": "Próxima pausa:",
+      "noScheduledBreaks": "No hay pausas programadas",
+      "frequencyLabel": "Frecuencia de pausas",
+      "frequencyDescription": "Una pausa cada {minutes} minutos",
+      "durationLabel": "Duración de la pausa",
+      "workingHours": "Horario laboral",
+      "start": "Inicio",
+      "end": "Fin",
+      "workingDays": "Días laborales",
+      "todaySchedule": "Horario de hoy",
+      "weeklyStats": "Estadísticas semanales",
+      "breaksCompleted": "Pausas completadas",
+      "compliance": "Cumplimiento",
+      "breakTime": "Tiempo de pausas",
+      "retry": "Reintentar",
+      "frequencyOptions": {
+        "30": "30 min",
+        "45": "45 min",
+        "60": "1 hora",
+        "90": "1.5 horas",
+        "120": "2 horas"
+      },
+      "durationOptions": {
+        "3": "3 min",
+        "5": "5 min",
+        "10": "10 min",
+        "15": "15 min"
+      },
+      "weekDays": {
+        "monday": "L",
+        "tuesday": "M",
+        "wednesday": "X",
+        "thursday": "J",
+        "friday": "V",
+        "saturday": "S",
+        "sunday": "D"
+      }
     }
   },
   "professionals": {
@@ -312,12 +462,16 @@
     "errorBookingAppointmentGeneric": "Error al reservar la cita. Por favor, inténtalo de nuevo.",
     "days": {
       "monday": "Lun",
-      "tuesday": "Mar", 
+      "tuesday": "Mar",
       "wednesday": "Mié",
       "thursday": "Jue",
       "friday": "Vie",
       "saturday": "Sáb",
-      "sunday": "Dom"
+      "sunday": "Dom",
+      "Sem 1": "Sem 1",
+      "Sem 2": "Sem 2",
+      "Sem 3": "Sem 3",
+      "Sem 4": "Sem 4"
     }
   },
   "userProfile": {

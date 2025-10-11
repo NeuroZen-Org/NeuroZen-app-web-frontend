@@ -90,7 +90,7 @@ export default {
 body {
   margin: 0;
   padding: 0;
-  background-color: #f8fafc;
+  background-color: #fcf9f8;
 }
 
 /* Estilos globales para Font Awesome */
@@ -129,7 +129,7 @@ body {
 
 /* Variables CSS globales */
 :root {
-  --primary-color: #4f46e5;
+  --primary-color: #1b7520;
   --primary-dark: #4338ca;
   --secondary-color: #667eea;
   --success-color: #10b981;

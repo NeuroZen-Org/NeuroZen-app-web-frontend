@@ -5,7 +5,7 @@
       <button class="back-button" @click="goBack">
         <i class="fas fa-arrow-left"></i>
       </button>
-      <h1>Pausas Activas</h1>
+      <h1>{{ $t('stress.activeBreaks.title') }}</h1>
     </div>
 
     <!-- Loading State -->
@@ -19,7 +19,7 @@
       <div class="error-icon">⚠️</div>
       <h3>{{ $t('common.errorLoading') }}</h3>
       <p>{{ error }}</p>
-      <button class="retry-button" @click="loadActiveBreaks">Reintentar</button>
+      <button class="retry-button" @click="loadActiveBreaks">{{ $t('stress.activeBreaks.retry') }}</button>
     </div>
 
     <!-- Content -->
@@ -27,7 +27,7 @@
       <!-- Current Status -->
       <div class="status-card">
         <div class="status-header">
-          <h2>Estado Actual</h2>
+          <h2>{{ $t('stress.activeBreaks.currentStatus') }}</h2>
           <div class="toggle-switch" @click="toggleActiveBreaks">
             <div class="switch" :class="{ active: breakConfig.isActive }">
               <div class="switch-handle"></div>
@@ -35,13 +35,13 @@
           </div>
         </div>
         <p class="status-text">
-          Las pausas activas están 
+          {{ $t('stress.activeBreaks.activeBreaksAre') }}
           <span :class="{ active: breakConfig.isActive, inactive: !breakConfig.isActive }">
-            {{ breakConfig.isActive ? 'activadas' : 'desactivadas' }}
+            {{ breakConfig.isActive ? $t('stress.activeBreaks.activated') : $t('stress.activeBreaks.deactivated') }}
           </span>
         </p>
         <div v-if="breakConfig.isActive" class="next-break">
-          <p><strong>Próxima pausa:</strong> {{ nextBreakTime }}</p>
+          <p><strong>{{ $t('stress.activeBreaks.nextBreak') }}</strong> {{ nextBreakTime }}</p>
         </div>
       </div>
 
@@ -51,7 +51,7 @@
         
         <!-- Frequency Setting -->
         <div class="setting-item">
-          <label>Frecuencia de pausas</label>
+          <label>{{ $t('stress.activeBreaks.frequencyLabel') }}</label>
           <div class="frequency-selector">
             <button 
               v-for="freq in frequencyOptions" 
@@ -63,13 +63,13 @@
             </button>
           </div>
           <p class="setting-description">
-            Una pausa cada {{ breakConfig.frequency }} minutos
+            {{ $t('stress.activeBreaks.frequencyDescription', { minutes: breakConfig.frequency }) }}
           </p>
         </div>
 
         <!-- Duration Setting -->
         <div class="setting-item">
-          <label>Duración de la pausa</label>
+          <label>{{ $t('stress.activeBreaks.durationLabel') }}</label>
           <div class="duration-selector">
             <button 
               v-for="dur in durationOptions" 
@@ -84,10 +84,10 @@
 
         <!-- Working Hours -->
         <div class="setting-item">
-          <label>Horario laboral</label>
+          <label>{{ $t('stress.activeBreaks.workingHours') }}</label>
           <div class="time-inputs">
             <div class="time-input">
-              <label>Inicio</label>
+              <label>{{ $t('stress.activeBreaks.start') }}</label>
               <input 
                 type="time" 
                 v-model="breakConfig.settings.workingHours.start"
@@ -95,7 +95,7 @@
               >
             </div>
             <div class="time-input">
-              <label>Fin</label>
+              <label>{{ $t('stress.activeBreaks.end') }}</label>
               <input 
                 type="time" 
                 v-model="breakConfig.settings.workingHours.end"
@@ -107,7 +107,7 @@
 
         <!-- Working Days -->
         <div class="setting-item">
-          <label>Días laborales</label>
+          <label>{{ $t('stress.activeBreaks.workingDays') }}</label>
           <div class="days-selector">
             <button 
               v-for="day in weekDays" 
@@ -123,7 +123,7 @@
 
       <!-- Today's Schedule -->
       <div class="schedule-section">
-        <h3>Horario de hoy</h3>
+        <h3>{{ $t('stress.activeBreaks.todaySchedule') }}</h3>
         <div class="schedule-grid">
           <div 
             v-for="(breakTime, index) in todaySchedule" 
@@ -147,19 +147,19 @@
 
       <!-- Statistics -->
       <div class="stats-section">
-        <h3>Estadísticas semanales</h3>
+        <h3>{{ $t('stress.activeBreaks.weeklyStats') }}</h3>
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-value">{{ weeklyStats.totalBreaks }}</div>
-            <div class="stat-label">Pausas completadas</div>
+            <div class="stat-label">{{ $t('stress.activeBreaks.breaksCompleted') }}</div>
           </div>
           <div class="stat-card">
             <div class="stat-value">{{ weeklyStats.compliance }}%</div>
-            <div class="stat-label">Cumplimiento</div>
+            <div class="stat-label">{{ $t('stress.activeBreaks.compliance') }}</div>
           </div>
           <div class="stat-card">
             <div class="stat-value">{{ weeklyStats.totalTime }}min</div>
-            <div class="stat-label">Tiempo de pausas</div>
+            <div class="stat-label">{{ $t('stress.activeBreaks.breakTime') }}</div>
           </div>
         </div>
       </div>
@@ -199,28 +199,6 @@ export default {
           workingDays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
         }
       },
-      frequencyOptions: [
-        { value: 30, label: '30 min' },
-        { value: 45, label: '45 min' },
-        { value: 60, label: '1 hora' },
-        { value: 90, label: '1.5 horas' },
-        { value: 120, label: '2 horas' }
-      ],
-      durationOptions: [
-        { value: 3, label: '3 min' },
-        { value: 5, label: '5 min' },
-        { value: 10, label: '10 min' },
-        { value: 15, label: '15 min' }
-      ],
-      weekDays: [
-        { value: 'monday', label: 'L' },
-        { value: 'tuesday', label: 'M' },
-        { value: 'wednesday', label: 'X' },
-        { value: 'thursday', label: 'J' },
-        { value: 'friday', label: 'V' },
-        { value: 'saturday', label: 'S' },
-        { value: 'sunday', label: 'D' }
-      ],
       todaySchedule: [],
       weeklyStats: {
         totalBreaks: 0,
@@ -232,7 +210,35 @@ export default {
   computed: {
     nextBreakTime() {
       const upcoming = this.todaySchedule.find(item => item.isUpcoming);
-      return upcoming ? upcoming.time : 'No hay pausas programadas';
+      return upcoming ? upcoming.time : this.$t('stress.activeBreaks.noScheduledBreaks');
+    },
+    frequencyOptions() {
+      return [
+        { value: 30, label: this.$t('stress.activeBreaks.frequencyOptions.30') },
+        { value: 45, label: this.$t('stress.activeBreaks.frequencyOptions.45') },
+        { value: 60, label: this.$t('stress.activeBreaks.frequencyOptions.60') },
+        { value: 90, label: this.$t('stress.activeBreaks.frequencyOptions.90') },
+        { value: 120, label: this.$t('stress.activeBreaks.frequencyOptions.120') }
+      ];
+    },
+    durationOptions() {
+      return [
+        { value: 3, label: this.$t('stress.activeBreaks.durationOptions.3') },
+        { value: 5, label: this.$t('stress.activeBreaks.durationOptions.5') },
+        { value: 10, label: this.$t('stress.activeBreaks.durationOptions.10') },
+        { value: 15, label: this.$t('stress.activeBreaks.durationOptions.15') }
+      ];
+    },
+    weekDays() {
+      return [
+        { value: 'monday', label: this.$t('stress.activeBreaks.weekDays.monday') },
+        { value: 'tuesday', label: this.$t('stress.activeBreaks.weekDays.tuesday') },
+        { value: 'wednesday', label: this.$t('stress.activeBreaks.weekDays.wednesday') },
+        { value: 'thursday', label: this.$t('stress.activeBreaks.weekDays.thursday') },
+        { value: 'friday', label: this.$t('stress.activeBreaks.weekDays.friday') },
+        { value: 'saturday', label: this.$t('stress.activeBreaks.weekDays.saturday') },
+        { value: 'sunday', label: this.$t('stress.activeBreaks.weekDays.sunday') }
+      ];
     }
   },
   async mounted() {
@@ -342,7 +348,7 @@ export default {
 <style scoped>
 .active-breaks-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #426339 0%, #307223 100%);
   padding: 20px;
   color: white;
 }
@@ -413,7 +419,7 @@ export default {
 
 .retry-button {
   background: white;
-  color: #667eea;
+  color: #047213;
   border: none;
   padding: 12px 24px;
   border-radius: 25px;
@@ -555,7 +561,7 @@ export default {
 .frequency-selector button.active,
 .duration-selector button.active {
   background: white;
-  color: #667eea;
+  color: #05630d;
   font-weight: 600;
 }
 
@@ -615,7 +621,7 @@ export default {
 
 .days-selector button.active {
   background: white;
-  color: #667eea;
+  color: #077911;
 }
 
 .schedule-grid {

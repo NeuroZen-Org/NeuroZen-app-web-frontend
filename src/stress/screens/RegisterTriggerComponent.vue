@@ -71,24 +71,6 @@
             <!-- Category -->
             <div>
               <label class="block text-sm font-medium text-content-light dark:text-content-dark mb-2" for="categoria">
-                Categoría
-              </label>
-              <select 
-                v-model="formData.category"
-                class="form-select w-full bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark text-content-light dark:text-content-dark rounded-lg focus:ring-primary focus:border-primary"
-                id="categoria"
-                required
-              >
-                <option value="">Seleccionar categoría</option>
-                <option v-for="category in categories" :key="category" :value="category">
-                  {{ category }}
-                </option>
-              </select>
-            </div>
-
-            <!-- Category -->
-            <div>
-              <label class="block text-sm font-medium text-content-light dark:text-content-dark mb-2" for="categoria">
                 {{ $t('stress.triggers.category') }}
               </label>
               <select 
@@ -99,7 +81,7 @@
               >
                 <option value="">{{ $t('stress.triggers.selectCategory') }}</option>
                 <option v-for="category in categories" :key="category" :value="category">
-                  {{ category }}
+                  {{ $t(`stress.triggers.categories.${category}`) }}
                 </option>
               </select>
             </div>
@@ -218,7 +200,7 @@ export default {
 
         await this.stressTriggerService.addStressTrigger(triggerData);
         
-        this.successMessage = '¡Desencadenante registrado exitosamente!';
+        this.successMessage = this.$t('stress.triggers.successMessage');
         
         // Reset form
         this.formData = {
@@ -236,7 +218,7 @@ export default {
         }, 2000);
 
       } catch (error) {
-        this.errorMessage = 'Error al registrar el desencadenante: ' + error.message;
+        this.errorMessage = this.$t('stress.triggers.errorMessage') + ': ' + error.message;
       } finally {
         this.isSubmitting = false;
       }

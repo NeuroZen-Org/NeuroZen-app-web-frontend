@@ -230,6 +230,14 @@
                     :chart-width="400"
                     :chart-height="150"
                   />
+                  <canvas ref="stressChart" width="400" height="150" class="max-w-full"></canvas>
+                  <div class="flex justify-between mt-2 text-xs font-bold text-primary/80 dark:text-primary/90">
+                    <span v-for="dataPoint in stressData.weeklyData" :key="dataPoint.day">
+                      {{ 
+                        dataPoint.day.includes(":") ? dataPoint.day : $t(`common.days.${dataPoint.day}`)  
+                      }}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -265,7 +273,7 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <!-- Register Trigger -->
                 <div 
-                  @click="$router.push('/stress/register-trigger')"
+                  @click="$router.push('/stress/triggers')"
                   class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer border border-primary/20 hover:border-primary/40"
                 >
                   <div class="flex flex-col items-center text-center">
@@ -301,7 +309,7 @@
 
                 <!-- Breathing Session -->
                 <div 
-                  @click="$router.push('/stress/breathing-session')"
+                  @click="$router.push('/stress/breathing')"
                   class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer border border-primary/20 hover:border-primary/40"
                 >
                   <div class="flex flex-col items-center text-center">
@@ -319,7 +327,7 @@
 
                 <!-- Resource Library -->
                 <div 
-                  @click="$router.push('/resources')"
+                  @click="$router.push('/stress/resources')"
                   class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer border border-primary/20 hover:border-primary/40"
                 >
                   <div class="flex flex-col items-center text-center">
@@ -408,6 +416,30 @@
 
 import { DashboardService } from '../../services/DashboardService.js';
 import StressLevelChart from './StressLevelChart.vue';
+import {
+  CategoryScale,
+  Chart,
+  Filler,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip
+} from 'chart.js';
+import { DashboardService } from '../../services/DashboardService.js';
+
+// Register Chart.js components
+Chart.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
 
 export default {
   name: 'DashboardComponent',

@@ -139,9 +139,14 @@
       "email": "Email",
       "password": "Password",
       "submit": "Login",
+      "submitting": "Logging in...",
       "forgotPassword": "Forgot your password?",
       "noAccount": "Don't have an account?",
-      "signUp": "Sign up here"
+      "signUp": "Sign up here",
+      "rememberMe": "Remember me",
+      "welcomeBack": "Welcome back",
+      "emailPlaceholder": "Email address",
+      "passwordPlaceholder": "Password"
     },
     "register": {
       "title": "Create Account",
@@ -150,8 +155,14 @@
       "password": "Password",
       "confirmPassword": "Confirm Password",
       "submit": "Create Account",
+      "submitting": "Creating account...",
       "hasAccount": "Already have an account?",
-      "signIn": "Sign in here"
+      "signIn": "Sign in here",
+      "tagline": "Create your account to start managing work stress.",
+      "stepProgress": "Step {current} of {total}",
+      "namePlaceholder": "Your Full Name",
+      "emailPlaceholder": "your@email.com",
+      "passwordPlaceholder": "••••••••"
     }
   },
   "stress": {
@@ -165,11 +176,61 @@
         "title": "Resource Library",
         "description": "Audio, videos and articles",
         "audio": "Audio",
-        "videos": "Videos", 
+        "videos": "Videos",
         "articles": "Articles",
         "search": "Search resources...",
         "filter": "Filter by type",
-        "all": "All"
+        "all": "All",
+        "clearFilters": "Clear filters",
+        "noResults": "No resources found",
+        "noResultsDescription": "Try different search terms or categories.",
+        "resultsCount": "{count} result",
+        "resultsCountPlural": "{count} results",
+        "resultsFor": "for \"{query}\"",
+        "resultsIn": "in {category}",
+        "retry": "Retry",
+        "featuredResources": "Featured Resources",
+        "exploreByCategory": "Explore by category",
+        "resources": "resources",
+        "recentlyViewed": "Recently Viewed",
+        "categories": {
+          "all": "All",
+          "audio": "Audio",
+          "video": "Video",
+          "reading": "Reading",
+          "exercises": "Exercises"
+        },
+        "items": {
+          "1": {
+            "title": "Mindful Breathing Basics",
+            "description": "This technique focuses on deep, conscious breathing to calm the nervous system and reduce stress. Follow Dr. Sharma's guidance to find your rhythm and center yourself."
+          },
+          "2": {
+            "title": "Progressive Muscle Relaxation",
+            "description": "Learn to systematically tense and relax different muscle groups to achieve deep physical relaxation."
+          },
+          "3": {
+            "title": "Workplace Stress Management Guide",
+            "description": "Comprehensive guide on identifying, managing, and preventing workplace stress. Includes practical strategies and real-world examples."
+          },
+          "4": {
+            "title": "Quick Desk Exercises",
+            "description": "Simple exercises you can do at your desk to relieve tension and boost energy without changing clothes."
+          }
+        },
+        "tags": {
+          "breathing": "Breathing",
+          "meditation": "Meditation",
+          "stress-relief": "Stress Relief",
+          "relaxation": "Relaxation",
+          "physical": "Physical",
+          "tension-relief": "Tension Relief",
+          "workplace": "Workplace",
+          "management": "Management",
+          "prevention": "Prevention",
+          "exercises": "Exercises",
+          "desk": "Desk"
+        }
       }
     },
     "triggers": {
@@ -196,7 +257,17 @@
       "successMessage": "Trigger registered successfully",
       "errorMessage": "Error saving the record",
       "category": "Category",
-      "selectCategory": "Select category"
+      "selectCategory": "Select category",
+      "categories": {
+        "meeting": "Meeting",
+        "deadline": "Deadline",
+        "interpersonalConflict": "Interpersonal conflict",
+        "workOverload": "Work overload",
+        "technicalProblems": "Technical problems",
+        "difficultClient": "Difficult client",
+        "organizationalChanges": "Organizational changes",
+        "other": "Other"
+      }
     },
     "breathing": {
       "title": "Breathing Exercises",
@@ -210,7 +281,45 @@
       "session": "Breathing Session",
       "exercises": "Exercises",
       "availableExercises": "Available exercises",
-      "errorLoadingExercises": "Could not load breathing exercises"
+      "errorLoadingExercises": "Could not load breathing exercises",
+      "findYourCalm": "Find your calm",
+      "introDescription": "Breathing techniques are an effective way to reduce stress and anxiety. Select an exercise that fits your available time.",
+      "practiceTips": "Practice tips",
+      "tips": {
+        "posture": "Sit comfortably with your back straight",
+        "headphones": "Use headphones for a better experience",
+        "eyes": "Close your eyes or focus your gaze",
+        "silentMode": "Put your phone on silent mode"
+      },
+      "phases": {
+        "inhale": "Inhale",
+        "holdIn": "Hold",
+        "exhale": "Exhale",
+        "holdOut": "Hold"
+      },
+      "timeRemaining": "remaining",
+      "resume": "Resume",
+      "sessionCompleted": "Session completed!",
+      "completedMessage": "You have completed your {duration} breathing session.",
+      "howDoYouFeel": "How do you feel?",
+      "notesOptional": "Notes (optional)",
+      "notesPlaceholder": "How was your experience? Did you notice any change in your stress level?",
+      "anotherSession": "Another session",
+      "saveAndFinish": "Save and finish",
+      "exitConfirmation": {
+        "title": "Are you sure?",
+        "message": "If you exit now, you will lose the progress of the current session.",
+        "cancel": "Cancel",
+        "exit": "Exit"
+      },
+      "moodOptions": {
+        "veryStressed": "Very stressed",
+        "stressed": "Stressed",
+        "neutral": "Neutral",
+        "relaxed": "Relaxed",
+        "veryRelaxed": "Very relaxed"
+      },
+      "retry": "Retry"
     },
     "activeBreaks": {
       "title": "Active Breaks",
@@ -222,7 +331,48 @@
       "configuration": "Configuration",
       "configurationSaved": "Configuration saved successfully",
       "errorLoadingConfig": "Could not load active breaks configuration",
-      "errorSavingConfig": "Error saving configuration"
+      "errorSavingConfig": "Error saving configuration",
+      "currentStatus": "Current Status",
+      "activeBreaksAre": "Active breaks are",
+      "activated": "activated",
+      "deactivated": "deactivated",
+      "nextBreak": "Next break:",
+      "noScheduledBreaks": "No scheduled breaks",
+      "frequencyLabel": "Break frequency",
+      "frequencyDescription": "One break every {minutes} minutes",
+      "durationLabel": "Break duration",
+      "workingHours": "Working hours",
+      "start": "Start",
+      "end": "End",
+      "workingDays": "Working days",
+      "todaySchedule": "Today's Schedule",
+      "weeklyStats": "Weekly Statistics",
+      "breaksCompleted": "Completed breaks",
+      "compliance": "Compliance",
+      "breakTime": "Break time",
+      "retry": "Retry",
+      "frequencyOptions": {
+        "30": "30 min",
+        "45": "45 min",
+        "60": "1 hour",
+        "90": "1.5 hours",
+        "120": "2 hours"
+      },
+      "durationOptions": {
+        "3": "3 min",
+        "5": "5 min",
+        "10": "10 min",
+        "15": "15 min"
+      },
+      "weekDays": {
+        "monday": "M",
+        "tuesday": "T",
+        "wednesday": "W",
+        "thursday": "T",
+        "friday": "F",
+        "saturday": "S",
+        "sunday": "S"
+      }
     }
   },
   "professionals": {
@@ -312,12 +462,16 @@
     "errorBookingAppointmentGeneric": "Error booking appointment. Please try again.",
     "days": {
       "monday": "Mon",
-      "tuesday": "Tue", 
+      "tuesday": "Tue",
       "wednesday": "Wed",
       "thursday": "Thu",
       "friday": "Fri",
       "saturday": "Sat",
-      "sunday": "Sun"
+      "sunday": "Sun",
+      "Sem 1": "Week 1",
+      "Sem 2": "Week 2",
+      "Sem 3": "Week 3",
+      "Sem 4": "Week 4"
     }
   },
   "userProfile": {

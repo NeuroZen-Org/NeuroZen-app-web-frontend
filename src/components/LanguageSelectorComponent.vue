@@ -205,12 +205,12 @@ export default {
 
 .dropdown-item:hover {
   background: #f3f4f6;
-  color: #4f46e5;
+  color: #109137;
 }
 
 .language-option.active {
   background: #f0f9ff;
-  color: #0369a1;
+  color: #2e9425;
 }
 
 .flag {

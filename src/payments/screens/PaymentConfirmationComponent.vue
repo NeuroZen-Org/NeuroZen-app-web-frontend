@@ -303,7 +303,7 @@ export default {
 <style scoped>
 .payment-confirmation-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0e681d 0%, #2d6e33 100%);
   padding: 40px 20px;
   display: flex;
   justify-content: center;

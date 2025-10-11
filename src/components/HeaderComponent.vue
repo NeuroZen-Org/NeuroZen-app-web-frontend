@@ -5,10 +5,7 @@
       <div class="header-brand">
         <router-link to="/dashboard" class="brand-link">
           <div class="logo">
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="16" cy="16" r="16" fill="#4F46E5"/>
-              <path d="M12 20L20 12M12 12L20 20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <img src="/neurozen1_logo.png" alt="NeuroZen Logo" width="47" height="47" />
           </div>
           <span class="brand-name">{{ $t('app.name') }}</span>
         </router-link>
@@ -315,7 +312,7 @@ export default {
 
 <style scoped>
 .header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #08611b 0%, #08611b 100%);
   color: white;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   position: sticky;
@@ -441,7 +438,7 @@ export default {
 
 .dropdown-item:hover {
   background: #f3f4f6;
-  color: #4f46e5;
+  color: #18630e;
 }
 
 .dropdown-item i {
@@ -495,7 +492,7 @@ export default {
   position: absolute;
   top: -5px;
   right: -5px;
-  background: #ef4444;
+  background: #dd4343;
   color: white;
   border-radius: 50%;
   width: 18px;
@@ -516,7 +513,7 @@ export default {
   align-items: center;
   gap: 0.75rem;
   padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(206, 142, 24, 0.1);
   border: none;
   border-radius: 12px;
   color: white;
