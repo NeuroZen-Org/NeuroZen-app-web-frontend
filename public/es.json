@@ -69,7 +69,11 @@
     "periods": {
       "day": "Día",
       "week": "Semana",
-      "month": "Mes"
+      "month": "Mes",
+      "week1": "Sem 1",
+      "week2": "Sem 2", 
+      "week3": "Sem 3",
+      "week4": "Sem 4"
     },
     "periodTexts": {
       "day": "Últimas 24 horas",
@@ -81,6 +85,13 @@
       "stressLevelShort": "Estrés",
       "averageStress": "Promedio de Estrés",
       "peakStressHours": "Horas Pico de Estrés"
+    },
+    "stressLevels": {
+      "veryLow": "Muy Bajo",
+      "low": "Bajo",
+      "moderate": "Moderado",
+      "high": "Alto",
+      "veryHigh": "Muy Alto"
     },
     "tools": {
       "title": "Herramientas de Manejo del Estrés",

@@ -69,7 +69,11 @@
     "periods": {
       "day": "Day",
       "week": "Week",
-      "month": "Month"
+      "month": "Month",
+      "week1": "Week 1",
+      "week2": "Week 2", 
+      "week3": "Week 3",
+      "week4": "Week 4"
     },
     "periodTexts": {
       "day": "Last 24 hours",
@@ -81,6 +85,13 @@
       "stressLevelShort": "Stress",
       "averageStress": "Average Stress",
       "peakStressHours": "Peak Stress Hours"
+    },
+    "stressLevels": {
+      "veryLow": "Very Low",
+      "low": "Low",
+      "moderate": "Moderate",
+      "high": "High",
+      "veryHigh": "Very High"
     },
     "tools": {
       "title": "Stress Management Tools",
