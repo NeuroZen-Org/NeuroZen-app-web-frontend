@@ -35,19 +35,19 @@
 
           <form @submit.prevent="handleRegister" class="space-y-6">
             <div>
-              <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2" for="email">
-                {{ $t('auth.register.email') }}
+              <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2" for="username">
+                Username
               </label>
               <div class="mt-1">
                 <input 
-                  v-model="formData.email"
-                  autocomplete="email" 
+                  v-model="formData.username"
+                  autocomplete="username" 
                   class="w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary placeholder-placeholder-light dark:placeholder-placeholder-dark" 
-                  id="email" 
-                  name="email" 
-                  :placeholder="$t('auth.register.emailPlaceholder')" 
+                  id="username" 
+                  name="username" 
+                  placeholder="Choose a username" 
                   required 
-                  type="email"
+                  type="text"
                   :disabled="isLoading"
                 />
               </div>
@@ -67,25 +67,6 @@
                   :placeholder="$t('auth.register.passwordPlaceholder')" 
                   required 
                   type="password"
-                  :disabled="isLoading"
-                />
-              </div>
-            </div>
-            
-            <div>
-              <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2" for="name">
-                {{ $t('auth.register.name') }}
-              </label>
-              <div class="mt-1">
-                <input 
-                  v-model="formData.name"
-                  autocomplete="name" 
-                  class="w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary placeholder-placeholder-light dark:placeholder-placeholder-dark" 
-                  id="name" 
-                  name="name" 
-                  :placeholder="$t('auth.register.namePlaceholder')" 
-                  required 
-                  type="text"
                   :disabled="isLoading"
                 />
               </div>
@@ -124,9 +105,8 @@ export default {
   data() {
     return {
       formData: {
-        email: '',
-        password: '',
-        name: ''
+        username: '',
+        password: ''
       },
       currentStep: 1,
       totalSteps: 3,
