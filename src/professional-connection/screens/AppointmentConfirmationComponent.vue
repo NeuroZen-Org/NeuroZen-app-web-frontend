@@ -132,6 +132,65 @@
               />
             </label>
           </div>
+
+          <!-- Credit Card Form -->
+          <div v-if="selectedPayment === 'credit'" class="credit-card-form">
+            <div class="input-group">
+              <label for="cardName">Nombre en la tarjeta</label>
+              <input 
+                type="text" 
+                id="cardName"
+                v-model="cardInfo.nameUser"
+                placeholder="Juan Pérez"
+                required
+              />
+            </div>
+            <div class="input-group">
+              <label for="cardLastName">Apellido</label>
+              <input 
+                type="text" 
+                id="cardLastName"
+                v-model="cardInfo.lastNameUser"
+                placeholder="García"
+                required
+              />
+            </div>
+            <div class="input-group">
+              <label for="cardNumber">Número de tarjeta</label>
+              <input 
+                type="text" 
+                id="cardNumber"
+                v-model="cardInfo.numberCard"
+                placeholder="1234 5678 9012 3456"
+                maxlength="19"
+                required
+              />
+            </div>
+            <div class="input-row">
+              <div class="input-group">
+                <label for="cardExpiry">Fecha de expiración</label>
+                <input 
+                  type="text" 
+                  id="cardExpiry"
+                  v-model="cardInfo.expirationDate"
+                  placeholder="MM/YY"
+                  maxlength="5"
+                  required
+                />
+              </div>
+              <div class="input-group">
+                <label for="cardCvv">CVV</label>
+                <input 
+                  type="text" 
+                  id="cardCvv"
+                  v-model="cardInfo.cvv"
+                  placeholder="123"
+                  maxlength="4"
+                  required
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Confirm Button -->
@@ -170,6 +229,8 @@
 
 <script>
 import { TherapistService } from '../../services/TherapistService.js';
+import { AppointmentService } from '../../services/AppointmentService.js';
+import { SubscriptionService } from '../../services/SubscriptionService.js';
 
 export default {
   name: 'AppointmentConfirmationComponent',
@@ -195,6 +256,14 @@ export default {
       },
       
       selectedPayment: 'credit',
+      
+      cardInfo: {
+        nameUser: '',
+        lastNameUser: '',
+        numberCard: '',
+        expirationDate: '',
+        cvv: ''
+      },
       
       // Validation
       emailError: '',
@@ -223,7 +292,16 @@ export default {
       const hasValidPhone = this.contactInfo.phone && !this.phoneError;
       const hasPaymentMethod = this.selectedPayment;
       
-      return hasValidEmail && hasValidPhone && hasPaymentMethod;
+      let hasValidCardInfo = true;
+      if (this.selectedPayment === 'credit') {
+        hasValidCardInfo = this.cardInfo.nameUser && 
+                          this.cardInfo.lastNameUser && 
+                          this.cardInfo.numberCard && 
+                          this.cardInfo.expirationDate && 
+                          this.cardInfo.cvv;
+      }
+      
+      return hasValidEmail && hasValidPhone && hasPaymentMethod && hasValidCardInfo;
     }
   },
   watch: {
@@ -314,10 +392,16 @@ export default {
 
       try {
         this.isConfirming = true;
+        this.error = null;
         
+        // Get current user from localStorage
+        const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        const userId = currentUser.id || '1';
+        
+        // Create appointment data
         const appointmentData = {
           professionalId: this.professional.id,
-          userId: 1, // Get from auth service
+          userId: userId,
           date: this.appointmentData.date,
           time: this.appointmentData.time,
           duration: this.appointmentData.duration,
@@ -329,8 +413,31 @@ export default {
           amount: this.professional.price
         };
         
+        // Initialize services
+        const appointmentService = new AppointmentService();
+        const subscriptionService = new SubscriptionService();
+        
         // Save appointment
-        await TherapistService.bookAppointment(appointmentData);
+        const appointment = await appointmentService.bookAppointment(appointmentData);
+        console.log('Appointment created:', appointment);
+        
+        // Create subscription/payment record if payment method is credit card
+        if (this.selectedPayment === 'credit' && this.cardInfo.numberCard) {
+          const subscriptionData = {
+            userId: userId,
+            planId: appointment.id || 'session-' + Date.now(), // Use appointment ID as plan reference
+            nameUser: this.cardInfo.nameUser,
+            lastNameUser: this.cardInfo.lastNameUser,
+            emailUser: this.contactInfo.email,
+            numberCard: this.cardInfo.numberCard,
+            expirationDate: this.cardInfo.expirationDate,
+            cvv: this.cardInfo.cvv,
+            isActive: true
+          };
+          
+          const subscription = await subscriptionService.createSubscription(subscriptionData);
+          console.log('Subscription/Payment created:', subscription);
+        }
         
         // Save contact info for future use
         const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
@@ -342,7 +449,7 @@ export default {
         
       } catch (error) {
         console.error('Error confirming appointment:', error);
-        this.error = 'Error al confirmar la cita. Por favor intenta nuevamente.';
+        this.error = 'Error al confirmar la cita. Por favor intenta nuevamente. ' + error.message;
       } finally {
         this.isConfirming = false;
       }
@@ -665,6 +772,30 @@ export default {
   width: 20px;
   height: 20px;
   accent-color: #2D5A4A;
+}
+
+.credit-card-form {
+  margin-top: 20px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(45, 90, 74, 0.2);
+  border-radius: 8px;
+}
+
+.credit-card-form .input-group {
+  margin-bottom: 16px;
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .input-row {
+    grid-template-columns: 1fr;
+  }
 }
 
 .confirm-button {
