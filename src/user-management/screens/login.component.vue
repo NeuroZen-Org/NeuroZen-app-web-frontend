@@ -19,14 +19,14 @@
 
         <form @submit.prevent="handleLogin" class="space-y-6">
           <div>
-            <label class="sr-only" for="email">Email</label>
+            <label class="sr-only" for="username">Username</label>
             <input 
-              v-model="formData.email"
+              v-model="formData.username"
               class="w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-primary/20 dark:border-primary/40 rounded-lg focus:ring-primary focus:border-primary placeholder-muted-light dark:placeholder-muted-dark" 
-              id="email" 
-              name="email" 
-              :placeholder="$t('auth.login.email')" 
-              type="email"
+              id="username" 
+              name="username" 
+              placeholder="Username" 
+              type="text"
               required
               :disabled="isLoading"
             />
@@ -102,7 +102,7 @@ export default {
   data() {
     return {
       formData: {
-        email: '',
+        username: '',
         password: '',
         rememberMe: false
       },
@@ -124,7 +124,7 @@ export default {
       this.errorMessage = '';
 
       try {
-        const user = await this.authService.login(this.formData.email, this.formData.password);
+        const user = await this.authService.login(this.formData.username, this.formData.password);
         
         // Emit login success event
         this.$emit('login-success', user);

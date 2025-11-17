@@ -33,6 +33,24 @@ export class HttpClient {
   }
 
   /**
+   * Obtiene los headers HTTP incluyendo el token de autenticación JWT si existe
+   * @returns {Object} Headers HTTP con Content-Type y Authorization si hay token
+   * @private
+   */
+  getHeaders() {
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+    
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    
+    return headers;
+  }
+
+  /**
    * Realiza una petición GET a un endpoint específico
    * @param {string} endpoint - Endpoint relativo a la URL base
    * @returns {Promise<Object>} Respuesta JSON de la API
@@ -44,7 +62,10 @@ export class HttpClient {
     }
 
     try {
-      const response = await fetch(`${this.baseURL}${endpoint}`);
+      const response = await fetch(`${this.baseURL}${endpoint}`, {
+        method: 'GET',
+        headers: this.getHeaders()
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -70,13 +91,12 @@ export class HttpClient {
     try {
       const response = await fetch(`${this.baseURL}${endpoint}`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: this.getHeaders(),
         body: JSON.stringify(data),
       });
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
       return await response.json();
     } catch (error) {
@@ -100,13 +120,12 @@ export class HttpClient {
     try {
       const response = await fetch(`${this.baseURL}${endpoint}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: this.getHeaders(),
         body: JSON.stringify(data),
       });
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
       return await response.json();
     } catch (error) {
@@ -129,9 +148,11 @@ export class HttpClient {
     try {
       const response = await fetch(`${this.baseURL}${endpoint}`, {
         method: "DELETE",
+        headers: this.getHeaders()
       });
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
       return response.status === 204 ? null : await response.json();
     } catch (error) {
