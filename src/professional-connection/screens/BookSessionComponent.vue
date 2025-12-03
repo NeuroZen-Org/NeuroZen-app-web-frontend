@@ -137,7 +137,7 @@
             </div>
             <h3>{{ type.name }}</h3>
             <p>{{ type.description }}</p>
-            <p class="duration">{{ type.duration }} minutos</p>
+            <p class="duration">{{ type.duration || 60 }} minutos</p>
           </div>
         </div>
 
@@ -176,7 +176,7 @@
 
           <div class="summary-section">
             <h3>Tipo de sesión</h3>
-            <p>{{ selectedSessionType.name }} ({{ selectedSessionType.duration }} min)</p>
+            <p>{{ selectedSessionType.name }} ({{ selectedSessionType.duration || 60 }} min)</p>
           </div>
 
           <div class="summary-section">
@@ -217,6 +217,7 @@
 
 <script>
 import { AppointmentService } from '../../services/AppointmentService.js';
+import { TherapistService } from '../../services/TherapistService.js';
 
 export default {
   name: 'BookSessionComponent',
@@ -239,29 +240,7 @@ export default {
       availableSlots: [],
       
       // Session type selection
-      sessionTypes: [
-        {
-          id: 'therapy',
-          name: 'Terapia Individual',
-          description: 'Sesión personalizada uno a uno con el profesional',
-          duration: 60,
-          icon: 'fas fa-user'
-        },
-        {
-          id: 'consultation',
-          name: 'Consulta Inicial',
-          description: 'Primera consulta para evaluación y diagnóstico',
-          duration: 45,
-          icon: 'fas fa-clipboard-list'
-        },
-        {
-          id: 'follow-up',
-          name: 'Seguimiento',
-          description: 'Sesión de seguimiento y revisión de progreso',
-          duration: 30,
-          icon: 'fas fa-chart-line'
-        }
-      ],
+      sessionTypes: [], // Se cargarán desde el backend
       selectedSessionType: null,
       
       // Notes
@@ -294,13 +273,115 @@ export default {
   
   async mounted() {
     await this.loadProfessionals();
+    await this.loadSessionTypes();
   },
   
   methods: {
+    async loadSessionTypes() {
+      try {
+        const appointmentService = new AppointmentService();
+        const typesFromBackend = await appointmentService.getAppointmentTypes();
+        
+        // Mapear la estructura del backend: value, name, displayName, description, estimatedDurationMinutes
+        this.sessionTypes = typesFromBackend.map(type => {
+          // Asignar ícono según el nombre del tipo
+          let icon = 'fas fa-calendar';
+          if (type.name === 'TerapiaIndividual' || type.displayName?.includes('Terapia')) {
+            icon = 'fas fa-user';
+          } else if (type.name === 'ConsultaInicial' || type.displayName?.includes('Consulta')) {
+            icon = 'fas fa-clipboard-list';
+          } else if (type.name === 'Seguimiento' || type.displayName?.includes('Seguimiento')) {
+            icon = 'fas fa-chart-line';
+          }
+          
+          return {
+            id: type.value || type.id, // Usar 'value' como id
+            name: type.displayName || type.name, // Mostrar displayName
+            description: type.description || '',
+            duration: type.estimatedDurationMinutes || 60,
+            icon: icon,
+            backendName: type.name // Guardar el nombre original para enviar al backend
+          };
+        });
+        
+        console.log('Tipos de sesión obtenidos del backend:', this.sessionTypes);
+      } catch (error) {
+        console.error('Error loading session types:', error);
+        // Si falla, usar tipos por defecto
+        this.sessionTypes = [
+          {
+            id: 'therapy',
+            name: 'Terapia Individual',
+            description: 'Sesión personalizada uno a uno con el profesional',
+            duration: 60,
+            icon: 'fas fa-user',
+            backendName: 'TerapiaIndividual'
+          },
+          {
+            id: 'consultation',
+            name: 'Consulta Inicial',
+            description: 'Primera consulta para evaluación y diagnóstico',
+            duration: 45,
+            icon: 'fas fa-clipboard-list',
+            backendName: 'ConsultaInicial'
+          },
+          {
+            id: 'follow-up',
+            name: 'Seguimiento',
+            description: 'Sesión de seguimiento y revisión de progreso',
+            duration: 30,
+            icon: 'fas fa-chart-line',
+            backendName: 'Seguimiento'
+          }
+        ];
+      }
+    },
+
     async loadProfessionals() {
       this.loading = true;
       try {
-        // Mock professionals data
+        // Crear instancia del servicio
+        const therapistService = new TherapistService();
+        
+        // Obtener profesionales desde el backend
+        const professionalsData = await therapistService.getTherapists();
+        
+        console.log('Profesionales obtenidos del backend:', professionalsData);
+        
+        // Mapear los datos del backend al formato del componente
+        this.professionals = professionalsData.map(prof => ({
+          id: prof.id,
+          name: prof.name,
+          specialty: prof.specialty,
+          avatar: prof.image || '/images-of-professionals/usuariodemo.jpg',
+          rating: prof.rating || 4.5,
+          reviews: prof.reviews || 0,
+          pricePerSession: prof.price || 150,
+          experience: prof.experience || '',
+          bio: prof.bio || '',
+          availability: prof.availability || 'Consultar disponibilidad'
+        }));
+        
+        // Si no hay profesionales, mostrar datos de fallback
+        if (this.professionals.length === 0) {
+          console.warn('No se encontraron profesionales en el backend, usando datos de ejemplo');
+          this.professionals = [
+            {
+              id: 1,
+              name: 'Profesional de Ejemplo',
+              specialty: 'Psicología Clínica',
+              avatar: '/images-of-professionals/usuariodemo.jpg',
+              rating: 4.5,
+              reviews: 0,
+              pricePerSession: 150
+            }
+          ];
+        }
+        
+      } catch (error) {
+        console.error('Error loading professionals:', error);
+        
+        // En caso de error, mostrar datos de fallback
         this.professionals = [
           {
             id: 1,
@@ -330,8 +411,8 @@ export default {
             pricePerSession: 120
           }
         ];
-      } catch (error) {
-        console.error('Error loading professionals:', error);
+        
+        alert('No se pudieron cargar los profesionales del servidor. Mostrando datos de ejemplo.');
       } finally {
         this.loading = false;
       }
@@ -477,30 +558,53 @@ export default {
       this.isBooking = true;
       
       try {
+        // Obtener el usuario actual
+        const currentUser = JSON.parse(localStorage.getItem('user') || localStorage.getItem('currentUser') || '{}');
+        const userId = currentUser.id || 1;
+        
+        // Crear instancia del servicio
+        const appointmentService = new AppointmentService();
+        
+        // Combinar fecha y hora en formato ISO
+        const dateStr = this.formatDate(this.selectedDate.date); // YYYY-MM-DD
+        const timeStr = this.selectedTime; // HH:mm
+        const appointmentDateTime = `${dateStr}T${timeStr}:00Z`;
+        
+        // Adaptar datos al formato del backend
         const appointmentData = {
+          patientId: userId,
           professionalId: this.selectedProfessional.id,
-          professionalName: this.selectedProfessional.name,
-          date: this.formatDate(this.selectedDate.date),
-          time: this.selectedTime,
-          sessionType: this.selectedSessionType.id,
-          sessionTypeName: this.selectedSessionType.name,
-          duration: this.selectedSessionType.duration,
-          price: this.selectedProfessional.pricePerSession,
-          notes: this.notes,
-          userId: 1 // Mock user ID
+          appointmentDateTime: appointmentDateTime,
+          appointmentType: this.selectedSessionType.id, // El value numérico (1, 2, 3)
+          notasAdicionales: this.notes || ''
         };
         
-        const appointment = await AppointmentService.bookAppointment(appointmentData);
+        console.log('Datos de cita a enviar al backend:', appointmentData);
         
-        // Navigate to confirmation page
+        const appointment = await appointmentService.bookAppointment(appointmentData);
+        
+        console.log('Cita creada exitosamente:', appointment);
+        
+        // Extraer el ID de la cita (puede venir como id, appointmentId, etc.)
+        const appointmentId = appointment.id || appointment.appointmentId || appointment.value || 1;
+        
+        // Navigate to confirmation page con datos adicionales por si el backend no los devuelve todos
         this.$router.push({
           name: 'AppointmentConfirmation',
-          params: { appointmentId: appointment.id }
+          params: { appointmentId: appointmentId },
+          query: {
+            // Datos de respaldo por si no se pueden obtener del backend
+            professionalId: this.selectedProfessional.id,
+            date: this.formatDate(this.selectedDate.date),
+            time: this.selectedTime,
+            duration: this.selectedSessionType.duration,
+            notes: this.notes
+          }
         });
         
       } catch (error) {
         console.error('Error booking appointment:', error);
-        alert(this.$t('common.errorBookingAppointmentGeneric'));
+        alert('Error al reservar la cita: ' + (error.message || 'Por favor intenta nuevamente.'));
       } finally {
         this.isBooking = false;
       }
