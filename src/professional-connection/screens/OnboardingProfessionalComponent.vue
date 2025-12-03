@@ -9,21 +9,19 @@
         
         <!-- Content -->
         <template v-else-if="onboardingStep">
-          <div class="relative w-64 h-64 mb-8">
+          <div class="relative w-64 h-64 mb-8 flex items-center justify-center">
             <div class="absolute inset-0 bg-primary/20 dark:bg-primary/30 rounded-full"></div>
-            <img 
-              :alt="onboardingStep.title" 
-              class="absolute inset-0 w-full h-full object-contain" 
-              :src="onboardingStep.image"
-            />
+            <div class="text-9xl z-10">
+              {{ onboardingStep.icon || '⚙️' }}
+            </div>
           </div>
           
           <h1 class="text-2xl font-bold text-text-light dark:text-text-dark mb-2">
-            {{ onboardingStep.title }}
+            {{ $t('onboarding.steps.preferences') }}
           </h1>
           
           <p class="text-text-light dark:text-text-dark mb-8">
-            {{ onboardingStep.description }}
+            {{ $t('onboarding.steps.preferencesDescription') }}
           </p>
           
           <div class="flex items-center justify-center space-x-2 mb-8">
@@ -43,7 +41,7 @@
             @click="handleNext"
             class="w-full bg-primary text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-opacity-90 transition-colors duration-300"
           >
-            Next
+            {{ $t('onboarding.buttons.finish') }}
           </button>
         </template>
         
@@ -97,8 +95,8 @@ export default {
     },
     
     handleNext() {
-      // Complete onboarding and navigate to dashboard
-      this.$router.push('/dashboard');
+      // Complete onboarding and navigate to login
+      this.$router.push('/login');
     }
   }
 };

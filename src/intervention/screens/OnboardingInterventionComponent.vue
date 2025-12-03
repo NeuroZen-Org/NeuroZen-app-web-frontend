@@ -19,10 +19,10 @@
           
           <div class="text-center pt-8 pb-6">
             <h1 class="text-2xl font-bold text-text-light dark:text-text-dark mb-3">
-              {{ onboardingStep.title }}
+              {{ $t('onboarding.steps.profile') }}
             </h1>
             <p class="text-text-light/80 dark:text-text-dark/80 px-4">
-              {{ onboardingStep.description }}
+              {{ $t('onboarding.steps.profileDescription') }}
             </p>
           </div>
           
@@ -44,14 +44,14 @@
               @click="handleNext"
               class="w-full bg-primary text-background-light dark:text-background-light font-bold py-4 rounded-lg hover:bg-opacity-90 transition-colors duration-300 shadow-lg"
             >
-              Siguiente
+              {{ $t('onboarding.buttons.next') }}
             </button>
             
             <a 
               class="block text-center mt-4 text-sm text-primary/80 dark:text-primary/90 font-medium cursor-pointer" 
               @click="handleSkip"
             >
-              Omitir
+              {{ $t('onboarding.buttons.skip') }}
             </a>
           </div>
         </template>
