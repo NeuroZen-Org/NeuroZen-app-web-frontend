@@ -8,22 +8,8 @@
       <h1>{{ $t('stress.breathing.session') }}</h1>
     </div>
 
-    <!-- Loading State -->
-    <div v-if="loading" class="loading-container">
-      <div class="loading-spinner"></div>
-      <p>{{ $t('common.loadingExercises') }}</p>
-    </div>
-
-    <!-- Error State -->
-    <div v-else-if="error" class="error-container">
-      <div class="error-icon">⚠️</div>
-      <h3>{{ $t('common.errorLoading') }}</h3>
-      <p>{{ error }}</p>
-      <button class="retry-button" @click="loadExercises">{{ $t('stress.breathing.retry') }}</button>
-    </div>
-
     <!-- Exercise Selection -->
-    <div v-else-if="!sessionActive && !sessionCompleted" class="content">
+    <div v-if="!sessionActive && !sessionCompleted" class="content">
       <div class="intro-section">
         <div class="intro-card">
           <h2>{{ $t('stress.breathing.findYourCalm') }}</h2>
@@ -204,17 +190,60 @@
  * @version 1.0.0
  */
 
-import { BreathingService } from '../../services/BreathingService.js';
-
 export default {
   name: 'BreathingSessionComponent',
   data() {
     return {
-      loading: true,
+      loading: false,
       error: null,
-      // Service instance
-      breathingService: new BreathingService(),
-      exercises: [],
+      // Ejercicios hardcoded (sin backend)
+      exercises: [
+        {
+          id: 1,
+          name: 'Respiración Consciente',
+          description: 'Técnica básica de respiración profunda para calmar la mente',
+          duration: 300, // 5 minutos en segundos
+          difficulty: 'Principiante',
+          instructions: [
+            'Siéntate en una posición cómoda',
+            'Cierra los ojos suavemente',
+            'Inhala profundamente por la nariz',
+            'Mantén el aire',
+            'Exhala lentamente por la boca',
+            'Pausa breve'
+          ]
+        },
+        {
+          id: 2,
+          name: 'Respiración Cuadrada',
+          description: 'Técnica de respiración en cuatro tiempos, ideal para reducir el estrés',
+          duration: 240, // 4 minutos en segundos
+          difficulty: 'Intermedio',
+          instructions: [
+            'Encuentra un lugar tranquilo',
+            'Mantén la espalda recta',
+            'Inhala contando hasta 4',
+            'Retén el aire por 4 segundos',
+            'Exhala contando hasta 4',
+            'Espera 4 segundos antes de inhalar'
+          ]
+        },
+        {
+          id: 3,
+          name: 'Respiración 4-7-8',
+          description: 'Técnica avanzada para relajación profunda y mejor sueño',
+          duration: 180, // 3 minutos en segundos
+          difficulty: 'Avanzado',
+          instructions: [
+            'Coloca la lengua detrás de los dientes superiores',
+            'Exhala completamente',
+            'Inhala por la nariz contando 4',
+            'Retén la respiración por 7 segundos',
+            'Exhala por la boca contando 8',
+            'Pausa y repite'
+          ]
+        }
+      ],
       selectedExercise: null,
       sessionActive: false,
       sessionPaused: false,
@@ -246,6 +275,12 @@ export default {
           'hold-in': 4,
           exhale: 4,
           'hold-out': 4
+        },
+        3: { // 4-7-8 Breathing
+          inhale: 4,
+          'hold-in': 7,
+          exhale: 8,
+          'hold-out': 0
         }
       }
     }
@@ -290,25 +325,13 @@ export default {
       ];
     }
   },
-  async mounted() {
-    await this.loadExercises();
+  mounted() {
+    // Los ejercicios ya están cargados en data(), no necesita cargar del backend
   },
   beforeUnmount() {
     this.stopSession();
   },
   methods: {
-    async loadExercises() {
-      try {
-        this.loading = true;
-        this.error = null;
-        this.exercises = await this.breathingService.getExercises();
-      } catch (error) {
-        console.error('Error loading breathing exercises:', error);
-        this.error = this.$t('stress.breathing.errorLoadingExercises');
-      } finally {
-        this.loading = false;
-      }
-    },
 
     selectExercise(exercise) {
       this.selectedExercise = exercise;
