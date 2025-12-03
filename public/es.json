@@ -35,7 +35,7 @@
     },
     "contact": {
       "title": "Contacto",
-      "email": "info@neurozen.com",
+      "email": "info{'@'}neurozen.com",
       "phone": "+1 (555) 123-4567",
       "address": "123 Wellness St, Health City, HC 12345"
     },
@@ -47,6 +47,24 @@
       "linkedin": "LinkedIn"
     },
     "copyright": "© 2025 NeuroZen. Todos los derechos reservados."
+  },
+  "onboarding": {
+    "steps": {
+      "welcome": "¡Bienvenido a NeuroZen!",
+      "welcomeDescription": "Tu plataforma de bienestar mental y gestión del estrés",
+      "profile": "Configura tu Perfil",
+      "profileDescription": "Personaliza tu experiencia según tus necesidades",
+      "preferences": "Establece tus Preferencias",
+      "preferencesDescription": "Configura notificaciones y opciones de privacidad",
+      "ready": "¡Todo Listo!",
+      "readyDescription": "Comienza tu viaje hacia el bienestar mental"
+    },
+    "buttons": {
+      "getStarted": "Comenzar",
+      "next": "Siguiente",
+      "skip": "Omitir",
+      "finish": "Ir al Login"
+    }
   },
   "dashboard": {
     "title": "Panel de Control",
@@ -162,7 +180,7 @@
       "tagline": "Crea tu cuenta para empezar a gestionar el estrés laboral.",
       "stepProgress": "Paso {current} de {total}",
       "namePlaceholder": "Tu Nombre Completo",
-      "emailPlaceholder": "tu@email.com",
+      "emailPlaceholder": "tu{'@'}email.com",
       "passwordPlaceholder": "••••••••"
     }
   },
@@ -623,7 +641,7 @@
         "lastName": "Apellido",
         "lastNamePlaceholder": "Pérez",
         "email": "Correo electrónico",
-        "emailPlaceholder": "tu@email.com",
+        "emailPlaceholder": "tu{'@'}email.com",
         "card": "Número de tarjeta",
         "cardPlaceholder": "1234 5678 9012 3456",
         "expiry": "Fecha de vencimiento",

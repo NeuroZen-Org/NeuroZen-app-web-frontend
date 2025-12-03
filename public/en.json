@@ -35,7 +35,7 @@
     },
     "contact": {
       "title": "Contact",
-      "email": "info@neurozen.com",
+      "email": "info{'@'}neurozen.com",
       "phone": "+1 (555) 123-4567",
       "address": "123 Wellness St, Health City, HC 12345"
     },
@@ -47,6 +47,24 @@
       "linkedin": "LinkedIn"
     },
     "copyright": "© 2025 NeuroZen. All rights reserved."
+  },
+  "onboarding": {
+    "steps": {
+      "welcome": "Welcome to NeuroZen!",
+      "welcomeDescription": "Your mental wellness and stress management platform",
+      "profile": "Set Up Your Profile",
+      "profileDescription": "Customize your experience according to your needs",
+      "preferences": "Set Your Preferences",
+      "preferencesDescription": "Configure notifications and privacy options",
+      "ready": "All Set!",
+      "readyDescription": "Start your journey to mental wellness"
+    },
+    "buttons": {
+      "getStarted": "Get Started",
+      "next": "Next",
+      "skip": "Skip",
+      "finish": "Go to Login"
+    }
   },
   "dashboard": {
     "title": "Dashboard",
@@ -162,7 +180,7 @@
       "tagline": "Create your account to start managing work stress.",
       "stepProgress": "Step {current} of {total}",
       "namePlaceholder": "Your Full Name",
-      "emailPlaceholder": "your@email.com",
+      "emailPlaceholder": "your{'@'}email.com",
       "passwordPlaceholder": "••••••••"
     }
   },
@@ -623,7 +641,7 @@
         "lastName": "Last name",
         "lastNamePlaceholder": "Doe",
         "email": "Email address",
-        "emailPlaceholder": "your@email.com",
+        "emailPlaceholder": "your{'@'}email.com",
         "card": "Card number",
         "cardPlaceholder": "1234 5678 9012 3456",
         "expiry": "Expiry date",
