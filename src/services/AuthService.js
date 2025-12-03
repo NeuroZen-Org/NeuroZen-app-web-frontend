@@ -30,20 +30,58 @@ export class AuthService {
    */
   async login(email, password) {
     try {
-      const users = await this.httpClient.get('/users');
-      const user = users.find(u => u.email === email && u.password === password);
+      console.log('🔐 Iniciando login...');
       
-      if (user) {
-        // Store authentication token and user data
-        localStorage.setItem('authToken', 'fake-jwt-token');
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        localStorage.setItem('user', JSON.stringify(user));
-        return user;
-      } else {
-        throw new Error('Invalid credentials');
+      // Llamar al endpoint real del backend .NET
+      const response = await this.httpClient.post('/api/v1/authentication/sign-in', {
+        username: email,  // El backend usa 'username'
+        password: password
+      });
+      
+      console.log('✅ Respuesta del backend:', response);
+      
+      // Guardar token primero
+      if (response.token) {
+        localStorage.setItem('authToken', response.token);
+        console.log('✅ Token guardado');
+        
+        // Obtener ID del usuario
+        const userId = response.id || response.userId || (response.user && response.user.id);
+        
+        if (userId) {
+          try {
+            console.log(`📥 Obteniendo datos completos del usuario con ID: ${userId}`);
+            
+            // Obtener datos completos del usuario
+            const fullUserData = await this.httpClient.get(`/api/v1/users/${userId}`);
+            console.log('✅ Datos completos del usuario:', fullUserData);
+            
+            // Guardar datos completos
+            localStorage.setItem('currentUser', JSON.stringify(fullUserData));
+            localStorage.setItem('user', JSON.stringify(fullUserData));
+            
+            return fullUserData;
+          } catch (userError) {
+            console.warn('⚠️ No se pudieron obtener datos completos del usuario, usando datos básicos:', userError);
+            // Si falla, guardar los datos básicos del login
+            const basicUserData = response.user || response;
+            localStorage.setItem('currentUser', JSON.stringify(basicUserData));
+            localStorage.setItem('user', JSON.stringify(basicUserData));
+            return basicUserData;
+          }
+        } else {
+          // Si no hay userId, guardar lo que devolvió el backend
+          const userData = response.user || response;
+          localStorage.setItem('currentUser', JSON.stringify(userData));
+          localStorage.setItem('user', JSON.stringify(userData));
+          return userData;
+        }
       }
+      
+      throw new Error('Invalid response from server');
     } catch (error) {
-      throw new Error('Login failed: ' + error.message);
+      console.error('❌ Login failed:', error);
+      throw new Error('Credenciales inválidas. Por favor verifica tu email y contraseña.');
     }
   }
 
@@ -58,65 +96,85 @@ export class AuthService {
    */
   async register(userData) {
     try {
-      const users = await this.httpClient.get('/users');
-      const existingUser = users.find(u => u.email === userData.email);
-      
-      if (existingUser) {
-        throw new Error('User already exists');
+      // Validaciones
+      if (!userData.email || !userData.password || !userData.name) {
+        throw new Error('Email, password and name are required');
       }
 
-      // Check if we're in static mode
-      const isStaticMode = import.meta.env.VITE_API_BASE_URL === 'static' || 
-                          import.meta.env.VITE_API_MODE === 'static';
+      if (userData.password.length < 6) {
+        throw new Error('Password must be at least 6 characters long');
+      }
 
-      let newUser;
+      console.log('📝 Iniciando registro...');
+      console.log('📝 userData recibido:', {
+        email: userData.email,
+        name: userData.name,
+        password: userData.password ? '***existe***' : '❌ NO EXISTE'
+      });
       
-      if (isStaticMode) {
-        // En modo estático, simular registro con un usuario demo
-        console.warn('🚧 Static mode: Registration simulated, using demo user');
-        newUser = {
-          id: "3", // ID fijo para modo estático
-          email: userData.email,
-          name: userData.name,
-          password: userData.password,
-          role: 'user',
-          createdAt: new Date().toISOString(),
-          stressData: {
-            currentLevel: 35,
-            average: 40,
-            peakHours: "10 AM - 12 PM",
-            weeklyChange: -5,
-            weeklyData: [
-              { "day": "monday", "value": 30 },
-              { "day": "tuesday", "value": 25 },
-              { "day": "wednesday", "value": 40 },
-              { "day": "thursday", "value": 35 },
-              { "day": "friday", "value": 45 },
-              { "day": "saturday", "value": 20 },
-              { "day": "sunday", "value": 15 }
-            ]
+      const requestBody = {
+        username: userData.email,
+        email: userData.email,
+        password: userData.password,
+        firstName: userData.name.split(' ')[0] || userData.name,
+        lastName: userData.name.split(' ').slice(1).join(' ') || ''
+      };
+      
+      console.log('📝 Request body a enviar:', {
+        username: requestBody.username,
+        email: requestBody.email,
+        password: requestBody.password ? '***existe***' : '❌ NO EXISTE',
+        firstName: requestBody.firstName,
+        lastName: requestBody.lastName
+      });
+      
+      // Llamar al endpoint real del backend .NET
+      const response = await this.httpClient.post('/api/v1/authentication/sign-up', requestBody);
+      
+      console.log('✅ Respuesta del registro:', response);
+      
+      // Guardar token y datos del usuario
+      if (response.token) {
+        localStorage.setItem('authToken', response.token);
+        console.log('✅ Token guardado');
+        
+        // Obtener ID del usuario
+        const userId = response.id || response.userId || (response.user && response.user.id);
+        
+        if (userId) {
+          try {
+            console.log(`📥 Obteniendo datos completos del usuario con ID: ${userId}`);
+            
+            // Obtener datos completos del usuario
+            const fullUserData = await this.httpClient.get(`/api/v1/users/${userId}`);
+            console.log('✅ Datos completos del usuario:', fullUserData);
+            
+            // Guardar datos completos
+            localStorage.setItem('currentUser', JSON.stringify(fullUserData));
+            localStorage.setItem('user', JSON.stringify(fullUserData));
+            
+            return fullUserData;
+          } catch (userError) {
+            console.warn('⚠️ No se pudieron obtener datos completos del usuario, usando datos básicos:', userError);
+            // Si falla, guardar los datos básicos del registro
+            const basicUserData = response.user || response;
+            localStorage.setItem('currentUser', JSON.stringify(basicUserData));
+            localStorage.setItem('user', JSON.stringify(basicUserData));
+            return basicUserData;
           }
-        };
-      } else {
-        // Modo normal con API real
-        newUser = {
-          id: (Math.max(...users.map(u => parseInt(u.id)), 0) + 1).toString(),
-          ...userData,
-          role: 'user',
-          createdAt: new Date().toISOString()
-        };
-        // Actually persist to API
-        newUser = await this.httpClient.post('/users', newUser);
+        } else {
+          // Si no hay userId, guardar lo que devolvió el backend
+          const userData = response.user || response;
+          localStorage.setItem('currentUser', JSON.stringify(userData));
+          localStorage.setItem('user', JSON.stringify(userData));
+          return userData;
+        }
       }
       
-      // Store auth info
-      localStorage.setItem('authToken', 'fake-jwt-token');
-      localStorage.setItem('currentUser', JSON.stringify(newUser));
-      localStorage.setItem('user', JSON.stringify(newUser));
-      
-      return newUser;
+      return response;
     } catch (error) {
-      throw new Error('Registration failed: ' + error.message);
+      console.error('❌ Registration failed:', error);
+      throw new Error('Error en el registro. ' + (error.message || 'Por favor intenta nuevamente.'));
     }
   }
 
