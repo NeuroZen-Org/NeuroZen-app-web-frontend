@@ -33,6 +33,25 @@ export class HttpClient {
   }
 
   /**
+   * Obtiene headers con autenticación JWT si está disponible
+   * @returns {Object} Headers para las peticiones HTTP
+   * @private
+   */
+  _getHeaders() {
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+    
+    // Obtener token JWT del localStorage
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    
+    return headers;
+  }
+
+  /**
    * Realiza una petición GET a un endpoint específico
    * @param {string} endpoint - Endpoint relativo a la URL base
    * @returns {Promise<Object>} Respuesta JSON de la API
@@ -44,7 +63,9 @@ export class HttpClient {
     }
 
     try {
-      const response = await fetch(`${this.baseURL}${endpoint}`);
+      const response = await fetch(`${this.baseURL}${endpoint}`, {
+        headers: this._getHeaders()
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -68,16 +89,52 @@ export class HttpClient {
     }
 
     try {
+      console.log(`🌐 POST ${this.baseURL}${endpoint}`);
+      
       const response = await fetch(`${this.baseURL}${endpoint}`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: this._getHeaders(),
         body: JSON.stringify(data),
       });
+      
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        // Intentar obtener mensaje de error del servidor
+        let errorMessage = `HTTP error! status: ${response.status}`;
+        let errorDetails = null;
+        
+        // Primero intentar obtener el texto completo de la respuesta
+        const responseText = await response.text();
+        console.error('❌ Respuesta del servidor (texto completo):', responseText);
+        
+        try {
+          // Intentar parsear como JSON
+          const errorData = JSON.parse(responseText);
+          console.error('❌ Error del backend (JSON):', errorData);
+          errorDetails = errorData;
+          errorMessage = errorData.message || errorData.title || errorMessage;
+          
+          // Si hay errores de validación, agregarlos al mensaje
+          if (errorData.errors) {
+            const validationErrors = Object.entries(errorData.errors)
+              .map(([field, errors]) => `${field}: ${errors.join(', ')}`)
+              .join('; ');
+            errorMessage += ` - ${validationErrors}`;
+          }
+        } catch (e) {
+          console.error('❌ No se pudo parsear como JSON, respuesta en texto plano');
+          // Si no es JSON, usar el texto completo
+          if (responseText) {
+            errorMessage += ` - ${responseText.substring(0, 200)}`; // Limitar a 200 caracteres
+          }
+        }
+        
+        const error = new Error(errorMessage);
+        error.status = response.status;
+        error.details = errorDetails;
+        error.responseText = responseText;
+        throw error;
       }
+      
       return await response.json();
     } catch (error) {
       console.error("POST request failed:", error);
@@ -100,9 +157,7 @@ export class HttpClient {
     try {
       const response = await fetch(`${this.baseURL}${endpoint}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: this._getHeaders(),
         body: JSON.stringify(data),
       });
       if (!response.ok) {
@@ -129,6 +184,7 @@ export class HttpClient {
     try {
       const response = await fetch(`${this.baseURL}${endpoint}`, {
         method: "DELETE",
+        headers: this._getHeaders()
       });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
