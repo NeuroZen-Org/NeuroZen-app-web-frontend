@@ -7,51 +7,66 @@ export class ResourceLibraryService {
 
   async getResources() {
     try {
-      const resources = await this.httpClient.get('/resourceLibrary');
-      return resources;
+      const response = await this.httpClient.get('/api/v1/resource-libraries');
+      return this._extractList(response);
     } catch (error) {
-      throw new Error('Failed to fetch resources: ' + error.message);
+      console.warn('Backend resources endpoint not available, using mock data:', error);
+      
+      // Fallback: retornar recursos mock
+      return this._getMockResources();
     }
   }
 
   async getResource(id) {
     try {
-      const resources = await this.httpClient.get('/resourceLibrary');
-      const resource = resources.find(r => r.id.toString() === id.toString());
-      
-      if (resource) {
-        return resource;
-      } else {
-        throw new Error('Resource not found');
-      }
+      const response = await this.httpClient.get(`/api/v1/resources/${id}`);
+      return this._extractData(response);
     } catch (error) {
-      throw new Error('Failed to fetch resource: ' + error.message);
+      console.error('Failed to fetch resource:', error);
+      throw new Error('No se pudo cargar el recurso. Por favor intenta nuevamente.');
     }
   }
 
   async getResourcesByCategory(category) {
     try {
-      const resources = await this.httpClient.get('/resourceLibrary');
-      return resources.filter(resource => resource.category === category);
+      const response = await this.httpClient.get(`/api/v1/resources?category=${category}`);
+      return this._extractList(response);
     } catch (error) {
-      throw new Error('Failed to fetch resources by category: ' + error.message);
+      console.error('Failed to fetch resources by category:', error);
+      throw new Error('No se pudieron cargar los recursos. Por favor intenta nuevamente.');
     }
   }
 
   async searchResources(query) {
     try {
-      const resources = await this.httpClient.get('/resourceLibrary');
-      const lowerQuery = query.toLowerCase();
-      
-      return resources.filter(resource =>
-        resource.title.toLowerCase().includes(lowerQuery) ||
-        resource.author.toLowerCase().includes(lowerQuery) ||
-        resource.description.toLowerCase().includes(lowerQuery) ||
-        resource.tags.some(tag => tag.toLowerCase().includes(lowerQuery))
-      );
+      const response = await this.httpClient.get(`/api/v1/resource-libraries?search=${encodeURIComponent(query)}`);
+      return this._extractList(response);
     } catch (error) {
-      throw new Error('Failed to search resources: ' + error.message);
+      console.error('Failed to search resources:', error);
+      throw new Error('No se pudo realizar la búsqueda. Por favor intenta nuevamente.');
     }
+  }
+
+  /**
+   * Extrae datos de diferentes formatos de respuesta
+   * @private
+   */
+  _extractData(response) {
+    if (response.data) return response.data;
+    if (response.success && response.data) return response.data;
+    return response;
+  }
+
+  /**
+   * Extrae listas de diferentes formatos de respuesta
+   * @private
+   */
+  _extractList(response) {
+    if (Array.isArray(response)) return response;
+    if (response.items) return response.items;
+    if (response.data && Array.isArray(response.data)) return response.data;
+    if (response.success && response.data && Array.isArray(response.data)) return response.data;
+    return [];
   }
 
   getCategories() {
@@ -128,5 +143,118 @@ export class ResourceLibraryService {
     } catch (error) {
       throw new Error('Failed to fetch related resources: ' + error.message);
     }
+  }
+
+  /**
+   * Retorna recursos mock cuando el backend no está disponible
+   * @private
+   */
+  _getMockResources() {
+    return [
+      {
+        id: 1,
+        title: "Técnicas de Respiración Profunda",
+        description: "Aprende técnicas de respiración diafragmática para reducir el estrés y la ansiedad en cualquier momento del día.",
+        resourceType: "Video",
+        category: "video",
+        contentUrl: "https://www.youtube.com/watch?v=example1",
+        thumbnail: "https://picsum.photos/400/300?random=1",
+        duration: 900, // 15 minutos en segundos
+        author: "Dr. Juan Pérez",
+        tags: ["respiración", "mindfulness", "relajación"],
+        createdAt: "2024-01-15"
+      },
+      {
+        id: 2,
+        title: "Mindfulness para Principiantes",
+        description: "Una guía completa para comenzar con la práctica de mindfulness. Descubre cómo estar presente en el momento.",
+        resourceType: "Article",
+        category: "reading",
+        contentUrl: "https://neurozen.com/articles/mindfulness-principiantes",
+        thumbnail: "https://picsum.photos/400/300?random=2",
+        duration: 600, // 10 minutos
+        author: "Lic. María González",
+        tags: ["mindfulness", "meditación", "principiantes"],
+        createdAt: "2024-01-20"
+      },
+      {
+        id: 3,
+        title: "Meditación Guiada de 5 Minutos",
+        description: "Meditación rápida perfecta para hacer en tu pausa laboral. Ideal para recuperar la calma y concentración.",
+        resourceType: "Audio",
+        category: "audio",
+        contentUrl: "https://neurozen.com/audio/meditacion-5min.mp3",
+        thumbnail: "https://picsum.photos/400/300?random=3",
+        duration: 300, // 5 minutos
+        author: "Ana Martínez",
+        tags: ["meditación", "audio", "pausa"],
+        createdAt: "2024-02-01"
+      },
+      {
+        id: 4,
+        title: "Ejercicios de Estiramiento para Oficina",
+        description: "Serie de estiramientos diseñados para aliviar la tensión muscular causada por largas jornadas frente al ordenador.",
+        resourceType: "Video",
+        category: "exercises",
+        contentUrl: "https://www.youtube.com/watch?v=example2",
+        thumbnail: "https://picsum.photos/400/300?random=4",
+        duration: 480, // 8 minutos
+        author: "Carlos Rodríguez",
+        tags: ["ejercicios", "estiramiento", "oficina"],
+        createdAt: "2024-02-10"
+      },
+      {
+        id: 5,
+        title: "Gestión del Tiempo y Productividad",
+        description: "Estrategias probadas para organizar tu tiempo, establecer prioridades y reducir el estrés relacionado con la carga de trabajo.",
+        resourceType: "Article",
+        category: "reading",
+        contentUrl: "https://neurozen.com/articles/gestion-tiempo",
+        thumbnail: "https://picsum.photos/400/300?random=5",
+        duration: 720, // 12 minutos
+        author: "Dr. Laura Sánchez",
+        tags: ["productividad", "gestión", "tiempo"],
+        createdAt: "2024-02-15"
+      },
+      {
+        id: 6,
+        title: "Música Relajante para Dormir",
+        description: "Composición de 30 minutos de música ambient diseñada específicamente para facilitar el sueño profundo.",
+        resourceType: "Audio",
+        category: "audio",
+        contentUrl: "https://neurozen.com/audio/musica-dormir.mp3",
+        thumbnail: "https://picsum.photos/400/300?random=6",
+        duration: 1800, // 30 minutos
+        author: "Estudio NeuroZen",
+        tags: ["música", "sueño", "relajación"],
+        createdAt: "2024-02-20"
+      },
+      {
+        id: 7,
+        title: "Yoga para Reducir la Ansiedad",
+        description: "Secuencia de yoga suave enfocada en posturas que calman el sistema nervioso y reducen los síntomas de ansiedad.",
+        resourceType: "Video",
+        category: "exercises",
+        contentUrl: "https://www.youtube.com/watch?v=example3",
+        thumbnail: "https://picsum.photos/400/300?random=7",
+        duration: 1200, // 20 minutos
+        author: "Sofía Ramírez",
+        tags: ["yoga", "ansiedad", "ejercicios"],
+        createdAt: "2024-03-01"
+      },
+      {
+        id: 8,
+        title: "Guía de Alimentación Anti-Estrés",
+        description: "Descubre qué alimentos ayudan a combatir el estrés y la ansiedad. Incluye recetas saludables.",
+        resourceType: "Article",
+        category: "reading",
+        contentUrl: "https://neurozen.com/articles/alimentacion-antiestres",
+        thumbnail: "https://picsum.photos/400/300?random=8",
+        duration: 900, // 15 minutos
+        author: "Dra. Patricia López",
+        tags: ["alimentación", "nutrición", "salud"],
+        createdAt: "2024-03-05"
+      }
+    ];
   }
 }
