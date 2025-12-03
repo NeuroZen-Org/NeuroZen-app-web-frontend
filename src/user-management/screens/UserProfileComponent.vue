@@ -51,10 +51,80 @@
 
       <!-- Profile Sections -->
       <div class="profile-sections">
+        <!-- Subscription Information -->
+        <div class="section subscription-section">
+          <h3>
+            <i class="fas fa-crown"></i>
+            Estado de Suscripción
+          </h3>
+          <div v-if="loadingSubscription" class="loading-subscription">
+            <i class="fas fa-spinner fa-spin"></i>
+            Cargando información de suscripción...
+          </div>
+          <div v-else-if="subscription" class="subscription-info">
+            <div class="subscription-status" :class="{ 'active': subscription.isActive, 'inactive': !subscription.isActive }">
+              <div class="status-badge">
+                <i :class="subscription.isActive ? 'fas fa-check-circle' : 'fas fa-times-circle'"></i>
+                <span>{{ subscription.isActive ? 'Suscripción Activa' : 'Suscripción Inactiva' }}</span>
+              </div>
+              <div v-if="subscription.isActive" class="plan-info">
+                <div class="plan-name">
+                  <i class="fas fa-star"></i>
+                  <strong>Plan {{ getPlanName(subscription.planId) }}</strong>
+                </div>
+                <div class="subscription-details">
+                  <p><i class="fas fa-user"></i> {{ subscription.nameUser }} {{ subscription.lastNameUser }}</p>
+                  <p><i class="fas fa-envelope"></i> {{ subscription.emailUser }}</p>
+                  <p><i class="fas fa-credit-card"></i> •••• {{ subscription.numberCard.slice(-4) }}</p>
+                </div>
+              </div>
+              <div v-else class="no-subscription">
+                <p>No tienes una suscripción activa</p>
+                <button @click="goToSubscriptions" class="subscribe-btn">
+                  <i class="fas fa-crown"></i>
+                  Ver Planes de Suscripción
+                </button>
+              </div>
+            </div>
+          </div>
+          <div v-else-if="subscription === null" class="no-subscription-info">
+            <div class="subscription-status inactive">
+              <div class="status-badge">
+                <i class="fas fa-info-circle"></i>
+                <span>Sin Suscripción</span>
+              </div>
+              <div class="no-subscription">
+                <p>Aún no tienes un plan de suscripción</p>
+                <button @click="goToSubscriptions" class="subscribe-btn">
+                  <i class="fas fa-crown"></i>
+                  Ver Planes de Suscripción
+                </button>
+              </div>
+            </div>
+          </div>
+          <div v-else class="no-subscription-data">
+            <p>Ocurrió un error al cargar la información de suscripción</p>
+            <button @click="retryLoadSubscription" class="retry-btn">
+              <i class="fas fa-redo"></i>
+              Reintentar
+            </button>
+          </div>
+        </div>
+
         <!-- Personal Information -->
         <div class="section">
           <h3>{{ $t('userProfile.personalInfo.title') }}</h3>
           <div class="form-grid">
+            <div class="form-group">
+              <label>Username (login)</label>
+              <input 
+                v-model="editedUser.username" 
+                type="text" 
+                :readonly="!editMode"
+                :class="{ 'readonly': !editMode }"
+                placeholder="Nombre de usuario para iniciar sesión"
+              />
+            </div>
             <div class="form-group">
               <label>{{ $t('userProfile.personalInfo.email') }}</label>
               <input 
@@ -71,6 +141,17 @@
                 type="tel" 
                 :readonly="!editMode"
                 :class="{ 'readonly': !editMode }"
+                placeholder="Teléfono"
+              />
+            </div>
+            <div class="form-group">
+              <label>Dirección</label>
+              <input 
+                v-model="editedUser.address" 
+                type="text" 
+                :readonly="!editMode"
+                :class="{ 'readonly': !editMode }"
+                placeholder="Dirección completa"
               />
             </div>
             <div class="form-group">
@@ -328,6 +409,8 @@
 </template>
 
 <script>
+import { HttpClient } from '../../services/HttpClient.js';
+
 export default {
   name: 'UserProfileComponent',
   data() {
@@ -335,6 +418,8 @@ export default {
       loading: false,
       saving: false,
       editMode: false,
+      loadingSubscription: false,
+      subscription: null,
       user: {
         id: 1,
         name: 'Juan Pérez',
@@ -347,11 +432,11 @@ export default {
         medicalConditions: 'Ansiedad generalizada',
         medications: 'Sertralina 50mg',
         currentStressLevel: 6,
-        badges: ['Principiante', 'Constante'],
+        badges: ['Principiante'],
         stats: {
-          totalSessions: 24,
-          streakDays: 7,
-          stressReduction: 35
+          totalSessions: 0,
+          streakDays: 0,
+          stressReduction: 0
         },
         preferences: {
           sessionReminders: true,
@@ -378,22 +463,111 @@ export default {
   },
   
   mounted() {
-    this.loadUserProfile();
+    this.loadUserProfile(); // loadSubscriptionInfo() se llama automáticamente dentro
   },
   
   methods: {
     async loadUserProfile() {
       this.loading = true;
       try {
-        // Try to get user data from localStorage or API
-        const userFromStorage = localStorage.getItem('user');
+        // Obtener datos del usuario desde localStorage
+        const userFromStorage = localStorage.getItem('user') || localStorage.getItem('currentUser');
+        
         if (userFromStorage) {
-          this.user = { ...this.user, ...JSON.parse(userFromStorage) };
+          const userData = JSON.parse(userFromStorage);
+          
+          console.log('=== DEBUG PERFIL DE USUARIO ===');
+          console.log('Datos en localStorage:', userData);
+          console.log('userData.fullName:', userData.fullName);
+          console.log('userData.name:', userData.name);
+          console.log('userData.firstName:', userData.firstName);
+          console.log('userData.lastName:', userData.lastName);
+          console.log('userData.email:', userData.email);
+          console.log('userData.username:', userData.username);
+          console.log('userData.createdAt:', userData.createdAt);
+          console.log('userData.memberSince:', userData.memberSince);
+          
+          // Mapear los datos del usuario registrado al perfil
+          // Construir nombre completo PRIORIZANDO fullName del backend
+          let fullName = 'Usuario';
+          
+          // 1. Prioridad: fullName del backend (NO email)
+          if (userData.fullName && !userData.fullName.includes('@')) {
+            fullName = userData.fullName;
+          }
+          // 2. Verificar si name existe y NO es un email
+          else if (userData.name && !userData.name.includes('@')) {
+            fullName = userData.name;
+          } 
+          // 3. Construir desde firstName y lastName
+          else if (userData.firstName && userData.lastName) {
+            fullName = `${userData.firstName} ${userData.lastName}`;
+          } 
+          // 4. Solo firstName
+          else if (userData.firstName && !userData.firstName.includes('@')) {
+            fullName = userData.firstName;
+          }
+          // 5. Si username NO es un email, usarlo
+          else if (userData.username && !userData.username.includes('@')) {
+            fullName = userData.username;
+          }
+          
+          console.log('✅ Nombre final determinado:', fullName);
+          
+          // Obtener el ID del usuario
+          const userId = userData.id || userData.userId;
+          console.log('🆔 VERIFICACIÓN DE ID:');
+          console.log('   - userData.id:', userData.id);
+          console.log('   - userData.userId:', userData.userId);
+          console.log('   - ID final asignado:', userId || 1);
+          console.log('   - Tipo de ID:', typeof userId);
+          
+          if (!userId) {
+            console.error('⚠️ ADVERTENCIA: No se encontró ID en los datos del usuario!');
+            console.error('   userData completo:', userData);
+          }
+          
+          this.user = {
+            ...this.user,
+            id: userId || 1,
+            name: fullName,
+            fullName: fullName,
+            email: userData.email || 'usuario@neurozen.com',
+            username: userData.username || userData.email || '',
+            phone: userData.phoneNumber || userData.phone || '',
+            address: userData.address || '',
+            birthDate: userData.dateOfBirth || userData.birthDate || '',
+            gender: userData.gender || '',
+            avatar: userData.avatarUrl || userData.avatar || userData.profileImage || userData.photoUrl || '/images-of-professionals/usuariodemo.jpg',
+            memberSince: userData.createdAt || userData.memberSince || userData.registrationDate || new Date().toISOString().split('T')[0],
+            medicalConditions: userData.medicalConditions || userData.healthConditions || '',
+            medications: userData.medications || userData.currentMedications || '',
+            currentStressLevel: userData.currentStressLevel || userData.stressLevel || 5,
+            badges: this.user.badges,
+            stats: this.user.stats,
+            preferences: {
+              ...this.user.preferences,
+              ...(userData.preferences || {})
+            },
+            emergencyContacts: userData.emergencyContacts || this.user.emergencyContacts
+          };
+          
+          console.log('Perfil de usuario cargado:');
+          console.log('- Nombre final:', this.user.name);
+          console.log('- Email:', this.user.email);
+          console.log('- Avatar:', this.user.avatar);
+          console.log('=== FIN DEBUG ===');
+        } else {
+          console.warn('No se encontró información del usuario en localStorage');
+          console.log('Intenta: localStorage.getItem("user") o localStorage.getItem("currentUser")');
         }
         
-        // Simulate API call for full profile data
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Copiar a editedUser para modo edición
         this.editedUser = JSON.parse(JSON.stringify(this.user));
+        
+        // Cargar suscripción DESPUÉS de tener el ID del usuario
+        console.log('📋 Cargando información de suscripción para user.id:', this.user.id);
+        await this.loadSubscriptionInfo();
       } catch (error) {
         console.error('Error loading user profile:', error);
       } finally {
@@ -411,15 +585,23 @@ export default {
     },
     
     changeAvatar() {
-      // Mock avatar change
+      // Generar iniciales del usuario
+      const nameParts = this.user.name.split(' ');
+      const initials = nameParts.length >= 2 
+        ? (nameParts[0][0] + nameParts[1][0]).toUpperCase()
+        : nameParts[0].substring(0, 2).toUpperCase();
+      
+      // Avatares con diferentes colores
       const avatars = [
-        '/api/placeholder/120/120',
-        'https://via.placeholder.com/120x120/667eea/ffffff?text=JP',
-        'https://via.placeholder.com/120x120/48bb78/ffffff?text=JP',
-        'https://via.placeholder.com/120x120/ed8936/ffffff?text=JP'
+        '/images-of-professionals/usuariodemo.jpg',
+        `https://ui-avatars.com/api/?name=${encodeURIComponent(this.user.name)}&size=120&background=667eea&color=fff&bold=true`,
+        `https://ui-avatars.com/api/?name=${encodeURIComponent(this.user.name)}&size=120&background=48bb78&color=fff&bold=true`,
+        `https://ui-avatars.com/api/?name=${encodeURIComponent(this.user.name)}&size=120&background=ed8936&color=fff&bold=true`,
+        `https://ui-avatars.com/api/?name=${encodeURIComponent(this.user.name)}&size=120&background=f56565&color=fff&bold=true`
       ];
-      const currentIndex = avatars.indexOf(this.editedUser.avatar);
-      const nextIndex = (currentIndex + 1) % avatars.length;
+      
+      const currentIndex = avatars.findIndex(a => a === this.editedUser.avatar);
+      const nextIndex = currentIndex === -1 ? 1 : (currentIndex + 1) % avatars.length;
       this.editedUser.avatar = avatars[nextIndex];
     },
     
@@ -437,20 +619,130 @@ export default {
     
     async saveChanges() {
       this.saving = true;
+      
+      console.log('=== INICIANDO GUARDADO ===');
+      
       try {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        // Preparar datos para guardar
+        const userToSave = {
+          id: this.user.id,
+          name: this.editedUser.name,
+          fullName: this.editedUser.name,
+          email: this.editedUser.email,
+          username: this.editedUser.username || this.editedUser.email,
+          phone: this.editedUser.phone,
+          phoneNumber: this.editedUser.phone,
+          address: this.editedUser.address || '',
+          birthDate: this.editedUser.birthDate,
+          dateOfBirth: this.editedUser.birthDate,
+          gender: this.editedUser.gender,
+          avatar: this.editedUser.avatar,
+          avatarUrl: this.editedUser.avatar,
+          memberSince: this.user.memberSince,
+          medicalConditions: this.editedUser.medicalConditions,
+          medications: this.editedUser.medications,
+          currentStressLevel: this.editedUser.currentStressLevel,
+          preferences: this.editedUser.preferences,
+          emergencyContacts: this.editedUser.emergencyContacts
+        };
         
-        // Update user data
+        console.log('Datos a guardar:', userToSave);
+        
+        // PRIMERO: Actualizar en el backend
+        const authToken = localStorage.getItem('authToken');
+        
+        console.log('authToken:', authToken ? 'Existe ✅' : 'NO existe ❌');
+        console.log('user.id:', this.user.id);
+        console.log('API URL:', import.meta.env.VITE_API_BASE_URL);
+        
+        if (!authToken) {
+          alert('No estás autenticado. Por favor inicia sesión nuevamente.');
+          this.saving = false;
+          return;
+        }
+        
+        if (!this.user.id) {
+          alert('No se encontró el ID de usuario. Por favor inicia sesión nuevamente.');
+          this.saving = false;
+          return;
+        }
+        
+        // Formatear fecha de nacimiento
+        let formattedDateOfBirth = null;
+        if (userToSave.birthDate) {
+          const date = new Date(userToSave.birthDate);
+          if (!isNaN(date.getTime())) {
+            formattedDateOfBirth = date.toISOString().split('T')[0];
+          }
+        }
+        
+        // Preparar request para el backend (DIRECTO sin wrapper)
+        const requestData = {
+          username: userToSave.username, // ✅ Usar el username editable
+          email: userToSave.email,
+          fullName: userToSave.name,
+          phoneNumber: userToSave.phone || '',
+          address: userToSave.address || '',
+          avatarUrl: userToSave.avatar || '',
+          dateOfBirth: formattedDateOfBirth
+        };
+        
+        console.log('🚀 Enviando PUT a:', `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/${this.user.id}`);
+        console.log('📦 Request body (SIN wrapper resource):', JSON.stringify(requestData, null, 2));
+        
+        // Enviar PUT al backend
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/${this.user.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify(requestData)
+        });
+        
+        console.log('📨 Response status:', response.status);
+        console.log('📨 Response ok:', response.ok);
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('❌ Error del backend:', errorText);
+          alert(`Error al guardar en el backend (${response.status}):\n${errorText}`);
+          this.saving = false;
+          return;
+        }
+        
+        // Obtener respuesta del backend
+        const updatedUser = await response.json();
+        console.log('✅ Respuesta del backend:', updatedUser);
+        
+        // SEGUNDO: Actualizar datos locales solo si el backend tuvo éxito
         this.user = JSON.parse(JSON.stringify(this.editedUser));
+        
+        // Guardar en localStorage
+        localStorage.setItem('user', JSON.stringify(userToSave));
+        
+        // También actualizar en currentUser si existe
+        if (localStorage.getItem('currentUser')) {
+          const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+          const updatedCurrentUser = {
+            ...currentUser,
+            ...userToSave
+          };
+          localStorage.setItem('currentUser', JSON.stringify(updatedCurrentUser));
+        }
+        
+        console.log('✅ Datos guardados en localStorage');
+        console.log('=== GUARDADO EXITOSO ===');
+        
+        // Salir del modo edición
         this.editMode = false;
         
-        // Show success message
-        alert(this.$t('userProfile.actions.successMessage'));
+        // Mostrar mensaje de éxito
+        alert('✅ Perfil actualizado correctamente en el backend y guardado localmente');
         
       } catch (error) {
-        console.error('Error saving profile:', error);
-        alert(this.$t('userProfile.actions.errorMessage'));
+        console.error('❌ ERROR GENERAL:', error);
+        alert(`Error al guardar el perfil: ${error.message}`);
       } finally {
         this.saving = false;
       }
@@ -502,6 +794,141 @@ export default {
           alert(this.$t('userProfile.actions.deleteAccountNotImplemented'));
         }
       }
+    },
+    
+    async loadSubscriptionInfo() {
+      this.loadingSubscription = true;
+      try {
+        const userId = this.user.id;
+        
+        if (!userId) {
+          console.warn('⚠️ No se encontró ID de usuario');
+          this.subscription = null;
+          return;
+        }
+        
+        console.log('=== CARGANDO SUSCRIPCIÓN ===');
+        console.log(`📥 Obteniendo suscripción del usuario ID: ${userId}`);
+        console.log(`🔗 URL: /api/v1/subscriptions/user/${userId}`);
+        
+        // Usar HttpClient
+        const httpClient = new HttpClient();
+        
+        // Llamar al endpoint de suscripción
+        const subscriptionData = await httpClient.get(`/api/v1/subscriptions/user/${userId}`);
+        
+        console.log('✅ Datos de suscripción recibidos:', subscriptionData);
+        console.log('   - ¿Es array?:', Array.isArray(subscriptionData));
+        console.log('   - Tipo:', typeof subscriptionData);
+        
+        // El backend puede devolver un array con un solo elemento o un objeto
+        let subscriptionObject = subscriptionData;
+        if (Array.isArray(subscriptionData) && subscriptionData.length > 0) {
+          console.log('📦 Backend devolvió array, tomando primer elemento');
+          subscriptionObject = subscriptionData[0];
+        }
+        
+        console.log('✅ Objeto de suscripción:', subscriptionObject);
+        console.log('   - userId:', subscriptionObject.userId);
+        console.log('   - planId:', subscriptionObject.planId);
+        console.log('   - isActive:', subscriptionObject.isActive);
+        console.log('   - Tipo de isActive:', typeof subscriptionObject.isActive);
+        console.log('=== FIN CARGA SUSCRIPCIÓN ===');
+        
+        // Guardar la suscripción
+        this.subscription = {
+          userId: subscriptionObject.userId,
+          planId: subscriptionObject.planId,
+          nameUser: subscriptionObject.nameUser,
+          lastNameUser: subscriptionObject.lastNameUser,
+          emailUser: subscriptionObject.emailUser,
+          numberCard: subscriptionObject.numberCard,
+          expirationDate: subscriptionObject.expirationDate,
+          cvv: subscriptionObject.cvv,
+          isActive: subscriptionObject.isActive
+        };
+        
+        console.log('🔍 VERIFICACIÓN POST-ASIGNACIÓN:');
+        console.log('   - this.subscription:', this.subscription);
+        console.log('   - this.subscription.isActive:', this.subscription.isActive);
+        console.log('   - Tipo:', typeof this.subscription.isActive);
+        
+      } catch (error) {
+        console.error('=== ERROR AL CARGAR SUSCRIPCIÓN ===');
+        console.error('❌ Error completo:', error);
+        console.error('   - Mensaje:', error.message);
+        console.error('   - Status:', error.status);
+        
+        // Si el error es 404, significa que no tiene suscripción
+        if (error.message.includes('404')) {
+          console.log('ℹ️ El usuario no tiene ninguna suscripción registrada (404)');
+          this.subscription = null;
+        } else {
+          console.error('⚠️ Error inesperado al obtener suscripción');
+          this.subscription = null;
+        }
+        console.error('=== FIN ERROR ===');
+      } finally {
+        this.loadingSubscription = false;
+      }
+    },
+    
+    async retryLoadSubscription() {
+      console.log('🔄 Reintentando cargar suscripción...');
+      
+      // Asegurar que tenemos el ID del usuario
+      const userFromStorage = localStorage.getItem('user') || localStorage.getItem('currentUser');
+      
+      console.log('📦 Datos en localStorage:');
+      console.log('   - localStorage.getItem("user"):', localStorage.getItem('user'));
+      console.log('   - localStorage.getItem("currentUser"):', localStorage.getItem('currentUser'));
+      
+      if (userFromStorage) {
+        const userData = JSON.parse(userFromStorage);
+        console.log('✅ userData parseado:', userData);
+        
+        const userId = userData.id || userData.userId;
+        
+        console.log('🆔 Extrayendo ID:');
+        console.log('   - userData.id:', userData.id);
+        console.log('   - userData.userId:', userData.userId);
+        console.log('   - ID final:', userId);
+        
+        if (userId) {
+          console.log('✅ ID de usuario encontrado:', userId);
+          this.user.id = userId;
+          console.log('✅ this.user.id actualizado a:', this.user.id);
+        } else {
+          console.error('❌ No se pudo obtener el ID del usuario desde localStorage');
+          console.error('📋 Datos completos del usuario:', userData);
+          alert('Error: No se pudo obtener el ID del usuario.\n\nDatos en localStorage:\n' + JSON.stringify(userData, null, 2) + '\n\nPor favor, cierra sesión y vuelve a iniciar sesión.');
+          return;
+        }
+      } else {
+        console.error('❌ No hay datos de usuario en localStorage');
+        console.error('📋 localStorage.getItem("user"):', localStorage.getItem('user'));
+        console.error('📋 localStorage.getItem("currentUser"):', localStorage.getItem('currentUser'));
+        alert('Error: No se encontraron datos de usuario en localStorage.\n\nPor favor, cierra sesión y vuelve a iniciar sesión.');
+        return;
+      }
+      
+      // Ahora intentar cargar la suscripción con el ID correcto
+      console.log('📞 Llamando a loadSubscriptionInfo() con this.user.id:', this.user.id);
+      await this.loadSubscriptionInfo();
+    },
+    
+    getPlanName(planId) {
+      const planNames = {
+        0: 'Gratuito',
+        1: 'Básico',
+        2: 'Avanzado',
+        3: 'Profesional'
+      };
+      return planNames[planId] || 'Desconocido';
+    },
+    
+    goToSubscriptions() {
+      this.$router.push('/subscriptions');
     },
     
     goBack() {
@@ -886,6 +1313,192 @@ export default {
   align-items: center;
   gap: 8px;
   align-self: flex-start;
+}
+
+/* Subscription Section */
+.subscription-section {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  border: 2px solid #f0c419;
+}
+
+.subscription-section h3 {
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.subscription-section h3 i {
+  color: #f0c419;
+}
+
+.loading-subscription {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  color: #333;
+  font-weight: 500;
+}
+
+.loading-subscription i {
+  font-size: 20px;
+  color: #f0c419;
+}
+
+.subscription-info {
+  padding: 10px 0;
+}
+
+.subscription-status {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.subscription-status.active {
+  border-left: 5px solid #48bb78;
+}
+
+.subscription-status.inactive {
+  border-left: 5px solid #f56565;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.status-badge i {
+  font-size: 24px;
+}
+
+.subscription-status.active .status-badge i {
+  color: #48bb78;
+}
+
+.subscription-status.inactive .status-badge i {
+  color: #f56565;
+}
+
+.status-badge span {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+}
+
+.plan-info {
+  margin-top: 15px;
+}
+
+.plan-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.plan-name i {
+  color: #ffd700;
+  font-size: 22px;
+}
+
+.subscription-details {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 10px;
+}
+
+.subscription-details p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+.subscription-details i {
+  color: #667eea;
+  width: 20px;
+}
+
+.no-subscription {
+  text-align: center;
+  padding: 20px;
+}
+
+.no-subscription p {
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.subscribe-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.subscribe-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.subscribe-btn i {
+  font-size: 18px;
+}
+
+.no-subscription-info {
+  padding: 10px 0;
+}
+
+.no-subscription-data {
+  text-align: center;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+}
+
+.no-subscription-data p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.retry-btn {
+  background: #48bb78;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.retry-btn:hover {
+  background: #38a169;
+  transform: translateY(-1px);
 }
 
 /* Account Actions */
