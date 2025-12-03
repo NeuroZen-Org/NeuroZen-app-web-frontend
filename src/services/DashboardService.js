@@ -31,55 +31,87 @@ export class DashboardService {
   async getStressData() {
     try {
       // Get current user from localStorage
-      const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+      const currentUser = JSON.parse(localStorage.getItem('user') || localStorage.getItem('currentUser') || '{}');
       const userId = currentUser.id;
       
       if (userId) {
         try {
-          // Get user-specific stress data
-          const userData = await this.httpClient.get(`/users/${userId}`);
-          if (userData && userData.stressData) {
-            return userData.stressData;
+          // Get user-specific data from backend .NET
+          const userData = await this.httpClient.get(`/api/v1/users/${userId}`);
+          
+          // Extraer datos según formato de respuesta
+          const user = this._extractData(userData);
+          
+          if (user && user.stressData) {
+            return user.stressData;
+          }
+          
+          // Si no tiene stressData, intentar obtener triggers para generar estadísticas
+          try {
+            const triggers = await this.httpClient.get(`/api/v1/triggers?userId=${userId}`);
+            const triggerList = this._extractList(triggers);
+            
+            if (triggerList.length > 0) {
+              return this._generateStressDataFromTriggers(triggerList);
+            }
+          } catch (triggerError) {
+            console.warn('Could not fetch triggers:', triggerError.message);
           }
         } catch (userError) {
-          console.warn('Could not fetch user-specific data, falling back to general data:', userError.message);
+          console.warn('Could not fetch user-specific data, falling back to demo data:', userError.message);
         }
       }
       
-      // Fallback to general stress data if user-specific data not available
-      const stressData = await this.httpClient.get('/stressData');
-      
-      // Si no hay datos, generar datos de demostración
-      if (!stressData) {
-        console.info('No stress data found, generating demo data');
-        return this.generateRealisticStressData('week');
-      }
-      
-      // Map Spanish day names to translation keys if needed
-      const dayMapping = {
-        'Lun': 'monday',
-        'Mar': 'tuesday', 
-        'Mié': 'wednesday',
-        'Jue': 'thursday',
-        'Vie': 'friday',
-        'Sáb': 'saturday',
-        'Dom': 'sunday'
-      };
-      
-      // Transform day names to translation keys if they're in Spanish
-      if (stressData.weeklyData) {
-        stressData.weeklyData = stressData.weeklyData.map(item => ({
-          ...item,
-          day: dayMapping[item.day] || item.day
-        }));
-      }
-      
-      return stressData;
+      // Fallback a datos de demostración
+      console.info('No stress data found, generating demo data');
+      return this.generateRealisticStressData('week');
     } catch (error) {
       console.warn('Failed to fetch stress data, generating demo data:', error.message);
-      // En caso de error, generar datos de demostración
       return this.generateRealisticStressData('week');
     }
+  }
+
+  /**
+   * Genera datos de estrés a partir de triggers
+   * @private
+   */
+  _generateStressDataFromTriggers(triggers) {
+    const avgIntensity = triggers.reduce((sum, t) => {
+      const intensity = typeof t.intensity === 'number' ? t.intensity : 
+                       t.intensity === 'high' ? 80 : 
+                       t.intensity === 'medium' ? 50 : 30;
+      return sum + intensity;
+    }, 0) / triggers.length;
+
+    return {
+      currentLevel: Math.round(avgIntensity),
+      average: Math.round(avgIntensity),
+      peakHours: "10 AM - 12 PM",
+      weeklyChange: -5,
+      weeklyData: this.generateRealisticStressData('week').weeklyData
+    };
+  }
+
+  /**
+   * Extrae datos de diferentes formatos de respuesta
+   * @private
+   */
+  _extractData(response) {
+    if (response.data) return response.data;
+    if (response.success && response.data) return response.data;
+    return response;
+  }
+
+  /**
+   * Extrae listas de diferentes formatos de respuesta
+   * @private
+   */
+  _extractList(response) {
+    if (Array.isArray(response)) return response;
+    if (response.items) return response.items;
+    if (response.data && Array.isArray(response.data)) return response.data;
+    if (response.success && response.data && Array.isArray(response.data)) return response.data;
+    return [];
   }
 
   /**
