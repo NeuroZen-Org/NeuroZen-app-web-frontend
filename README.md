@@ -195,9 +195,58 @@ VITE_FRONTEND_URL=https://neurozen-frontend.web.app
 }
 ```
 
-## API Endpoints
+## 🔌 Integración Backend - Frontend
 
-La aplicación utiliza JSON Server con los siguientes endpoints:
+### Backend .NET API
+
+La aplicación ahora se conecta a un backend real construido con **ASP.NET Core** que incluye:
+
+- **Autenticación JWT** - Sistema completo de tokens
+- **MySQL Database** - Base de datos en Azure
+- **DDD Architecture** - Domain-Driven Design
+- **Swagger UI** - Documentación interactiva de API
+- **Módulos principales**: IAM, Appointments, Triggers, Professionals, Resources, Subscriptions
+
+#### Configuración CORS
+
+El backend **DEBE** tener configurado CORS para permitir peticiones desde el frontend.
+Sigue las instrucciones en: **[CORS_SETUP.md](./CORS_SETUP.md)**
+
+#### Documentación Completa
+
+Para guía completa de integración, endpoints, autenticación y troubleshooting:
+📖 **[BACKEND_INTEGRATION.md](./BACKEND_INTEGRATION.md)**
+
+### Endpoints del Backend .NET
+
+Consulta la documentación completa en Swagger UI: `http://localhost:5059/swagger`
+
+#### Módulos principales:
+- **IAM/Authentication**: `/api/v1/authentication/*`
+- **Users**: `/api/v1/users/*`
+- **Appointments**: `/api/v1/appointments/*`
+- **Triggers**: `/api/v1/triggers/*`
+- **Professionals**: `/api/v1/professionals/*`
+- **Resources**: `/api/v1/resources/*`
+- **Subscriptions**: `/api/v1/subscriptions/*`
+
+### Autenticación JWT
+
+Todas las peticiones (excepto login/register) requieren un token JWT:
+
+```javascript
+// El HttpClient automáticamente incluye el token
+// Token almacenado en: localStorage.getItem('authToken')
+
+// Ejemplo de header:
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+## API Endpoints (JSON Server - Deprecado)
+
+**⚠️ Nota**: JSON Server está siendo reemplazado por el backend .NET. Usa solo para fallback.
+
+La aplicación anteriormente utilizaba JSON Server con los siguientes endpoints:
 
 ### Autenticación y usuarios
 - `GET /users` - Lista de usuarios

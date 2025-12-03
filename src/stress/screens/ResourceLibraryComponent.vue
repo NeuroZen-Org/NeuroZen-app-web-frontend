@@ -80,9 +80,13 @@
           @click="openResource(resource)"
         >
           <div class="resource-thumbnail">
-            <img :src="resource.thumbnail" :alt="resource.title" />
+            <img 
+              :src="resource.thumbnail" 
+              :alt="resource.title"
+              @error="handleImageError"
+            />
             <div class="resource-type">
-              <i :class="getTypeIcon(resource.category)"></i>
+              <i :class="getResourceTypeIcon(resource.resourceType)"></i>
             </div>
             <div class="resource-duration">
               {{ formatDuration(resource.duration) }}
@@ -94,7 +98,7 @@
             <p class="resource-author">{{ resource.author }}</p>
             <p class="resource-description">{{ getTranslatedDescription(resource) }}</p>
             
-            <div class="resource-tags">
+            <div class="resource-tags" v-if="resource.tags && resource.tags.length > 0">
               <span 
                 v-for="tag in resource.tags.slice(0, 3)" 
                 :key="tag"
@@ -214,8 +218,27 @@ export default {
       try {
         this.loading = true;
         this.error = null;
-        this.resources = await this.resourceLibraryService.getResources();
+        
+        // Obtener recursos del backend
+        const backendResources = await this.resourceLibraryService.getResources();
+        
+        // Mapear datos del backend al formato del componente
+        this.resources = backendResources.map(resource => ({
+          id: resource.id,
+          title: resource.title,
+          description: resource.description,
+          resourceType: resource.resourceType, // "Video", "Article", "Audio"
+          category: this.mapResourceTypeToCategory(resource.resourceType),
+          contentUrl: resource.contentUrl,
+          thumbnail: this.getThumbnailUrl(resource),
+          duration: resource.duration * 60, // Convertir minutos a segundos
+          author: resource.author,
+          tags: resource.tags || []
+        }));
+        
         this.filteredResources = [...this.resources];
+        
+        console.log('Recursos cargados y mapeados:', this.resources);
       } catch (error) {
         console.error('Error loading resources:', error);
         this.error = this.$t('common.errorLoadingResources');
@@ -254,7 +277,9 @@ export default {
         filtered = filtered.filter(resource => {
           const translatedTitle = this.getTranslatedTitle(resource).toLowerCase();
           const translatedDescription = this.getTranslatedDescription(resource).toLowerCase();
-          const translatedTags = resource.tags.map(tag => this.getTranslatedTag(tag).toLowerCase());
+          const translatedTags = resource.tags && Array.isArray(resource.tags) 
+            ? resource.tags.map(tag => this.getTranslatedTag(tag).toLowerCase())
+            : [];
           
           return translatedTitle.includes(query) ||
             translatedDescription.includes(query) ||
@@ -291,7 +316,60 @@ export default {
       return this.resources.filter(resource => resource.category === category).length;
     },
 
+    mapResourceTypeToCategory(resourceType) {
+      // Mapear el resourceType del backend ("Video", "Article", "Audio") a las categorías del frontend
+      const mapping = {
+        'Video': 'video',
+        'Article': 'reading',
+        'Audio': 'audio',
+        'Exercise': 'exercises'
+      };
+      return mapping[resourceType] || 'reading';
+    },
+
+    getThumbnailUrl(resource) {
+      // Si es un video de YouTube, extraer thumbnail
+      if (resource.contentUrl && resource.contentUrl.includes('youtube.com')) {
+        const videoId = this.extractYouTubeId(resource.contentUrl);
+        if (videoId) {
+          return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+        }
+      }
+      
+      // Si es un video de otra fuente o tiene thumbnail en el backend
+      if (resource.thumbnail) {
+        return resource.thumbnail;
+      }
+      
+      // Fallback: imagen genérica según el tipo de recurso
+      const fallbackImages = {
+        'Video': 'https://images.unsplash.com/photo-1616530940355-351fabd9524b?w=400&h=300&fit=crop',
+        'Audio': 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&h=300&fit=crop',
+        'Article': 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=300&fit=crop',
+        'Exercise': 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop'
+      };
+      
+      return fallbackImages[resource.resourceType] || 'https://via.placeholder.com/400x300?text=Recurso';
+    },
+
+    extractYouTubeId(url) {
+      // Extraer ID de video de YouTube de diferentes formatos de URL
+      const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/,
+        /youtube\.com\/embed\/([^&\n?#]+)/
+      ];
+      
+      for (const pattern of patterns) {
+        const match = url.match(pattern);
+        if (match && match[1]) {
+          return match[1];
+        }
+      }
+      return null;
+    },
+
     getTypeIcon(category) {
+      // Mapear categorías a íconos
       const icons = {
         'audio': 'fas fa-headphones',
         'video': 'fas fa-play-circle',
@@ -301,6 +379,17 @@ export default {
       return icons[category] || 'fas fa-file';
     },
 
+    getResourceTypeIcon(resourceType) {
+      // Mapear resourceType del backend directamente a íconos
+      const icons = {
+        'Video': 'fas fa-play-circle',
+        'Article': 'fas fa-book-open',
+        'Audio': 'fas fa-headphones',
+        'Exercise': 'fas fa-dumbbell'
+      };
+      return icons[resourceType] || 'fas fa-file';
+    },
+
     formatDuration(seconds) {
       const minutes = Math.floor(seconds / 60);
       const remainingSeconds = seconds % 60;
@@ -308,6 +397,11 @@ export default {
         return `${minutes}m`;
       }
       return `${remainingSeconds}s`;
+    },
+
+    handleImageError(event) {
+      // Cuando falla la carga de la imagen, mostrar placeholder
+      event.target.src = 'https://via.placeholder.com/400x300/6366f1/ffffff?text=NeuroZen';
     },
 
     openResource(resource) {
