@@ -208,7 +208,8 @@ export default {
      */
     userName() {
       const user = JSON.parse(localStorage.getItem('user') || '{}');
-      return user.name || 'Usuario';
+      // Priorizar fullName, luego name, y finalmente 'Usuario' como fallback
+      return user.fullName || user.name || 'Usuario';
     },
     
     /**
