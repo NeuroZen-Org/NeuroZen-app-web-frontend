@@ -1,0 +1,40 @@
+[
+  {
+    "id": 1,
+    "name": "Dra. María González",
+    "specialty": "Psicología Clínica",
+    "experience": "10 años de experiencia en terapia cognitivo-conductual",
+    "rating": 4.8,
+    "reviews": 124,
+    "price": 150,
+    "availability": "Lun-Vie: 9:00-17:00",
+    "bio": "Psicóloga clínica con maestría en terapia cognitivo-conductual. Especialista en el tratamiento de ansiedad y depresión. Ayudo a mis pacientes a desarrollar herramientas prácticas para manejar el estrés, la ansiedad y mejorar su bienestar emocional.",
+    "image": "/images-of-professionals/maria.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Dr. Carlos Rodríguez",
+    "specialty": "Psiquiatría",
+    "experience": "15 años de experiencia en psiquiatría y manejo de estrés",
+    "rating": 4.9,
+    "reviews": 89,
+    "price": 200,
+    "availability": "Lun-Vie: 10:00-17:00",
+    "bio": "Médico psiquiatra con enfoque holístico en el tratamiento de la salud mental. Especializado en trastornos del estado de ánimo y manejo de estrés laboral. Combino terapia farmacológica cuando es necesario con técnicas de mindfulness y gestión del estrés.",
+    "image": "/images-of-professionals/carlos.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Lic. Ana Martínez",
+    "specialty": "Terapia Cognitivo-Conductual",
+    "experience": "8 años de experiencia en técnicas cognitivo-conductuales",
+    "rating": 4.7,
+    "reviews": 156,
+    "price": 120,
+    "availability": "Lun-Vie: 9:00-17:00",
+    "bio": "Terapeuta con pasión por ayudar a las personas a alcanzar su máximo potencial. Especializada en técnicas cognitivo-conductuales para el manejo de estrés, ansiedad y desarrollo personal. Utilizo técnicas basadas en evidencia para trabajar con ansiedad, estrés y autoestima.",
+    "image": "/images-of-professionals/ana.png"
+  }
+]
+
+

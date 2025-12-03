@@ -1,0 +1,163 @@
+[
+  {
+    "title": "Técnicas de Respiración Profunda",
+    "description": "Aprende técnicas de respiración diafragmática para reducir el estrés y la ansiedad en cualquier momento del día. Incluye ejercicios guiados paso a paso.",
+    "resourceType": "Video",
+    "contentUrl": "https://www.youtube.com/watch?v=example1",
+    "duration": 15,
+    "author": "Dr. Juan Pérez"
+  },
+  {
+    "title": "Mindfulness para Principiantes",
+    "description": "Una guía completa para comenzar con la práctica de mindfulness. Descubre cómo estar presente en el momento y reducir el estrés diario.",
+    "resourceType": "Article",
+    "contentUrl": "https://neurozen.com/articles/mindfulness-principiantes",
+    "duration": 10,
+    "author": "Lic. María González"
+  },
+  {
+    "title": "Meditación Guiada de 5 Minutos",
+    "description": "Meditación rápida perfecta para hacer en tu pausa laboral. Ideal para recuperar la calma y concentración en momentos de estrés.",
+    "resourceType": "Audio",
+    "contentUrl": "https://neurozen.com/audio/meditacion-5min.mp3",
+    "duration": 5,
+    "author": "Ana Martínez"
+  },
+  {
+    "title": "Ejercicios de Estiramiento para Oficina",
+    "description": "Serie de estiramientos diseñados para aliviar la tensión muscular causada por largas jornadas frente al ordenador. Previene dolores de espalda y cuello.",
+    "resourceType": "Video",
+    "contentUrl": "https://www.youtube.com/watch?v=example2",
+    "duration": 8,
+    "author": "Carlos Rodríguez"
+  },
+  {
+    "title": "Gestión del Tiempo y Productividad",
+    "description": "Estrategias probadas para organizar tu tiempo, establecer prioridades y reducir el estrés relacionado con la carga de trabajo.",
+    "resourceType": "Article",
+    "contentUrl": "https://neurozen.com/articles/gestion-tiempo",
+    "duration": 12,
+    "author": "Dr. Laura Sánchez"
+  },
+  {
+    "title": "Música Relajante para Dormir",
+    "description": "Composición de 30 minutos de música ambient diseñada específicamente para facilitar el sueño profundo y reparador.",
+    "resourceType": "Audio",
+    "contentUrl": "https://neurozen.com/audio/musica-dormir.mp3",
+    "duration": 30,
+    "author": "Estudio NeuroZen"
+  },
+  {
+    "title": "Yoga para Reducir la Ansiedad",
+    "description": "Secuencia de yoga suave enfocada en posturas que calman el sistema nervioso y reducen los síntomas de ansiedad.",
+    "resourceType": "Video",
+    "contentUrl": "https://www.youtube.com/watch?v=example3",
+    "duration": 20,
+    "author": "Sofía Ramírez"
+  },
+  {
+    "title": "Guía de Alimentación Anti-Estrés",
+    "description": "Descubre qué alimentos ayudan a combatir el estrés y la ansiedad. Incluye recetas saludables y planes de comidas semanales.",
+    "resourceType": "Article",
+    "contentUrl": "https://neurozen.com/articles/alimentacion-antiestrés",
+    "duration": 15,
+    "author": "Dra. Patricia López"
+  },
+  {
+    "title": "Podcast: Manejo de Crisis de Ansiedad",
+    "description": "Conversación con expertos sobre cómo identificar y manejar crisis de ansiedad. Incluye técnicas de primeros auxilios psicológicos.",
+    "resourceType": "Audio",
+    "contentUrl": "https://neurozen.com/podcast/crisis-ansiedad.mp3",
+    "duration": 25,
+    "author": "Dr. Miguel Ángel Torres"
+  },
+  {
+    "title": "Ejercicios de Relajación Muscular Progresiva",
+    "description": "Técnica de Jacobson para liberar la tensión muscular. Aprende a identificar y relajar cada grupo muscular del cuerpo.",
+    "resourceType": "Video",
+    "contentUrl": "https://www.youtube.com/watch?v=example4",
+    "duration": 18,
+    "author": "Lic. Roberto Díaz"
+  },
+  {
+    "title": "Terapia Cognitivo-Conductual: Introducción",
+    "description": "Artículo educativo sobre los fundamentos de la TCC y cómo puede ayudarte a manejar pensamientos negativos y ansiedad.",
+    "resourceType": "Article",
+    "contentUrl": "https://neurozen.com/articles/tcc-introduccion",
+    "duration": 20,
+    "author": "Dr. Fernando Ruiz"
+  },
+  {
+    "title": "Sonidos de la Naturaleza - Bosque Lluvioso",
+    "description": "Audio inmersivo de 45 minutos con sonidos naturales del bosque lluvioso. Perfecto para concentración y relajación profunda.",
+    "resourceType": "Audio",
+    "contentUrl": "https://neurozen.com/audio/bosque-lluvioso.mp3",
+    "duration": 45,
+    "author": "Naturaleza NeuroZen"
+  },
+  {
+    "title": "Cómo Establecer Límites Saludables",
+    "description": "Aprende a decir 'no' de manera asertiva y establecer límites en tus relaciones personales y profesionales para reducir el estrés.",
+    "resourceType": "Article",
+    "contentUrl": "https://neurozen.com/articles/limites-saludables",
+    "duration": 10,
+    "author": "Lic. Carmen Vega"
+  },
+  {
+    "title": "Meditación para el Manejo del Dolor Crónico",
+    "description": "Técnicas de meditación y mindfulness específicamente diseñadas para ayudar a manejar el dolor crónico y mejorar la calidad de vida.",
+    "resourceType": "Video",
+    "contentUrl": "https://www.youtube.com/watch?v=example5",
+    "duration": 22,
+    "author": "Dr. Antonio Herrera"
+  },
+  {
+    "title": "Rutina Matutina Anti-Estrés",
+    "description": "Guía paso a paso para crear una rutina matutina que te prepare mentalmente para un día productivo y sin estrés.",
+    "resourceType": "Article",
+    "contentUrl": "https://neurozen.com/articles/rutina-matutina",
+    "duration": 8,
+    "author": "Lic. Isabel Moreno"
+  },
+  {
+    "title": "Técnicas de Visualización Positiva",
+    "description": "Audio guiado de visualización para crear imágenes mentales positivas que reduzcan la ansiedad y mejoren el estado de ánimo.",
+    "resourceType": "Audio",
+    "contentUrl": "https://neurozen.com/audio/visualizacion-positiva.mp3",
+    "duration": 12,
+    "author": "Lic. Elena Castro"
+  },
+  {
+    "title": "Ejercicios de Atención Plena en el Trabajo",
+    "description": "Video tutorial con ejercicios prácticos de mindfulness que puedes hacer en tu escritorio para reducir el estrés laboral.",
+    "resourceType": "Video",
+    "contentUrl": "https://www.youtube.com/watch?v=example6",
+    "duration": 10,
+    "author": "Carlos Mendoza"
+  },
+  {
+    "title": "Sueño Reparador: Higiene del Sueño",
+    "description": "Guía completa sobre hábitos y técnicas para mejorar la calidad del sueño. Incluye estrategias para combatir el insomnio.",
+    "resourceType": "Article",
+    "contentUrl": "https://neurozen.com/articles/higiene-sueno",
+    "duration": 15,
+    "author": "Dra. Beatriz Silva"
+  },
+  {
+    "title": "Caminata Meditativa - Guía de Audio",
+    "description": "Instrucciones paso a paso para practicar la meditación caminando. Combina ejercicio físico con atención plena.",
+    "resourceType": "Audio",
+    "contentUrl": "https://neurozen.com/audio/caminata-meditativa.mp3",
+    "duration": 15,
+    "author": "Jorge Navarro"
+  },
+  {
+    "title": "Manejo de Pensamientos Intrusivos",
+    "description": "Técnicas psicológicas para identificar, entender y manejar pensamientos intrusivos que causan ansiedad y malestar.",
+    "resourceType": "Article",
+    "contentUrl": "https://neurozen.com/articles/pensamientos-intrusivos",
+    "duration": 18,
+    "author": "Dr. Ricardo Campos"
+  }
+]
+
