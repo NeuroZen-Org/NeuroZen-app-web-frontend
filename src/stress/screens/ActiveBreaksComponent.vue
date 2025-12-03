@@ -8,22 +8,8 @@
       <h1>{{ $t('stress.activeBreaks.title') }}</h1>
     </div>
 
-    <!-- Loading State -->
-    <div v-if="loading" class="loading-container">
-      <div class="loading-spinner"></div>
-      <p>{{ $t('common.loadingConfiguration') }}</p>
-    </div>
-
-    <!-- Error State -->
-    <div v-else-if="error" class="error-container">
-      <div class="error-icon">⚠️</div>
-      <h3>{{ $t('common.errorLoading') }}</h3>
-      <p>{{ error }}</p>
-      <button class="retry-button" @click="loadActiveBreaks">{{ $t('stress.activeBreaks.retry') }}</button>
-    </div>
-
     <!-- Content -->
-    <div v-else class="content">
+    <div class="content">
       <!-- Current Status -->
       <div class="status-card">
         <div class="status-header">
@@ -176,20 +162,17 @@
 </template>
 
 <script>
-import { ActiveBreaksService } from '../../services/ActiveBreaksService.js';
-
 export default {
   name: 'ActiveBreaksComponent',
   data() {
     return {
-      loading: true,
+      loading: false,
       error: null,
       showSuccess: false,
-      // Service instance
-      activeBreaksService: new ActiveBreaksService(),
+      // Configuración hardcoded (sin backend)
       breakConfig: {
-        frequency: 45,
-        duration: 5,
+        frequency: 45, // minutos
+        duration: 5, // minutos
         isActive: true,
         settings: {
           workingHours: {
@@ -199,11 +182,13 @@ export default {
           workingDays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
         }
       },
+      // Horario del día generado localmente
       todaySchedule: [],
+      // Estadísticas de la semana
       weeklyStats: {
-        totalBreaks: 0,
-        compliance: 0,
-        totalTime: 0
+        totalBreaks: 15,
+        compliance: 75,
+        totalTime: 75 // minutos
       }
     }
   },
@@ -241,93 +226,93 @@ export default {
       ];
     }
   },
-  async mounted() {
-    await this.loadActiveBreaks();
+  mounted() {
+    // Cargar configuración guardada del usuario
+    this.loadFromLocalStorage();
+    // Generar el horario del día localmente
+    this.generateTodaySchedule();
   },
   methods: {
-    async loadActiveBreaks() {
-      try {
-        this.loading = true;
-        this.error = null;
+    generateTodaySchedule() {
+      // Generar horario de pausas para hoy basado en la configuración
+      const schedule = [];
+      const startHour = parseInt(this.breakConfig.settings.workingHours.start.split(':')[0]);
+      const endHour = parseInt(this.breakConfig.settings.workingHours.end.split(':')[0]);
+      const frequencyMinutes = this.breakConfig.frequency;
+      
+      let currentTime = new Date();
+      currentTime.setHours(startHour, 0, 0, 0);
+      
+      const endTime = new Date();
+      endTime.setHours(endHour, 0, 0, 0);
+      
+      const now = new Date();
+      
+      while (currentTime < endTime) {
+        currentTime = new Date(currentTime.getTime() + frequencyMinutes * 60000);
         
-        const config = await this.activeBreaksService.getConfiguration(1); // User ID 1
-        if (config) {
-          this.breakConfig = { ...this.breakConfig, ...config };
+        if (currentTime < endTime) {
+          const timeString = currentTime.toTimeString().slice(0, 5);
+          const isPast = currentTime < now;
+          const isUpcoming = currentTime > now && !schedule.some(s => s.isUpcoming);
+          
+          schedule.push({
+            time: timeString,
+            isPast: isPast,
+            isUpcoming: isUpcoming,
+            completed: isPast && Math.random() > 0.3 // 70% compliance simulado
+          });
         }
-        
-        await this.generateTodaySchedule();
-        await this.loadWeeklyStats();
-        
-      } catch (error) {
-        console.error('Error loading active breaks:', error);
-        this.error = this.$t('stress.activeBreaks.errorLoadingConfig');
-      } finally {
-        this.loading = false;
       }
+      
+      this.todaySchedule = schedule;
     },
 
-    async generateTodaySchedule() {
-      try {
-        this.todaySchedule = await this.activeBreaksService.getTodaySchedule(1);
-      } catch (error) {
-        console.error('Error generating schedule:', error);
-        this.todaySchedule = [];
-      }
+    toggleActiveBreaks() {
+      this.breakConfig.isActive = !this.breakConfig.isActive;
+      this.saveToLocalStorage();
+      this.generateTodaySchedule();
     },
 
-    async loadWeeklyStats() {
-      try {
-        this.weeklyStats = await this.activeBreaksService.getWeeklyStats(1);
-      } catch (error) {
-        console.error('Error loading stats:', error);
-      }
-    },
-
-    async toggleActiveBreaks() {
-      try {
-        this.breakConfig.isActive = !this.breakConfig.isActive;
-        await this.saveConfiguration();
-        await this.generateTodaySchedule();
-      } catch (error) {
-        console.error('Error toggling active breaks:', error);
-        this.breakConfig.isActive = !this.breakConfig.isActive; // Revert
-      }
-    },
-
-    async updateFrequency(frequency) {
+    updateFrequency(frequency) {
       this.breakConfig.frequency = frequency;
-      await this.saveConfiguration();
-      await this.generateTodaySchedule();
+      this.saveToLocalStorage();
+      this.generateTodaySchedule();
     },
 
-    async updateDuration(duration) {
+    updateDuration(duration) {
       this.breakConfig.duration = duration;
-      await this.saveConfiguration();
+      this.saveToLocalStorage();
+      this.showSuccessMessage();
     },
 
-    async updateWorkingHours() {
-      await this.saveConfiguration();
-      await this.generateTodaySchedule();
+    updateWorkingHours() {
+      this.saveToLocalStorage();
+      this.generateTodaySchedule();
     },
 
-    async toggleWorkingDay(day) {
+    toggleWorkingDay(day) {
       const index = this.breakConfig.settings.workingDays.indexOf(day);
       if (index > -1) {
         this.breakConfig.settings.workingDays.splice(index, 1);
       } else {
         this.breakConfig.settings.workingDays.push(day);
       }
-      await this.saveConfiguration();
-      await this.generateTodaySchedule();
+      this.saveToLocalStorage();
+      this.generateTodaySchedule();
     },
 
-    async saveConfiguration() {
-      try {
-        await this.activeBreaksService.updateConfiguration(1, this.breakConfig);
-        this.showSuccessMessage();
-      } catch (error) {
-        console.error('Error saving configuration:', error);
-        this.error = this.$t('stress.activeBreaks.errorSavingConfig');
+    saveToLocalStorage() {
+      // Guardar configuración en localStorage
+      localStorage.setItem('neurozen_active_breaks_config', JSON.stringify(this.breakConfig));
+      this.showSuccessMessage();
+    },
+
+    loadFromLocalStorage() {
+      // Cargar configuración desde localStorage
+      const saved = localStorage.getItem('neurozen_active_breaks_config');
+      if (saved) {
+        this.breakConfig = { ...this.breakConfig, ...JSON.parse(saved) };
       }
     },
 

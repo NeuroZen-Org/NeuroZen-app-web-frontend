@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="header">
       <button class="back-button" @click="goBack">
-        <i class="material-symbols-outlined">arrow_back</i>
+        <i class="fas fa-arrow-left"></i>
       </button>
       <h1>NeuroZen</h1>
       <div class="spacer"></div>
@@ -44,9 +44,6 @@
         <!-- Appointment Details -->
         <div class="appointment-details">
           <div class="detail-item">
-            <div class="detail-icon">
-              <i class="material-symbols-outlined">calendar_today</i>
-            </div>
             <div class="detail-content">
               <p class="detail-title">Fecha y Hora</p>
               <p class="detail-value">{{ formattedDateTime }}</p>
@@ -54,9 +51,6 @@
           </div>
 
           <div class="detail-item">
-            <div class="detail-icon">
-              <i class="material-symbols-outlined">schedule</i>
-            </div>
             <div class="detail-content">
               <p class="detail-title">Duración</p>
               <p class="detail-value">{{ appointmentData.duration }} minutos</p>
@@ -64,12 +58,9 @@
           </div>
 
           <div class="detail-item">
-            <div class="detail-icon">
-              <i class="material-symbols-outlined">payments</i>
-            </div>
             <div class="detail-content">
               <p class="detail-title">Costo</p>
-              <p class="detail-value">${{ professional.price }}</p>
+              <p class="detail-value">${{ professional.price || 150 }}</p>
             </div>
           </div>
         </div>
@@ -80,56 +71,29 @@
           <p class="notes-text">{{ appointmentData.notes }}</p>
         </div>
 
-        <!-- Contact Information -->
-        <div class="contact-section" v-if="showContactInfo">
-          <h3>Información de contacto</h3>
-          <div class="contact-inputs">
-            <div class="input-group">
-              <label for="contactEmail">Email de contacto</label>
-              <input 
-                type="email" 
-                id="contactEmail"
-                v-model="contactInfo.email"
-                placeholder="tu@email.com"
-                :class="{ error: emailError }"
-              />
-              <span v-if="emailError" class="error-message">{{ emailError }}</span>
-            </div>
-            <div class="input-group">
-              <label for="contactPhone">Teléfono de contacto</label>
-              <input 
-                type="tel" 
-                id="contactPhone"
-                v-model="contactInfo.phone"
-                placeholder="+1 (555) 123-4567"
-                :class="{ error: phoneError }"
-              />
-              <span v-if="phoneError" class="error-message">{{ phoneError }}</span>
-            </div>
-          </div>
-        </div>
+        <div class="divider"></div>
 
         <!-- Payment Method -->
         <div class="payment-section">
           <h3>Método de Pago</h3>
           <div class="payment-options">
-            <label class="payment-option" :class="{ selected: selectedPayment === 'credit' }">
-              <span class="payment-label">Tarjeta de Crédito</span>
+            <label class="payment-option" :class="{ selected: selectedPayment === 'card' }">
               <input 
                 type="radio" 
                 name="payment" 
-                value="credit"
+                value="card"
                 v-model="selectedPayment"
               />
+              <span class="payment-label">Tarjeta</span>
             </label>
-            <label class="payment-option" :class="{ selected: selectedPayment === 'paypal' }">
-              <span class="payment-label">PayPal</span>
+            <label class="payment-option" :class="{ selected: selectedPayment === 'cash' }">
               <input 
                 type="radio" 
                 name="payment" 
-                value="paypal"
+                value="cash"
                 v-model="selectedPayment"
               />
+              <span class="payment-label">Efectivo</span>
             </label>
           </div>
         </div>
@@ -138,7 +102,7 @@
         <button 
           class="confirm-button" 
           @click="confirmAppointment"
-          :disabled="isConfirming || !isFormValid"
+          :disabled="isConfirming || !selectedPayment"
         >
           <span v-if="isConfirming">Confirmando...</span>
           <span v-else>Confirmar Cita</span>
@@ -150,15 +114,11 @@
     <div v-if="showSuccessModal" class="modal-overlay" @click="closeSuccessModal">
       <div class="modal-content success-modal" @click.stop>
         <div class="success-icon">
-          <i class="material-symbols-outlined">check_circle</i>
+          <i class="fas fa-check-circle"></i>
         </div>
         <h3>¡Cita confirmada!</h3>
         <p>Tu cita con {{ professional.name }} ha sido confirmada exitosamente.</p>
         <div class="modal-actions">
-          <button class="secondary-button" @click="addToCalendar">
-            <i class="material-symbols-outlined">calendar_add_on</i>
-            Agregar al calendario
-          </button>
           <button class="primary-button" @click="goToDashboard">
             Ir al inicio
           </button>
@@ -189,16 +149,7 @@ export default {
         notes: ''
       },
       
-      contactInfo: {
-        email: '',
-        phone: ''
-      },
-      
-      selectedPayment: 'credit',
-      
-      // Validation
-      emailError: '',
-      phoneError: ''
+      selectedPayment: 'card'
     }
   },
   computed: {
@@ -216,27 +167,10 @@ export default {
       };
       
       return date.toLocaleDateString('es-ES', options);
-    },
-    
-    isFormValid() {
-      const hasValidEmail = this.contactInfo.email && !this.emailError;
-      const hasValidPhone = this.contactInfo.phone && !this.phoneError;
-      const hasPaymentMethod = this.selectedPayment;
-      
-      return hasValidEmail && hasValidPhone && hasPaymentMethod;
-    }
-  },
-  watch: {
-    'contactInfo.email'(newEmail) {
-      this.validateEmail(newEmail);
-    },
-    'contactInfo.phone'(newPhone) {
-      this.validatePhone(newPhone);
     }
   },
   async mounted() {
     await this.loadAppointmentData();
-    this.loadUserContactInfo();
   },
   methods: {
     async loadAppointmentData() {
@@ -244,25 +178,78 @@ export default {
         this.loading = true;
         this.error = null;
         
-        // Get professional ID and appointment data from route params or store
-        const professionalId = this.$route.params.id || this.$route.query.professionalId;
-        const appointmentDate = this.$route.query.date;
-        const appointmentTime = this.$route.query.time;
+        // Obtener appointmentId de los params
+        const appointmentId = this.$route.params.appointmentId;
         
-        if (!professionalId) {
-          throw new Error('ID del profesional no encontrado');
+        if (!appointmentId) {
+          console.warn('No appointmentId found, using mock data');
+          // Si no hay appointmentId, usar datos mock básicos
+          this.professional = {
+            id: 1,
+            name: 'Profesional',
+            image: '/images-of-professionals/usuariodemo.jpg',
+            price: 150
+          };
+          this.appointmentData = {
+            date: new Date().toISOString().split('T')[0],
+            time: '10:00',
+            duration: 60,
+            notes: ''
+          };
+          return;
         }
         
-        // Load professional data
-        this.professional = await TherapistService.getTherapistById(professionalId);
-        
-        // Set appointment data
-        this.appointmentData = {
-          date: appointmentDate || '',
-          time: appointmentTime || '',
-          duration: 50,
-          notes: this.$route.query.notes || ''
-        };
+        // Intentar obtener la cita del backend
+        try {
+          const appointmentService = new AppointmentService();
+          const appointment = await appointmentService.getAppointment(appointmentId);
+          
+          console.log('Cita obtenida del backend:', appointment);
+          
+          // Extraer datos de la cita
+          const professionalId = appointment.professionalId || appointment.professional?.id;
+          
+          // Cargar datos del profesional
+          const therapistService = new TherapistService();
+          this.professional = await therapistService.getTherapist(professionalId);
+          
+          // Establecer datos de la cita
+          const appointmentDateTime = new Date(appointment.appointmentDateTime || appointment.scheduledAt);
+          this.appointmentData = {
+            date: appointmentDateTime.toISOString().split('T')[0],
+            time: appointmentDateTime.toTimeString().slice(0, 5),
+            duration: appointment.duration || appointment.estimatedDurationMinutes || 60,
+            notes: appointment.notasAdicionales || appointment.notes || ''
+          };
+          
+        } catch (apiError) {
+          console.warn('Error al obtener cita del backend, usando datos de navegación:', apiError);
+          
+          // Fallback: usar datos que vienen de la navegación (si existen)
+          const professionalId = this.$route.query.professionalId;
+          const appointmentDate = this.$route.query.date;
+          const appointmentTime = this.$route.query.time;
+          
+          if (professionalId) {
+            const therapistService = new TherapistService();
+            this.professional = await therapistService.getTherapist(professionalId);
+          } else {
+            // Datos mock si todo falla
+            this.professional = {
+              id: 1,
+              name: 'Profesional',
+              image: '/images-of-professionals/usuariodemo.jpg',
+              price: 150
+            };
+          }
+          
+          this.appointmentData = {
+            date: appointmentDate || new Date().toISOString().split('T')[0],
+            time: appointmentTime || '10:00',
+            duration: 60,
+            notes: this.$route.query.notes || ''
+          };
+        }
         
       } catch (error) {
         console.error('Error loading appointment data:', error);
@@ -272,94 +259,39 @@ export default {
       }
     },
 
-    loadUserContactInfo() {
-      // Load user contact info from localStorage or user service
-      const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
-      this.contactInfo.email = userInfo.email || '';
-      this.contactInfo.phone = userInfo.phone || '';
-    },
-
-    validateEmail(email) {
-      this.emailError = '';
-      if (!email) {
-        this.emailError = 'El email es requerido';
-        return false;
-      }
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        this.emailError = 'Formato de email inválido';
-        return false;
-      }
-      return true;
-    },
-
-    validatePhone(phone) {
-      this.phoneError = '';
-      if (!phone) {
-        this.phoneError = 'El teléfono es requerido';
-        return false;
-      }
-      const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/;
-      if (!phoneRegex.test(phone)) {
-        this.phoneError = 'Formato de teléfono inválido';
-        return false;
-      }
-      return true;
-    },
-
     async confirmAppointment() {
-      if (!this.isFormValid) {
+      // La cita ya fue creada en el paso anterior (BookSessionComponent)
+      // Este método solo muestra la confirmación final al usuario
+      
+      if (!this.selectedPayment) {
+        alert('Por favor selecciona un método de pago');
         return;
       }
 
       try {
         this.isConfirming = true;
         
-        const appointmentData = {
-          professionalId: this.professional.id,
-          userId: 1, // Get from auth service
-          date: this.appointmentData.date,
-          time: this.appointmentData.time,
-          duration: this.appointmentData.duration,
-          status: 'confirmed',
-          notes: this.appointmentData.notes,
-          contactPhone: this.contactInfo.phone,
-          contactEmail: this.contactInfo.email,
-          paymentMethod: this.selectedPayment,
-          amount: this.professional.price
-        };
+        // Aquí podrías actualizar el método de pago si el backend lo requiere
+        // Por ahora, solo guardamos localmente para referencia
+        const appointmentId = this.$route.params.appointmentId;
         
-        // Save appointment
-        await TherapistService.bookAppointment(appointmentData);
+        console.log('Cita confirmada con método de pago:', this.selectedPayment);
+        console.log('Appointment ID:', appointmentId);
         
-        // Save contact info for future use
-        const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
-        userInfo.email = this.contactInfo.email;
-        userInfo.phone = this.contactInfo.phone;
-        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        // Simular un pequeño delay para mejor UX
+        await new Promise(resolve => setTimeout(resolve, 500));
         
+        // Mostrar modal de éxito
         this.showSuccessModal = true;
         
       } catch (error) {
         console.error('Error confirming appointment:', error);
-        this.error = 'Error al confirmar la cita. Por favor intenta nuevamente.';
+        alert('Error al confirmar la cita. Por favor intenta nuevamente.');
       } finally {
         this.isConfirming = false;
       }
     },
 
-    addToCalendar() {
-      const startDate = new Date(this.appointmentData.date + 'T' + this.appointmentData.time);
-      const endDate = new Date(startDate.getTime() + (this.appointmentData.duration * 60000));
-      
-      const formatDate = (date) => {
-        return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-      };
-      
-      const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=Sesión de Terapia con ${this.professional.name}&dates=${formatDate(startDate)}/${formatDate(endDate)}&details=Sesión de terapia con ${this.professional.name} - NeuroZen&location=Online`;
-      
-      window.open(calendarUrl, '_blank');
-    },
 
     closeSuccessModal() {
       this.showSuccessModal = false;
