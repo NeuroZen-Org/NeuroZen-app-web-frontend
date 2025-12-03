@@ -30,10 +30,11 @@ export class StressTriggerService {
    */
   async getStressTriggers(userId) {
     try {
-      const triggers = await this.httpClient.get("/stressTriggers");
-      return triggers.filter((trigger) => trigger.userId === userId);
+      const response = await this.httpClient.get(`/api/v1/triggers?userId=${userId}`);
+      return this._extractList(response);
     } catch (error) {
-      throw new Error("Failed to fetch stress triggers: " + error.message);
+      console.error('Failed to fetch stress triggers:', error);
+      throw new Error('No se pudieron cargar los triggers de estrés. Por favor intenta nuevamente.');
     }
   }
 
@@ -43,20 +44,56 @@ export class StressTriggerService {
    * @param {string} triggerData.userId - ID del usuario
    * @param {string} triggerData.category - Categoría del trigger
    * @param {string} triggerData.description - Descripción del trigger
-   * @param {number} triggerData.intensity - Intensidad del estrés (1-10)
+   * @param {number} triggerData.stressLevel - Nivel de estrés (1-10)
+   * @param {string} triggerData.date - Fecha del trigger
+   * @param {string} triggerData.time - Hora del trigger
    * @returns {Promise<Object>} Trigger creado con ID y timestamp
    * @throws {Error} Error si falla la creación del trigger
    */
   async addStressTrigger(triggerData) {
     try {
-      const trigger = await this.httpClient.post("/stressTriggers", {
-        ...triggerData,
-        id: Date.now().toString(),
-        createdAt: new Date().toISOString(),
-      });
-      return trigger;
+      // Construir la fecha y hora en formato ISO
+      let triggeredAt;
+      if (triggerData.date && triggerData.time) {
+        // Combinar fecha y hora en formato ISO
+        triggeredAt = `${triggerData.date}T${triggerData.time}:00Z`;
+      } else {
+        triggeredAt = triggerData.createdAt || new Date().toISOString();
+      }
+
+      // Convertir stressLevel (1-10) a intensity (low, medium, high)
+      let intensity = 'medium';
+      if (triggerData.stressLevel) {
+        if (triggerData.stressLevel <= 3) {
+          intensity = 'low';
+        } else if (triggerData.stressLevel <= 7) {
+          intensity = 'medium';
+        } else {
+          intensity = 'high';
+        }
+      } else if (triggerData.intensity) {
+        intensity = triggerData.intensity;
+      }
+
+      // Adaptar estructura de datos al backend
+      const backendData = {
+        userId: parseInt(triggerData.userId) || 1,
+        description: triggerData.description || triggerData.trigger || '',
+        category: triggerData.category || 'general',
+        intensity: intensity,
+        stressLevel: triggerData.stressLevel || 5,
+        triggeredAt: triggeredAt
+      };
+
+      console.log('Sending trigger data to backend:', backendData);
+
+      const response = await this.httpClient.post('/api/v1/triggers', backendData);
+      return this._extractData(response);
     } catch (error) {
-      throw new Error("Failed to add stress trigger: " + error.message);
+      console.error('Failed to add stress trigger:', error);
+      // Mostrar error más detallado
+      const errorMessage = error.message || 'Error desconocido';
+      throw new Error('Error al guardar el registro: ' + errorMessage);
     }
   }
 
@@ -67,10 +104,33 @@ export class StressTriggerService {
    */
   async deleteStressTrigger(triggerId) {
     try {
-      await this.httpClient.delete(`/stressTriggers/${triggerId}`);
+      await this.httpClient.delete(`/api/v1/triggers/${triggerId}`);
     } catch (error) {
-      throw new Error("Failed to delete stress trigger: " + error.message);
+      console.error('Failed to delete stress trigger:', error);
+      throw new Error('No se pudo eliminar el trigger de estrés. Por favor intenta nuevamente.');
     }
+  }
+
+  /**
+   * Extrae datos de diferentes formatos de respuesta
+   * @private
+   */
+  _extractData(response) {
+    if (response.data) return response.data;
+    if (response.success && response.data) return response.data;
+    return response;
+  }
+
+  /**
+   * Extrae listas de diferentes formatos de respuesta
+   * @private
+   */
+  _extractList(response) {
+    if (Array.isArray(response)) return response;
+    if (response.items) return response.items;
+    if (response.data && Array.isArray(response.data)) return response.data;
+    if (response.success && response.data && Array.isArray(response.data)) return response.data;
+    return [];
   }
 
   /**
