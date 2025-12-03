@@ -169,9 +169,17 @@
             <!-- Submit Button -->
             <button
               type="submit"
-              class="w-full px-6 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-lg rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02]"
+              :disabled="processing"
+              class="w-full px-6 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-lg rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
-              {{ $t('subscriptions.purchase.form.submit') }}
+              <span v-if="!processing">{{ $t('subscriptions.purchase.form.submit') }}</span>
+              <span v-else class="flex items-center justify-center gap-2">
+                <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Procesando...
+              </span>
             </button>
           </form>
 
@@ -211,6 +219,7 @@
 
 <script>
 import ToastComponent from '../components/ToastComponent.vue';
+import { HttpClient } from '../../services/HttpClient.js';
 
 export default {
   name: 'PurchaseComponent',
@@ -221,6 +230,7 @@ export default {
     return {
       planKey: '',
       planPrice: '',
+      processing: false,
       form: {
         firstName: '',
         lastName: '',
@@ -287,14 +297,92 @@ export default {
     formatCVV() {
       this.form.cvv = this.form.cvv.replace(/\D/g, '');
     },
-    handleSubmit() {
-      // Show toast
-      this.$refs.toast.show(2000);
+    async handleSubmit() {
+      if (this.processing) return;
       
-      // Redirect to dashboard after toast
-      setTimeout(() => {
-        this.$router.push('/dashboard');
-      }, 2300);
+      this.processing = true;
+      
+      try {
+        // Obtener userId del usuario autenticado
+        const user = JSON.parse(localStorage.getItem('user') || localStorage.getItem('currentUser') || '{}');
+        const userId = user.id;
+        
+        if (!userId) {
+          alert('Error: No se encontró el ID de usuario. Por favor inicia sesión nuevamente.');
+          this.processing = false;
+          return;
+        }
+        
+        // Mapear planKey a planId
+        const planIdMap = {
+          'basic': 1,
+          'básico': 1,
+          'advanced': 2,
+          'avanzado': 2,
+          'professional': 3,
+          'profesional': 3
+        };
+        
+        const normalizedPlanKey = this.planKey.toLowerCase().trim();
+        const planId = planIdMap[normalizedPlanKey];
+        
+        if (!planId) {
+          alert('Error: Plan no válido');
+          this.processing = false;
+          return;
+        }
+        
+        // Preparar datos para el POST según el formato del backend
+        const subscriptionData = {
+          userId: userId,
+          planId: planId,
+          nameUser: this.form.firstName,
+          lastNameUser: this.form.lastName,
+          emailUser: this.form.email,
+          numberCard: this.form.cardNumber.replace(/\s/g, ''), // Quitar espacios
+          expirationDate: this.form.expiry,
+          cvv: this.form.cvv,
+          isActive: false
+        };
+        
+        console.log('=== DEBUG SUSCRIPCIÓN ===');
+        console.log('Enviando POST a /api/v1/subscriptions');
+        console.log('Datos enviados:', subscriptionData);
+        
+        // Enviar POST al backend
+        const httpClient = new HttpClient();
+        const response = await httpClient.post('/api/v1/subscriptions', subscriptionData);
+        
+        console.log('✅ Respuesta del backend:', response);
+        console.log('=== FIN DEBUG ===');
+        
+        // Mostrar toast de éxito
+        this.$refs.toast.show(2000);
+        
+        // Redirigir al dashboard después del toast
+        setTimeout(() => {
+          this.$router.push('/dashboard');
+        }, 2300);
+        
+      } catch (error) {
+        console.error('❌ Error al crear suscripción:', error);
+        
+        // Manejar error específico de suscripción activa
+        const errorMessage = error.message || '';
+        
+        if (errorMessage.includes('suscripción activa') || errorMessage.includes('active subscription')) {
+          alert('Ya tienes una suscripción activa.\n\nPor favor cancela tu suscripción actual en "Mi Cuenta" antes de suscribirte a un nuevo plan.');
+        } else if (errorMessage.includes('400')) {
+          alert('Error en los datos enviados. Por favor verifica la información de tu tarjeta.');
+        } else if (errorMessage.includes('401')) {
+          alert('Tu sesión ha expirado. Por favor inicia sesión nuevamente.');
+          this.$router.push('/login');
+        } else {
+          alert(`Error al procesar la suscripción:\n${errorMessage || 'Error desconocido'}`);
+        }
+      } finally {
+        this.processing = false;
+      }
     }
   }
 }

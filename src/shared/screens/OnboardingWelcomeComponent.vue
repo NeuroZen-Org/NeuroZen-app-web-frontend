@@ -9,20 +9,18 @@
         
         <!-- Content -->
         <div v-else-if="onboardingStep">
-          <div class="mb-8">
-            <img 
-              :alt="onboardingStep.title" 
-              class="w-full h-auto rounded-lg" 
-              :src="onboardingStep.image"
-            />
+          <div class="mb-8 flex items-center justify-center">
+            <div class="text-9xl">
+              {{ onboardingStep.icon || '👋' }}
+            </div>
           </div>
           
           <div class="px-4">
             <h1 class="text-3xl font-bold text-text-light dark:text-text-dark mb-4">
-              {{ onboardingStep.title }}
+              {{ $t('onboarding.steps.welcome') }}
             </h1>
             <p class="text-base text-text-light dark:text-text-dark/80 mb-12">
-              {{ onboardingStep.description }}
+              {{ $t('onboarding.steps.welcomeDescription') }}
             </p>
           </div>
           
@@ -31,7 +29,7 @@
               @click="handleGetStarted"
               class="w-full bg-primary text-white font-bold py-4 px-8 rounded-full shadow-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition-transform transform hover:scale-105"
             >
-              Get Started
+              {{ $t('onboarding.buttons.getStarted') }}
             </button>
           </div>
         </div>
